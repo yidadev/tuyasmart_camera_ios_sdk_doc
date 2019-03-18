@@ -435,13 +435,21 @@ If you need to get the original video frame data, you can enable  attribute.
 }
 
 /**
-if 'isRecvFrame' is true, the video data will not decode in the SDK, and could get the orginal video frame data through this method.
+if 'isRecvFrame' is true, and p2pType is "1", the video data will not decode in the SDK, and could get the orginal video frame data through this method.
 @param camera      camera
 @param frameData   original video frame data
 @param size        video frame data size
 @param frameInfo   frame header info
 */
-- (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveFrameData:(const char *)frameData dataSize:(unsigned int)size frameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
+- (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveFrameData:(const char *)frameData dataSize:(unsigned int)size frameInfo:(TuyaSmartVideoStreamInfo)frameInfo;
+
+/**
+ if 'isRecvFrame' is true, and p2pType is "2", could get the decoded YUV frame data through this method.
+ @param camera          camera
+ @param sampleBuffer    video frame YUV data
+ @param frameInfo       frame header info
+ */
+- (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
 * After the raw stream is opened, the original rendered view (videoVIew) will not render the image, and the developer needs to parse and render the data through the interface.
 

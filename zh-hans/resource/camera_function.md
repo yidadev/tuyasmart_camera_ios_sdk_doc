@@ -436,7 +436,9 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	NSLog(@"---resolution changed: %ld x %ld", width, height);
 }
 ```
-### 开启裸流。如果需要获取原始的视频帧数据，可以开启获取裸流属性。
+### 开启裸流。
+
+如果需要自己渲染视频流，可以开启获取裸流属性。开启此属性后，p2p 1.0 会返回未解码的原始数据，p2p 2.0 会返回解码后的 YUV 数据。
 
 ```objective-c
 - (void)viewDidLoad {
@@ -446,13 +448,21 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 }
 
 /**
-获取原始视频帧数据的代理方法。
+p2p 1.0 获取未解码原始视频帧数据的代理方法。
 @param camera      摄像头对象
 @param frameData   原始视频帧数据
 @param size        视频帧数据大小
 @param frameInfo   视频帧信息，包含编码方式和时间戳
 */
-- (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveFrameData:(const char *)frameData dataSize:(unsigned int)size frameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
+- (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveFrameData:(const char *)frameData dataSize:(unsigned int)size frameInfo:(TuyaSmartVideoStreamInfo)frameInfo;
+
+/**
+p2p 2.0 获取解码后的YUV数据的代理方法。
+@param camera      		摄像头对象
+@param sampleBuffer   	YUV视频帧数据
+@param frameInfo   		视频帧信息，包含分辨率，帧率和时间戳
+*/
+- (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 
 ```
 * 注:  开启获取裸流后,原始的渲染视图(videoVIew)就不会渲染图像,需要开发者自行通过该接口的数据进行解析渲染。
