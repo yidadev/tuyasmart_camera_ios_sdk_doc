@@ -10,4 +10,5 @@
 * [Required Permission](resource/required_permission.md)
 * [QRCode Network Configuration](resource/qrcode_network_configuration.md)
 * [Change Log](resource/version_record.md)
+* [FAQ](resource/FAQ_en.md)
 

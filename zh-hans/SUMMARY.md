@@ -10,4 +10,5 @@
 * [需要的权限](resource/required_permission.md)
 * [二维码配网](resource/qrcode_network_configuration.md)
 * [版本记录](resource/version_record.md)
+* [FAQ](resource/FAQ_zh.md)
 
