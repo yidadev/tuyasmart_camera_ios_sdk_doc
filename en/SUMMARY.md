@@ -7,6 +7,7 @@
 * [Initiate SDK](resource/initiate_sdk.md)
 * [Camera Function](resource/camera_function.md)
 * [Data Points](resource/camera_device_points.md)
+* [Lowpower Doorbell](resource/lowpoer_doorbell.md)
 * [Required Permission](resource/required_permission.md)
 * [QRCode Network Configuration](resource/qrcode_network_configuration.md)
 * [Change Log](resource/version_record.md)
