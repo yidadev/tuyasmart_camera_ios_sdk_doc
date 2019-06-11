@@ -1,4 +1,4 @@
-# 低功耗门铃
+# Low-power Doorbell
 
 A low-power doorbell will sleep after a few seconds without a P2P connection. It cannot be directly connected to P2P after hibernation. It needs to wake up first, and then connect to the P2P channel after waking up. 
 
