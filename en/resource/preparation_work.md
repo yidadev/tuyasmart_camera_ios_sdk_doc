@@ -5,14 +5,7 @@ TuyaSmartCamera relies on the Tuya Smart iOS SDK, when accessing this SDK, you n
 Add blow code to AppDelegate.m top :
 
 ```objective-c
-#import <TuyaSmartCamera/TuyaSmartCameraFactory.h>
-```
-
-Adding initial SDK code in [AppDelegate application:didFinishLaunchingWithOptions:]: (Vsesion 3.0.0 did be deprecated)
-
-```objective-c
-// 3.0.0 version did deprecated this methord。sdk will initialize when create camera first time
-[TuyaSmartCameraFactory initSDKs];
+#import <TuyaSmartCameraKit/TuyaSmartCameraKit.h>
 ```
 
 ## Example Code Appointment

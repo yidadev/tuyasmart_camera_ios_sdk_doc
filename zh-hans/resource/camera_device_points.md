@@ -98,7 +98,7 @@ TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWith
 通过该方法可以判断设备是否支持该功能点，如果设备不支持该功能，调用**数据下发**和**数据查询**的方法是会失败的，因此做数据下发和查询之前要先判断该功能是否支持。**入参**为功能点的ID
 
 ```objective-c
-- (BOOL)isSurpportDP:(TuyaSmartCameraDPKey)dpName;
+- (BOOL)isSupportDP:(TuyaSmartCameraDPKey)dpName;
 ```
 
 
@@ -106,7 +106,7 @@ TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWith
 **【方法调用】**
 
 ```objective-c
-BOOL isSupportDpBasicFlip = [self.dpManager isSurpportDP:TuyaSmartCameraBasicFlipDPName];
+BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlipDPName];
 ```
 
 
@@ -139,6 +139,9 @@ BOOL isSupportDpBasicFlip = [self.dpManager isSurpportDP:TuyaSmartCameraBasicFli
 通过缓存获取对应功能点的数据，如果缓存中没有，则会下发命令到设备查询。
 
 ```objective-c
+// 通过缓存取DP数据。大多数DP点都可以通过缓存来获取，设备会主动上报。
+- (id)valueFortDP:(TuyaSmartCameraDPKey)dpName;
+// 下发查询命令。
 - (void)valueForDP:(TuyaSmartCameraDPKey)dpName success:(TYSuccessID)success failure:(TYFailureError)failure;
 ```
 
@@ -147,7 +150,9 @@ BOOL isSupportDpBasicFlip = [self.dpManager isSurpportDP:TuyaSmartCameraBasicFli
 **【方法调用】**
 
 ```objective-c
-[self.dpManager valueForDP:TuyaSmartCameraRecordModeDPName success:^(id result) {
+TuyaSmartCameraRecordMode mode = [self.dpManager valueForDP:TuyaSmartCameraRecordModeDPName];
+
+[self.dpManager valueForDP:TuyaSmartCameraSDCardStorageDPName success:^(id result) {
 	// 查询成功，result 为相应DP的值。
 } failure:^(NSError *error) {
     // 查询失败
@@ -197,12 +202,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCameraSDCardStatus) {
 };
 
 // 获取存储卡状态
-[self.dpManager valueForDP:TuyaSmartCameraSDCardStatusDPName success:^(id result) {
-	TuyaSmartCameraSDCardStatus status = [result integerValue];
-	// other code
-} failure:^(NSError *error) {
-	// failed
-}];
+TuyaSmartCameraSDCardStatus status = [[self.dpManager valueForDP:TuyaSmartCameraSDCardStatusDPName] integerValue];
 
 // 获取存储卡容量
 [self.dpManager valueForDP:TuyaSmartCameraSDCardStorageDPName success:^(id result) {

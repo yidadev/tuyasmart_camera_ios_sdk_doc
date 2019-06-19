@@ -2,17 +2,10 @@
 
 TuyaSmartCamera 依赖于涂鸦智能iOS SDK，在接入此SDK时，需要先接入TuyaSmartHomeKit（点击[这里](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)查看接入文档）。
 
-在AppDelegate.m文件顶部，添加以下内容：
+在使用Camera的文件顶部，添加以下内容：
 
 ```objective-c
-#import <TuyaSmartCamera/TuyaSmartCameraFactory.h>
-```
-
-在 [AppDelegate application:didFinishLaunchingWithOptions:] 方法中添加以下代码初始化SDK：（3.0.0版本废弃）
-
-```objective-c
-// 3.0.0 版本后废弃该方法。SDK 会在第一次创建摄像头的时候自动初始化。
-[TuyaSmartCameraFactory initSDKs];
+#import <TuyaSmartCameraKit/TuyaSmartCameraKit.h>
 ```
 
 ## 示例代码约定

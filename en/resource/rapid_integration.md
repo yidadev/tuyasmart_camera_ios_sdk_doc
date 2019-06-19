@@ -3,15 +3,16 @@
 Using cocapods, add below detail in pod file.
 
 ```ruby
-platform :ios, '8.0'
+platform :ios, '9.0'
 
 target 'your_target_name' do
 
-pod "TuyaSmartCamera"
+	pod "TuyaSmartCameraKit"
+    # pod "TuyaSmartCameraT"
 
 end
 ```
 
-Excute pod update in project root file.
+If you need support p2p 1.0, you should att the line ```pod "TuyaSmartCameraT"```. Excute pod update in project root file.
 
 How to use cocoapods：[CocoaPods Guides](https://guides.cocoapods.org/)

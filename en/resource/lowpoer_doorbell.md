@@ -4,33 +4,29 @@ A low-power doorbell will sleep after a few seconds without a P2P connection. It
 
 ```objective-c
 self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];
+self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
 // Add observer for DP 
 [self.dpManager addObserver:self];
 // if it is a low-power doorbell
 - (BOOL)isDoorbell {
-    return [self.dpManager isSurpportDP:TuyaSmartCameraWirelessAwakeDPName];
+    return [self.dpManager isSupportDP:TuyaSmartCameraWirelessAwakeDPName];
 }
 
 - (BOOL)start {
     if ([self isDoorbell]) {
-        __weak typeof(self) weakSelf = self;
-        // Get the status of the device, if it is sleeping.
-        [self.camera.dpManager valueForDP:TuyaSmartCameraWirelessAwakeDPName success:^(id result) {
-            if ([result boolValue]) {
-                // Is waking up, can connect.
-                if (weakSelf.isConnected) {
-                    [weakSelf.camera.videoView tuya_clear];
-                    [weakSelf.videoContainer addSubview:weakSelf.camera.videoView];
-                    weakSelf.camera.videoView.frame = weakSelf.videoContainer.bounds;
-                    [weakSelf.camera startPreview];
-                }else {
-                    [weakSelf.camera connect];
-                }
+        // Get the status of the device, if it is awaking up.
+        BOOL isAwaking = [[self.camera.dpManager valueForDP:TuyaSmartCameraWirelessAwakeDPName] boolValue];
+		if (isAwaking) { // Is waking up, can connect.
+			if (self.isConnected) {
+                [self.videoContainer addSubview:self.camera.videoView];
+                self.camera.videoView.frame = self.videoContainer.bounds;
+                [self.camera startPreview];
             }else {
-                // Is sleeping, send wake up command.
-                [weakSelf.device awakeDeviceWithSuccess:nil failure:nil];
+                [self.camera connect];
             }
-        } failure:nil];
+		}else { // Is sleeping, send wake up command.
+            [self.device awakeDeviceWithSuccess:nil failure:nil];
+        }
     }
 }
 // TuyaSmartCameraDPObserver will call this method when dp is updated

@@ -31,7 +31,7 @@ After integrate with TuyaSmartHomeKit， and initialize the SDK， need to use g
 
 | Name                  | Version | Description           |
 | --------------------- | ------- | --------------------- |
-| tuya.m.ipc.config.get | 1.0     | camera configurations |
+| tuya.m.ipc.config.get | 2.0     | camera configurations |
 
 
 * Request parameters
@@ -46,55 +46,45 @@ NSDictionary *params = @{
 };
 ```
 
-* Response parameter
-
-| Name              | Type         | Description                         |
-| ----------------- | ------------ | ----------------------------------- |
-| result            | NSDictionary | result data                         |
-| result.id         | NSString     | device id                           |
-| result.p2pConfig  | NSDictionary | expand configurations               |
-| result.p2pId      | NSString     | p2p connect id                      |
-| result.password   | NSString     | p2p connect password                |
-| result.timeZoneId | NSString     | device time zone                    |
-| status            | NSString     | status（success：ok； fail：error） |
-| success           | BOOL         | whether success                     |
-
-```json
-{
-result =     {
-password = "xxxxxx",
-id = "xxxxxxxxxxxxxxxxxx",
-p2pConfig =     {
-},
-p2pId = "XXXXXXXXXXXXXXXXXXX",
-timeZoneId = "Asia/Shanghai",
-},
-success = 1,
-status = "ok",
-}
-```
-
 ## Create camera object
 
-* Camera configuration parameter property introduction
+* Camera configuration object
 
-| Name      | Type         | Description                       |
-| --------- | ------------ | --------------------------------- |
-| p2pId     | NSString     | p2p connect id                    |
-| password  | NSString     | p2p connect password              |
-| localKey  | NSString     | LAN password                      |
-| p2pConfig | NSDictionary | camera p2p channel configurations |
+  you can use this method to get config object after the request respond.
+
+  ```
+  #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
+  #define kTuyaSmartIPCConfigAPIVersion @"2.0"
+  __weak typeof(self) weakSelf = self;
+  [[TuyaSmartRequest new] requestWithApiName:kTuyaSmartIPCConfigAPI postData:@{@"devId": self.devId} version:kTuyaSmartIPCConfigAPIVersion success:^(id result) {
+  	__strong typeof(weakself) self = weakself;
+      // SDK initialized may be blocking thread, so it is best to create camera in a sub-thread
+  	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+          // create config object according to the responder of the reqeust
+  		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:nil localKey:self.device.deviceModel.localKey configData:result];
+  		self.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType config:config delegate:self];
+  	});
+  } failure:^(NSError *error) {
+  	NSLog(@"error: %@", error);
+  }];
+  ```
+
+  ​
+
 
 * When create camera，add below code to input head files：
 
 ```
-#import <TuyaSmartCamera/TuyaSmartCameraFactory.h>
+#import <TuyaSmartCameraKit/TuyaSmartCameraKit.h>
 ```
 
 
 * Add below code to create configurations parameter and create camera object:
 
 ```objective-c
+#define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
+#define kTuyaSmartIPCConfigAPIVersion @"2.0"
+
 //self.devId = @"your_device_id";
 //self.request = [TuyaSmartRequest alloc] init];
 //self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
@@ -103,18 +93,12 @@ status = "ok",
 id p2pType = [self.device.deviceModel.skills objectForKey:@"p2pType"];
 
 __weak typeof(self) weakSelf = self;
-[self.request requestWithApiName:@"tuya.m.ipc.config.get"   
-postData:@{@"devId":self.devId} 
-version:@"1.0" 
-success:^(id result) {
-TuyaSmartCameraConfig *config = [TuyaSmartCameraConfig new];
-config.p2pId = [result objectForKey:@"p2pId"];
-config.password = [result objectForKey:@"password"];
-config.localKey = self.device.deviceModel.localKey;
-config.p2pConfig = [result objectForKey:@"p2pConfig"];
-weakSelf.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType 
-config:config
-delegate:self];
+[self.request requestWithApiName:kTuyaSmartIPCConfigAPI postData:@{@"devId":self.devId} version:kTuyaSmartIPCConfigAPIVersion success:^(id result) {
+    __strong typeof(weakself) self = weakself;
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:nil localKey:self.device.deviceModel.localKey configData:result];
+		self.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType config:config delegate:self];
+	});
 } failure:failure];
 ```
 

@@ -109,7 +109,7 @@ TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWith
 Judge whether the device supports the data-point. Call data issues/data research will fail if the device dose not support certain data-point. 
 
 ```objective-c
-- (BOOL)isSurpportDP:(TuyaSmartCameraDPKey)dpName;
+- (BOOL)isSupportDP:(TuyaSmartCameraDPKey)dpName;
 ```
 
 
@@ -117,7 +117,7 @@ Judge whether the device supports the data-point. Call data issues/data research
 【Method call】
 
 ```objective-c
-BOOL isSupportDpBasicFlip = [self.dpManager isSurpportDP:TuyaSmartCameraBasicFlipDPName];
+BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlipDPName];
 ```
 
 
@@ -154,6 +154,9 @@ Obtain data-point info through cache, if has no cache, will push command to devi
 
 
 ```objective-c
+// get the value of dp from app cache, most of the dps could get the latest value, device will auto report
+- (id)valueFortDP:(TuyaSmartCameraDPKey)dpName;
+// publish the query command for dp
 - (void)valueForDP:(TuyaSmartCameraDPKey)dpName success:(TYSuccessID)success failure:(TYFailureError)failure;
 ```
 
@@ -165,7 +168,9 @@ Obtain data-point info through cache, if has no cache, will push command to devi
 Value data-point research
 
 ```objective-c
-[self.dpManager valueForDP:TuyaSmartCameraRecordModeDPName success:^(id result) {
+TuyaSmartCameraRecordMode mode = [self.dpManager valueForDP:TuyaSmartCameraRecordModeDPName];
+
+[self.dpManager valueForDP:TuyaSmartCameraSDCardStorageDPName success:^(id result) {
 	// succes, result is the value of the dp。
 } failure:^(NSError *error) {
     // failed
@@ -222,12 +227,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCameraSDCardStatus) {
 };
 
 // get sd card status
-[self.dpManager valueForDP:TuyaSmartCameraSDCardStatusDPName success:^(id result) {
-	TuyaSmartCameraSDCardStatus status = [result integerValue];
-	// other code
-} failure:^(NSError *error) {
-	// failed
-}];
+TuyaSmartCameraSDCardStatus status = [[self.dpManager valueForDP:TuyaSmartCameraSDCardStatusDPName] integerValue];
 
 // get sd card storage
 [self.dpManager valueForDP:TuyaSmartCameraSDCardStorageDPName success:^(id result) {

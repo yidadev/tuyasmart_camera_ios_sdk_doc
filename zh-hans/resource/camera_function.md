@@ -1,4 +1,4 @@
-# 摄像头功能
+# sdk	摄像头功能
 
 ### 操作失败回调
 
@@ -57,7 +57,9 @@ videoView.frame = CGRectMake(0, 64, VideoWidth, VideoHeight);
 // 将视频图像向右移动10.0个pt点
 [videoView tuya_setOffset:CGPointMake(10.0, 0.0)];
 // 清除图像，并将缩放倍数，和图像位移重置
-[videoView tuya_clear];
+[videoView tuya_clear]; 
+// 图像渲染会拉伸铺满整个视图
+videoView.scaleToFill = YES;
 ```
 ### 连接p2p通道
 

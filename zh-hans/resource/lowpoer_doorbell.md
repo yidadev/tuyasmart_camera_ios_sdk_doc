@@ -4,33 +4,30 @@
 
 ```objective-c
 self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];
+self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
 // 添加 DP 监听
 [self.dpManager addObserver:self];
 // 判断是否是低功耗门铃
 - (BOOL)isDoorbell {
-    return [self.dpManager isSurpportDP:TuyaSmartCameraWirelessAwakeDPName];
+    return [self.dpManager isSupportDP:TuyaSmartCameraWirelessAwakeDPName];
 }
 
 - (BOOL)start {
     if ([self isDoorbell]) {
         __weak typeof(self) weakSelf = self;
         // 获取设备的状态
-        [self.camera.dpManager valueForDP:TuyaSmartCameraWirelessAwakeDPName success:^(id result) {
-            if ([result boolValue]) {
-                // 未休眠，直接连接
-                if (weakSelf.isConnected) {
-                    [weakSelf.camera.videoView tuya_clear];
-                    [weakSelf.videoContainer addSubview:weakSelf.camera.videoView];
-                    weakSelf.camera.videoView.frame = weakSelf.videoContainer.bounds;
-                    [weakSelf.camera startPreview];
-                }else {
-                    [weakSelf.camera connect];
-                }
+		BOOL isAwaking = [[self.camera.dpManager valueForDP:TuyaSmartCameraWirelessAwakeDPName] boolValue];
+        if (isAwaking) { // 唤醒状态下，直接连接p2p 或者 开始预览
+            if (self.isConnected) {
+                [self.videoContainer addSubview:self.camera.videoView];
+                self.camera.videoView.frame = self.videoContainer.bounds;
+                [self.camera startPreview];
             }else {
-                // 已经休眠，发送唤醒命令
-                [weakSelf.device awakeDeviceWithSuccess:nil failure:nil];
+                [self.camera connect];
             }
-        } failure:nil];
+        }else { // 休眠状态下，发送唤醒命令
+            [self.device awakeDeviceWithSuccess:nil failure:nil];
+        }
     }
 }
 // TuyaSmartCameraDPObserver 当设备 DP 有更新的时候，会触发这个监听回调

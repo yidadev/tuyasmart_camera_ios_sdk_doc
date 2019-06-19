@@ -58,6 +58,8 @@ videoView.frame = CGRectMake(0, 64, VideoWidth, VideoHeight);
 [videoView tuya_setOffset:CGPointMake(10.0, 0.0)];
 // Clear the image and reset the zoom factor and offset
 [videoView tuya_clear];
+// the video will scaled to fill the view
+videoView.scaleToFill = YES;
 ```
 ### Connect p2p channel
 
