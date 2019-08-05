@@ -1,4 +1,6 @@
-## 摄像头设备功能点
+# 摄像头设备功能点
+
+
 
 **【描述】**
 
@@ -6,7 +8,7 @@
 
 ### 摄像头设备标准化功能
 
-摄像头设备功能点是对 Data Point 的一层简单封装，主要的类为：```TuyaSmartCameraDPManager```。功能定义请查看 ```TuyaSmartCameraDPManager.h```.
+功能定义请查看 ```TuyaSmartCameraDPManager.h```.
 
 - 设备基本设置功能
 
@@ -61,7 +63,11 @@
 | TuyaSmartCameraWirelessPowerModeDPName   | enum      | 0：电池供电,1：插电供电                           | 设备供电方式查看   | 设备主动上报当前供电状态，供电状态发生变化时上报             |
 | TuyaSmartCameraWirelessAwakeDPName       | BOOL      | “YES”表示已唤醒，可以直接连接。“NO”表示设备在休眠 | 设备唤醒状态       | 设备主动上报当前是否处于唤醒状态。设备休眠前上报“NO”，设备唤醒后上报一次“YES” |
 
+
+
 ### 设备标准化功能方法调用
+
+
 
 #### 获取对象
 
@@ -95,17 +101,23 @@ TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWith
 - (BOOL)isSupportDP:(TuyaSmartCameraDPKey)dpName;
 ```
 
+
+
 **【方法调用】**
 
 ```objective-c
 BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlipDPName];
 ```
 
+
+
 #### 数据下发
 
 **【描述】**
 
-通过局域网或者云端这两种方式发送指令，接口是同一个，SDK 内部会自动根据网络状态选择下发方式。
+通过局域网或者云端这两种方式发送指令
+
+
 
 **【方法调用】**
 
@@ -118,18 +130,22 @@ BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlip
 }];
 ```
 
+
+
 #### 数据查询
 
 **【描述】**
 
-通过缓存获取对应功能点的数据，存储卡状态，容量，格式化进度三个DP点则需要下发命令到设备查询。
+通过缓存获取对应功能点的数据，如果缓存中没有，则会下发命令到设备查询。
 
 ```objective-c
 // 通过缓存取DP数据。大多数DP点都可以通过缓存来获取，设备会主动上报。
 - (id)valueFortDP:(TuyaSmartCameraDPKey)dpName;
-// 下发查询命令
+// 下发查询命令。
 - (void)valueForDP:(TuyaSmartCameraDPKey)dpName success:(TYSuccessID)success failure:(TYFailureError)failure;
 ```
+
+
 
 **【方法调用】**
 
@@ -145,7 +161,7 @@ TuyaSmartCameraRecordMode mode = [self.dpManager valueForDP:TuyaSmartCameraRecor
 
 
 
-### 其他
+### 其他类
 
 在开头功能表中的enum类型，实则是字符串类型的枚举，在```TuyaSmartCameraDPManager.h```头文件中定义了相应的常量，方便使用，有以下几个类型：
 
@@ -220,5 +236,5 @@ TuyaSmartCameraSDCardStatus status = [[self.dpManager valueForDP:TuyaSmartCamera
 }];
 ```
 
-老版本的固件，在格式化存储卡的过程中，需要APP主动去查询格式化进度。新版本的设备固件，会自动上报存储卡的格式化进度，可以通过```TuyaSmartCameraDPObserver``` 的代理方法监听格式化进度，不用主动获取。
+
 
