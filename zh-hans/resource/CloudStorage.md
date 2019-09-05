@@ -19,6 +19,8 @@ end
 
 云存储购买服务 SDK 的初始化需要传入涂鸦平台上注册 APP 的渠道标识符。接口如下：
 
+__Objective-C__
+
 ```objective-c
 /**
  初始化SDK，需要在 TuyaSmartSDK 初始化后调用
@@ -28,7 +30,15 @@ end
 + (void)setupWithAppScheme:(NSString *)scheme;
 ```
 
+__Swift__
+
+``` swift
+func setup(withAppScheme scheme: String)
+```
+
 初始化方法需要在 APP 启动时，TuyaSmartHomeKit 初始化之后调用。示例代码如下：
+
+__Objective-C__
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -38,9 +48,21 @@ end
 }
 ```
 
+__Swift__
+
+``` swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    TuyaSmartSDK.sharedInstance().start(withAppKey: "your_appKey", secretKey: "your_appSecret")
+    TYCameraCloudServicePanelSDK.setup(withAppScheme: "your_scheme")
+    return true   
+}
+```
+
 ### 用户状态同步
 
 在用户登录/登出的时候，需要调用一下接口同步用户登录状态：
+
+__Objective-C__
 
 ```objective-c
 /**
@@ -49,7 +71,18 @@ end
 + (void)userStateChanged;
 ```
 
+__Swift__
+
+``` swift
+/**
+ 在用户登录登出的时候，需要调用此方法，同步用户状态
+ */
+static func userStateChanged()
+```
+
 示例代码：
+
+__Objective-C__
 
 ```objective-c
 - (void)login {
@@ -59,6 +92,18 @@ end
 		// failed
     }];
 }
+```
+
+__Swift__
+
+``` swift
+func login() {
+        TuyaSmartUser.sharedInstance().login("countryCode", phoneNumber: "phoneNumber", password: "password", success: {
+            TYCameraCloudServicePanelSDK.userStateChanged()
+        }) { (error) in
+            //failed
+        }
+    }
 ```
 
 ### 获取云存储购买页面
@@ -80,6 +125,8 @@ end
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)gotoCloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel {
     [TYCameraCloudServicePanelSDK cloudServicePanelWithDevice:deviceModel success:^(UIViewController *vc) {
@@ -87,6 +134,16 @@ end
 	} failure:^(NSError *error) {
 		NSLog(@"Error: %@", error);
 	}];
+}
+```
+
+__Swift__
+
+``` swift
+TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success: { (vc) in
+     self.navigationController?.pushViewController(vc, animated: true)
+}) { (error) in
+            //failed
 }
 ```
 
@@ -98,6 +155,8 @@ end
 
 云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
 
+__Objective-C__
+
 ```objective-c
 // self.devId = @"xxxxx";
 - (void)viewDidLoad {
@@ -107,9 +166,21 @@ end
 }
 ```
 
+__Swift__
+
+``` swift
+func viewDidLoad() {
+    let cloudManager = TuyaSmartCloudManager(deviceId: devId)
+    cloudManager?.enableMute(false, success: nil, failure: nil)
+    cloudManager?.delegate = self
+}
+```
+
 ### 代理
 
 云存储代理接口为```TuyaSmartCloudManagerDelegate```，有一个代理方法，会返回每一帧视频的YUV数据和帧信息，如果你想要自己渲染视频，可以将 ```TuyaSmartCloudManager```的```autoRender```属性设置为“NO”（默认为“YES”），并在代理方法中获取视频帧的YUV数据加以渲染。
+
+__Objective-C__
 
 ```objective-c
 /**
@@ -120,6 +191,19 @@ end
  @param frameInfo 视频帧信息
  */
 - (void)cloudManager:(TuyaSmartCloudManager *)cloudManager didReceivedFrame:(CMSampleBufferRef)frameBuffer videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
+```
+
+__Swift__
+
+``` swift
+/**
+ 视频帧回调方法
+
+ @param cloudManager cloudManager
+ @param frameBuffer 视频帧YUV数据
+ @param frameInfo 视频帧信息
+ */
+func cloudManager(_ cloudManager: TuyaSmartCloudManager!, didReceivedFrame frameBuffer: CMSampleBuffer!, videoFrameInfo frameInfo: TuyaSmartVideoFrameInfo)
 ```
 
 结构体```TuyaSmartVideoFrameInfo```的定义如下：
@@ -138,6 +222,8 @@ typedef struct {
 
 ### 加载云存储数据
 
+__Objective-C__
+
 ```objective-c
 /**
 加载云存储数据
@@ -146,7 +232,19 @@ typedef struct {
 - (void)loadCloudData:(void(^)(TuyaSmartCloudState state))complete;
 ```
 
+__Swift__
+
+``` swift
+/**
+加载云存储数据
+ @param complete callback
+ */
+func loadCloudData(complete: ((TuyaSmartCloudState) -> Void)!)
+```
+
 在使用云存储播放功能前，还需要先加载云存储的相关数据，这个接口会返回云存储服务当前的状态，以及加载对应的加密秘钥，鉴权信息等。示例代码如下：
+
+__Objective-C__
 
 ```objective-c
 - (void)loadData {
@@ -156,6 +254,18 @@ typedef struct {
         weak_self.selectedDay = weak_self.cloudManager.cloudDays.lastObject;
 		[weakSelf checkCloudState:state];
     }];
+}
+```
+
+__Swift__
+
+``` swift
+func loadData() {
+    self.cloudManager.loadCloudData { [weak self] (state) in
+        self.cloudStorageDays = self.cloudManager.cloudDays
+        self.selectedDay =  self.cloudManager.cloudDays.last
+        self.checkCloudState(state)            
+    }
 }
 ```
 
@@ -220,6 +330,8 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)requestTimelineData {
     [self.cloudManager timeLineWithCloudDay:self.selectedDay success:^(NSArray<TuyaSmartCloudTimePieceModel *> *timePieces) {
@@ -228,6 +340,18 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 		// failed
     }];
 }
+```
+
+__Swift__
+
+``` swift
+ func requestTimelineData() {
+        self.cloudManager.timeLine(withCloudDay: self.selectedDay, success: { (timePieces) in
+            //success
+        }) { (error) in
+            //failed
+        }
+    }
 ```
 
 ```TuyaSmartCloudTimePieceModel```类定义视频片段开始结束时间相关的信息。
@@ -272,6 +396,8 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)requestEventList {
     [self.cloudManager timeEventsWithCloudDay:self.selectedDay offset:0 limit:-1 success:^(NSArray<TuyaSmartCloudTimeEventModel *> *timeEvents) {
@@ -280,6 +406,18 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 		// failed
     }];
 }
+```
+
+__Swift__
+
+``` swift
+func requestEventList() {
+        self.cloudManager.timeEvents(withCloudDay: self.selectedDay, offset: 0, limit: -1, success: { (timeEvents) in
+            //success
+        }) { (error) in
+            //failed
+        }
+    }
 ```
 
 ```TuyaSmartCloudTimeEventModel```定义时间相关信息。
@@ -325,6 +463,8 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 如果是直接播放某个视频片段（TuyaSmartCloudTimePieceModel），开始时间传入 TuyaSmartCloudTimePieceModel 中介于 startTime 和 endTime 之间的一个时间戳， isEvent 传入 NO。如果是想要播放某个事件（TuyaSmartCloudTimeEventModel），开始时间传入 TuyaSmartCloudTimeEventModel 中的 startTime ，isEvent 传入YES，结束时间可以传入当天的结束时间，也就是 TuyaSmartCloudDayModel 的 endTime,。示例代码如下：
 
+__Objective-C__
+
 ```objective-c
 -(void)playVideo:(TuyaSmartCloudTimePieceModel *)timePiece {
     [self.cloudManager playCloudVideoWithStartTime:timePiece.startTime endTime:self.selectedDay.endTime isEvent:NO onResponse:^(int errCode) {
@@ -357,6 +497,40 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 }
 ```
 
+__Swift__
+
+``` swift
+func playVideo(_ timePiece: TuyaSmartCloudTimePieceModel) {
+        self.cloudManager.playCloudVideo(withStartTime: timePiece.startTime, endTime:self.selectedDay.endTime , isEvent: false, onResponse: { (code) in
+            if code == 0 {
+                //success
+            } else {
+                //failed
+            }
+        }) { (errCode) in
+            //finished
+            if codeCode != 0 {
+                //some error
+            }
+        }
+    }
+    
+    func playEvent(_ event: TuyaSmartCloudTimeEventModel) {
+        cloudManager.playCloudVideo(withStartTime: event.startTime, endTime: self.selectedDay.endTime, isEvent: true, onResponse: { (errCode) in
+            if code == 0 {
+                //success
+            } else {
+                //failed
+            }
+        }) { (errCode) in
+            //finished
+            if errCode != 0 {
+                // some error
+            }
+        }
+    }
+```
+
 ### 暂停
 
 ```objective-c
@@ -370,10 +544,22 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)pause {
     if ([self.cloudManager pausePlayCloudVideo] != 0) {
         // 暂停失败
+    }
+}
+```
+
+__Swift__
+
+``` swift
+func pause() {
+    if self.cloudManager.pausePlayCloudVideo() != 0 {
+        //暂停失败
     }
 }
 ```
@@ -391,9 +577,21 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)resume {
     if ([self.cloudManager resumePlayCloudVideo] != 0) {
+        // 恢复播放失败
+    }
+}
+```
+
+__Swift__
+
+``` swift
+func resume() {
+    if self.cloudManager.resumePlayCloudVideo() != 0 {
         // 恢复播放失败
     }
 }
@@ -412,10 +610,22 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)stop {
     if ([self.cloudManager stopPlayCloudVideo] != 0) {
         // 停止播放失败
+    }
+}
+```
+
+__Swift__
+
+``` swift
+func stop() {
+    if self.cloudManager.stopPlayCloudVideo() != 0 {
+        // 恢复播放失败
     }
 }
 ```
@@ -440,6 +650,8 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)muteAction {
     BOOL isMuted = [self.cloudManger isMuted];
@@ -448,6 +660,19 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
     } failure:^(NSError *error) {
 		// failed
     }];
+}
+```
+
+__Swift__
+
+``` swift
+func muteAction() {
+    let isMuted = self.cloudManager.isMuted()
+    self.cloudManager.enableMute(!isMuted, success: {
+            // success
+    }) { (error) in
+            // failed
+    }
 }
 ```
 
@@ -468,6 +693,8 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 // self.isRecording = NO;
 
@@ -485,6 +712,23 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 }
 ```
 
+__Swift__
+
+``` swift
+func recordAction() {
+    if self.isRecording {
+        if self.cloudManager.stopRecord() != 0 {
+            //录制失败
+        } else {
+            //录制成功，视频已保存系统相册
+        }
+    } else {
+        self.cloudManager.startRecord()
+        self.isRecording = true
+    }
+}
+```
+
 ### 截图
 
 ```objective-c
@@ -496,11 +740,25 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 示例代码：
 
+__Objective-C__
+
 ```objective-c
 - (void)snapShoot {
     if ([self.cloudManager snapShoot]) {
         // 图片已保存到系统相册
     }else {
+        // 截图失败
+    }
+}
+```
+
+__Swift__
+
+``` swift
+func snapShoot() {
+    if self.cloudManager.snapShoot() {
+        // 图片已保存到系统相册
+    } else {
         // 截图失败
     }
 }
