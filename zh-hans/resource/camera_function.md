@@ -501,6 +501,8 @@ func cameraDidResumePlayback(_ camera: TuyaSmartCameraType!) {
 
 ### 停止回放
 
+__Objective-C__
+
 ```objective-c
 - (void)stopPlayback {
 	// 如果正在录制，停止录制
