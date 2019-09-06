@@ -73,23 +73,36 @@
 
 ```TuyaSmartCameraDPManager```类提供与设备信息通信的能力，提供了控制指令下发、获取当前功能点的数据。
 
+__Objective-C__
+
 ```objective-c
 //根据设备id初始化设备控制类
 TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:devId];
 ```
 
+__Swift__
 
+``` swift
+let dpManager = TuyaSmartCameraDPManager(deviceId: devId)
+```
 
 #### 监听代理
 
  ```TuyaSmartCameraDPObserver```协议提供设备主动上报DP变化的监听能力。
+
+__Objective-C__
 
 ```objective-c
 // dpsData 为设备上报的DP。通过 [dpsData objectForKey:TuyaSmartCameraDPKey]; 获取对应的DP功能的值。
 - (void)cameraDPDidUpdate:(TuyaSmartCameraDPManager *)manager dps:(NSDictionary *)dpsData;
 ```
 
+__Swift__
 
+``` swift
+// dpsData 为设备上报的DP。通过 [dpsData objectForKey:TuyaSmartCameraDPKey]; 获取对应的DP功能的值。
+ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHashable : Any]!)
+```
 
 #### 功能点是否支持
 
@@ -97,19 +110,31 @@ TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWith
 
 通过该方法可以判断设备是否支持该功能点，如果设备不支持该功能，调用**数据下发**和**数据查询**的方法是会失败的，因此做数据下发和查询之前要先判断该功能是否支持。**入参**为功能点的ID
 
+__Objective-C__
+
 ```objective-c
 - (BOOL)isSupportDP:(TuyaSmartCameraDPKey)dpName;
 ```
 
+__Swift__
 
+``` swift
+func isSupportDP(dpName: TuyaSmartCameraDPKey) -> Bool
+```
 
 **【方法调用】**
+
+__Objective-C__
 
 ```objective-c
 BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlipDPName];
 ```
 
+__Swift__
 
+``` swift
+let isSupportDpBasicFlip = self.dpManager.isSupportDP(TuyaSmartCameraBasicFlipDPName)
+```
 
 #### 数据下发
 
@@ -121,6 +146,8 @@ BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlip
 
 **【方法调用】**
 
+__Objective-C__
+
 ```objective-c
 // 下发数据为 id 类型，即如果是 int 或者 BOOL 类型的功能，则需要包装成 NSNumber
 [self.dpManager setValue:@(YES) forDP:TuyaSmartCameraBasicFlipDPName success:^(id result) {
@@ -130,7 +157,16 @@ BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlip
 }];
 ```
 
+__Swift__
 
+``` swift
+// 下发数据为 id 类型，即如果是 int 或者 BOOL 类型的功能，则需要包装成 NSNumber
+self.dpManager?.setValue(true, forDP: TuyaSmartCameraBasicFlipDPName, success: { (result) in
+            // 下发成功，result 为下发后，设备返回的值，通常与下发的数据是一样的
+        }, failure: { (error) in
+            // 下发失败
+        })
+```
 
 #### 数据查询
 
@@ -138,16 +174,27 @@ BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlip
 
 通过缓存获取对应功能点的数据，如果缓存中没有，则会下发命令到设备查询。
 
+__Objective-C__
+
 ```objective-c
 // 通过缓存取DP数据。大多数DP点都可以通过缓存来获取，设备会主动上报。
-- (id)valueFortDP:(TuyaSmartCameraDPKey)dpName;
+- (id)valueForDP:(TuyaSmartCameraDPKey)dpName;
 // 下发查询命令。
 - (void)valueForDP:(TuyaSmartCameraDPKey)dpName success:(TYSuccessID)success failure:(TYFailureError)failure;
 ```
 
+__Swift__
 
+``` swift
+// 通过缓存取DP数据。大多数DP点都可以通过缓存来获取，设备会主动上报。
+func value(forDP: TuyaSmartCameraDPKey!) -> Any!
+// 下发查询命令。
+func setValue(_ value: Any!, forDP: TuyaSmartCameraDPKey!, success: (Any?) -> Void, failure: (Error?) -> Void)
+```
 
 **【方法调用】**
+
+__Objective-C__
 
 ```objective-c
 TuyaSmartCameraRecordMode mode = [self.dpManager valueForDP:TuyaSmartCameraRecordModeDPName];
@@ -159,6 +206,16 @@ TuyaSmartCameraRecordMode mode = [self.dpManager valueForDP:TuyaSmartCameraRecor
 }];
 ```
 
+__Swift__
+
+``` swift
+let mode = self.dpManager?.value(forDP: TuyaSmartCameraRecordModeDPName)
+self.dpManager?.value(forDP: TuyaSmartCameraSDCardStorageDPName, success: { (result) in
+    // 查询成功，result 为相应DP的值。
+}, failure: { (error) in
+    // 查询失败
+})     
+```
 
 
 ### 其他类
@@ -177,6 +234,8 @@ typedef NSString * TuyaSmartCameraPowerMode NS_EXTENSIBLE_STRING_ENUM;
 
 **方法调用**
 
+__Objective-C__
+
 ```objective-c
 /// nightvision状态有三个值，表示自动，关闭，打开.
 /// TuyaSmartCameraNightvisionAuto,TuyaSmartCameraNightvisionOff,TuyaSmartCameraNightvisionOn
@@ -187,9 +246,23 @@ typedef NSString * TuyaSmartCameraPowerMode NS_EXTENSIBLE_STRING_ENUM;
 }];
 ```
 
+__Swift__
+
+``` swift
+/// nightvision状态有三个值，表示自动，关闭，打开.
+/// TuyaSmartCameraNightvisionAuto,TuyaSmartCameraNightvisionOff,TuyaSmartCameraNightvisionOn
+self.dpManager?.setValue(TuyaSmartCameraNightvisionOn, forDP: TuyaSmartCameraBasicNightvisionDPName, success: { (result) in
+         
+}, failure: { (error) in
+            
+})
+```
+
 **存储卡**
 
 设备如果支持存储卡，则可以获取存储卡的状态，以及格式化存储卡。
+
+__Objective-C__
 
 ```objective-c
 // 存储卡状态
@@ -236,5 +309,39 @@ TuyaSmartCameraSDCardStatus status = [[self.dpManager valueForDP:TuyaSmartCamera
 }];
 ```
 
+__Swift__
 
+``` swift
+// 获取存储卡状态
+    let status = dpManager?.value(forDP: TuyaSmartCameraSDCardStatusDPName) as? Int
 
+// 获取存储卡容量
+    self.dpManager?.value(forDP: TuyaSmartCameraSDCardStorageDPName, success: { (result) in
+        // result 是字符串，总容量，已使用，空闲三个数值以‘|’隔开，单位是kB。
+        let components = result.components(separatedBy: "|")
+        guard components.count >= 3 else {
+            return
+        }
+        let total = components[0]
+        let used = components[1]
+        let free = components[2]
+        //other code
+    }, failure: { (error) in
+        //failed
+    })
+
+ // 格式化存储卡
+    self.dpManager?.setValue(true, forDP: TuyaSmartCameraSDCardFormatDPName, success: { (result) in 
+        // 存储卡正在格式化
+    }, failure: { (error) in
+        // failed
+    })
+
+// 获取存储卡格式化进度
+    self.dpManager?.setValue(true, forDP: TuyaSmartCameraSDCardFormatStateDPName, success: { (result) in
+            // 存储卡格式化进度
+            let progress = result as? Int
+    }, failure: { (error) in
+            //failed
+    })
+```

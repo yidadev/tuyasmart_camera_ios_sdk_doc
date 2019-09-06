@@ -4,8 +4,16 @@
 
 摄像头相关操作都是异步，操作的结果通过 ``` TuyaSmartCameraDelegate ``` 的代理方法返回。下面所述中的 “成功回调” 皆是指操作成功时调用的代理方法。当操作失败时，会统一由以下方法回调。
 
+__Objective-C__
+
 ```objective-c
 - (void)camera:(id<TuyaSmartCameraType>)camera didOccurredError:(TYCameraErrorCode)errCode;
+```
+
+__Swift__
+
+``` swift
+func camera(_ camera: TuyaSmartCameraType!, didOccurredError errCode: TYCameraErrorCode)
 ```
 
 errCode 表示哪个操作失败。具体errCode的定义如下：
@@ -36,6 +44,8 @@ TY_ERROR_QUERY_TIMESLICE_FAILED,    // 15   查询某天的所有视频记录失
 
 * 获取视频播放视图
 
+__Objective-C__
+
 ```objective-c
 - (void)viewDidLoad {
 CGFloat ScreenWidth = [UIScreen mainScreen].bounds.size.width;
@@ -49,7 +59,22 @@ videoView.frame = CGRectMake(0, 64, VideoWidth, VideoHeight);
 }
 ```
 
+__Swift__
+
+``` swift
+let screenWidth = UIScreen.main.bounds.size.width
+let screenHeight = UIScreen.main.bounds.size.height
+let videoWidth = screenWidth
+let videoHeight = screenWidth * 9 / 16
+        
+let videoView = self.camera.videoView as TuyaSmartVideoViewType
+        videoView.frame = CGRect(x: 0, y: 64, width: videoWidth, height: videoHeight)
+self.view.addSubview(videoView)
+```
+
 * 视频缩放、移动、清除操作
+
+__Objective-C__
 
 ```objective-c
 // 将视频图像放大1.2倍
@@ -61,7 +86,19 @@ videoView.frame = CGRectMake(0, 64, VideoWidth, VideoHeight);
 // 图像渲染会拉伸铺满整个视图
 videoView.scaleToFill = YES;
 ```
+
+__Swift__
+
+``` swift
+videoView?.tuya_setScaled(1.2)
+videoView?.tuya_setOffset(CGPoint(10.0, 0.0))
+videoView?.tuya_clear()
+videoView?.scaleToFill = true
+```
+
 ### 连接p2p通道
+
+__Objective-C__
 
 ```objective-c
 // 连接命令
@@ -81,9 +118,30 @@ videoView.scaleToFill = YES;
 	NSLog(@"---disconnected");
 }
 ```
+
+__Swift__
+
+``` swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    self.camera?.connect()
+}
+
+func cameraDidConnected(_ camera: TuyaSmartCameraType!) {
+    self.isConnected = true
+}
+    
+func cameraDisconnected(_ camera: TuyaSmartCameraType!) {
+    self.isConnected = false
+}
+
+```
+
 ### 连接回放通道
 
 p2p连接需要建立两个通道，默认通道用于命令下发与预览的音视频数据传输，若要回放功能，需要在默认通道连接后，再建立一个回放通道，用于回放的音视频传输。
+
+__Objective-C__
 
 ```objective-c
 - (void)cameraDidConnected:(id<TuyaSmartCameraType>)camera {
@@ -97,6 +155,20 @@ p2p连接需要建立两个通道，默认通道用于命令下发与预览的�
 	NSLog(@"---didconnectedplayback");
 }
 ```
+
+__Swift__
+
+``` swift
+func cameraDidConnected(_ camera: TuyaSmartCameraType!) {
+    self.isConnected = true
+    self.camera.enterPlayback()
+}
+    
+func cameraDidConnectPlaybackChannel(_ camera: TuyaSmartCameraType!) {
+    print("---didconnectedplayback")
+}
+```
+
 ### 播放模式
 
 定义预览还是回放，在设置静音状态时，需要传入此参数，以指定设置哪个模式是否静音。
@@ -109,6 +181,8 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCameraPlayMode) {
 };
 ```
 ### 开启预览
+
+__Objective-C__
 
 ```objective-c
 - (void)startPreview {
@@ -135,10 +209,42 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCameraPlayMode) {
 	self.isPreviewing = YES;
 }
 ```
+
+__Swift__
+
+``` swift
+func startPreview() {
+    // 判断是否在录制视频，如果正在录制视频，停止录制。(是否在录制中的状态由开发者自己维护)
+    if self.isRecording {
+        self.camera.stopRecord()
+    }
+    // 判断是否正在预览，如果正在预览，停止预览。(是否在预览中的状态由开发者自己维护)
+    if self.isPlaybacking {
+        self.camera.stopPlayback()
+    }
+    // 判断p2p通道是否已经连接，如果未连接或者连接已经断开，连接通道。(p2p通道是否连接的状态由开发者自己维护)
+    if self.isConnected == false {
+        self.camera.connect()
+    }
+    // 开启预览
+    self.camera.startPreview()
+}
+
+ // 成功回调
+func cameraDidBeginPreview(_ camera: TuyaSmartCameraType!) {
+    // 当前的播放模式
+    self.playMode = TuyaSmartCameraPlayModePreview
+    // 预览状态
+    self.isPreviewing = true
+}
+```
+
 * 注：当前摄像头的状态，如正在预览，录制，回放，p2p通道已连接，连接断开等，由开发者自己维护，SDK中不会保留这些状态值，只负责命令的下发与回调。下面不再赘述。
 
 
 ### 停止预览
+
+__Objective-C__
 
 ```objective-c
 - (void)stopPreview {
@@ -161,9 +267,35 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCameraPlayMode) {
 	NSLog(@"---stop preview");
 }
 ```
+
+__Swift__
+
+``` swift
+func stopPreview() {
+    // 若正在录制视频，停止录制
+    if self.isRecording {
+        self.camera.stopRecord()
+    }
+    // 如果正在对讲，则关闭对讲
+	if self.isTalking {
+		self.camera.startTalk()
+	}
+	// 停止预览，此操作不会失败
+	self.camera.stopPreview()
+	self.isPreviewing = false
+	self.playMode = TuyaSmartCameraPlayModeNone
+}
+
+func cameraDidStopPreview(_ camera: TuyaSmartCameraType!) {
+    print("---stop preview")
+}
+```
+
 ### 获取有回放视频记录的日期
 
 在开始回放前，需要获取到回放视频记录的信息。首先获取有回放视频记录的日期
+
+__Objective-C__
 
 ```objective-c
 - (void)queryPlaybackDays {
@@ -178,9 +310,26 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCameraPlayMode) {
 	self.curentDay = days.lastObject.integerValue;
 }
 ```
+
+__Swift__
+
+``` swift
+func queryPlaybackDays() {
+    self.camera.queryRecordDays(withYear: 2018, month: 7)
+}
+
+func camera(_ camera: TuyaSmartCameraType!, didReceiveRecordDayQueryData days: [NSNumber]!) {
+    // days是一个 NSNumber 类型的日期数组，包含有回放视频记录的日期，日期的值从 1 到 31 之间
+    self.playbackDays = days
+    self.curentDay = days.last?.intValue
+}
+```
+
 ### 获取某日的视频回放信息
 
 获取到有用回放记录的日期后，根据日期获取当日的视频回放记录
+
+__Objective-C__
 
 ```objective-c
 - (void)queryPlaybackRecords {
@@ -208,7 +357,40 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.timeSlices = timeSlices;
 }
 ```
+
+__Swift__
+
+``` swift
+
+func queryPlaybackRecords() {
+    // 根据日期查询回放视频信息
+    self.camera.queryRecordTimeSlice(withYear: 2018, month: 7, day: self.currentDay)
+}
+
+// 成功回调
+func camera(_ camera: TuyaSmartCameraType!, didReceiveTimeSliceQueryData timeSlices: [[AnyHashable : Any]]!) {
+    // timeSlices 是一个字典数组，包含当日所有的回放视频片段信息。
+// 每个字典对应一个回放视频片段，字典包含四个字段：
+/*
+/// 回放片段开始时间的key, 值类型是 NSDate，基本手机系统本地时间的时区
+FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStartDate;
+
+/// 回放片段结束时间的key, 值类型是 NSDate，基本手机系统本地时间的时区
+FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopDate;
+
+/// 回放片段开始时间的key, 值类型是 NSNumber，Unix时间戳，基于格林时间
+FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStartTime;
+
+/// 回放片段结束时间的key, 值类型是 NSNumber，Unix时间戳，基于格林时间
+FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
+*/
+	self.timeSlices = timeSlices
+}
+```
+
 ### 开启回放
+
+__Objective-C__
 
 ```objective-c
 - (void)startPlayBack:(NSDictionary)timeSlice {
@@ -230,7 +412,33 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isPlaybacking = YES;
 }
 ```
+
+__Swift__
+
+``` swift
+
+func startPlayBack(timeSlice: Dictionary) {
+    // 如果正在预览，则停止预览。包括停止录制，对讲等操作。详见上述的停止预览方法。
+	if self.isPreviewing {
+		self.stopPreview()
+	}
+	// timeSlice 取自上面视频片段回放信息数组里的一个元素
+	let startTime = timeSlice[kTuyaSmartTimeSliceStartTime] as? Int
+	let stopTime = timeSlice[kTuyaSmartTimeSliceStopTime] as? Int
+	// 开始回放视频片段，传入开始播放的时间戳，视频片段的开始时间戳，结束时间戳
+	// 开始播放的时间戳需要在视频片段的开始时间与结束时间之间，这里默认从开始时间开始播放
+	self.camera.startPlayback(startTime, startTime: startTime, stopTime: stopTime)
+}
+
+func cameraDidBeginPlayback(_ camera: TuyaSmartCameraType!) {
+    self.playMode = TuyaSmartCameraPlayModePlayback
+	self.isPlaybacking = true
+}
+```
+
 ### 暂停回放
+
+__Objective-C__
 
 ```objective-c
 - (void)pausePlayback {
@@ -247,7 +455,25 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	NSLog(@"---pause playback");
 }
 ```
+
+__Swift__
+
+``` swift
+func pausePlayback() {
+    if self.isRecording {
+        self.camera.stopRecord()
+    }
+    self.camera.pausePlayback()
+}
+
+func cameraDidPausePlayback(_ camera: TuyaSmartCameraType!) {
+    print("---pause playback")
+}
+```
+
 ### 恢复回放
+
+__Objective-C__
 
 ```objective-c
 - (void)resumePlayback {
@@ -260,7 +486,22 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	NSLog(@"---resume playback");
 }
 ```
+
+__Swift__
+
+``` swift
+func resumePlayback() {
+    self.camera.resumePlayback()
+}
+
+func cameraDidResumePlayback(_ camera: TuyaSmartCameraType!) {
+    print("---resume playback")
+}
+```
+
 ### 停止回放
+
+__Objective-C__
 
 ```objective-c
 - (void)stopPlayback {
@@ -278,7 +519,26 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isPlaybacking = NO;
 }
 ```
+
+__Swift__
+
+``` swift
+func stopPlayback() {
+    if self.isRecording {
+        self.camera.stopRecord()
+    }
+    self.camera.stopPlayback()
+}
+    
+func cameraDidStopPlayback(_ camera: TuyaSmartCameraType!) {
+    self.playMode = TuyaSmartCameraPlayModeNone
+	self.isPlaybacking = true
+}
+```
+
 ### 回放结束回调
+
+__Objective-C__
 
 ```objective-c
 // 视频片段回放结束时，会触发此回调。有些设备会自动播放当天的下一个视频片段，直到当天的所有视频片段播放完成后，才会触发这个回调。什么时候触发，取决设备固件的实现。
@@ -287,7 +547,20 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isPlaybacking = NO;
 }
 ```
+
+__Swift__
+
+``` swift
+// 视频片段回放结束时，会触发此回调。有些设备会自动播放当天的下一个视频片段，直到当天的所有视频片段播放完成后，才会触发这个回调。什么时候触发，取决设备固件的实现。
+ func cameraPlaybackDidFinished(_ camera: TuyaSmartCameraType!) {
+    self.playMode = TuyaSmartCameraPlayModeNone
+	self.isPlaybacking = false   
+}
+```
+
 ### 接收到第一帧视频回调
+
+__Objective-C__
 
 ```objective-c
 // 预览或者回放开始后，首次接收到视频帧的时候，会触发这个回调。此时表示视频开始正常播放了。
@@ -295,7 +568,19 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	NSLog(@"---receive first frame");
 }
 ```
+
+__Swift__
+
+``` swift
+// 预览或者回放开始后，首次接收到视频帧的时候，会触发这个回调。此时表示视频开始正常播放了。
+func camera(_ camera: TuyaSmartCameraType!, didReceiveFirstFrame image: UIImage!) {
+      print("---receive first frame")  
+}
+```
+
 ### 开启视频录制
+
+__Objective-C__
 
 ```objective-c
 - (void)startRecord {
@@ -318,7 +603,33 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isRecording = YES;
 }
 ```
+
+__Swift__
+
+``` swift
+func startRecord() {
+    // 如果没有播放任何视频，或者已经在录制中，不做任何操作
+	if self.playMode == TuyaSmartCameraPlayModeNone || self.isRecording {
+		return
+	}
+
+	// 如果正在对讲，则关闭对讲
+	if self.isTalking {
+		self.camera.startTalk()
+	}
+
+	// 开启录制
+	self.camera.startRecord()
+}
+
+func cameraDidStartRecord(_ camera: TuyaSmartCameraType!) {
+    self.isRecording = true
+}
+```
+
 ### 停止视频录制
+
+__Objective-C__
 
 ```objective-c
 - (void)stopRecord {
@@ -333,10 +644,27 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isRecording = NO;
 }
 ```
+
+__Swift__
+
+``` swift
+func stopRecord() {
+    if self.isRecording {
+        self.camera.stopRecord()
+    }
+}
+
+func cameraDidStopRecord(_ camera: TuyaSmartCameraType!) {
+    self.isRecording = false
+}
+```
+
 * 注：如果视频录制成功，会直接保存在手机相册。同时，会在手机相册中创建一个与APP同名的自定义相册，视频将会出现在这个自定义相册中。
 
 
 ### 视频截图
+
+__Objective-C__
 
 ```objective-c
 - (void)snapShoot {
@@ -353,10 +681,31 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	NSLog(@"---snap shoot success");
 }
 ```
+
+__Swift__
+
+``` swift
+func snapShoot() {
+    // 如果没有播放任何视频，不做任何操作
+	if self.playMode == TuyaSmartCameraPlayModeNone {
+		return
+	}
+	// 截图操作
+	self.camera.snapShoot()
+}
+
+func cameraSnapShootSuccess(_ camera: TuyaSmartCameraType!) {
+    print("---snap shoot success")
+    
+}
+```
+
 * 注：如果截图成功，图片会直接保存在手机相册。同时，会在手机相册中创建一个与APP同名的自定义相册，截图将会出现在这个自定义相册中。
 
 
 ### 设置静音
+
+__Objective-C__
 
 ```objective-c
 - (void)enabelMute:(BOOL)isMuted {
@@ -375,7 +724,30 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isMuted = isMute;
 }
 ```
+
+__Swift__
+
+``` swift
+func enableMute(isMuted: Bool) {
+    // 如果当前没有播放视频，则不做任何操作
+	if self.playMode == TuyaSmartCameraPlayModeNone {
+		return
+	}
+	// 给当前的播放模式设置静音状态
+	// isMuted: YES-关闭视频声音；NO-开启视频声音
+	// 视频的声音默认是关闭的
+    self.camera.enableMute(isMuted, for: self.playMode)
+}
+
+// 静音状态改变回调
+func camera(_ camera: TuyaSmartCameraType!, didReceiveMuteState isMute: Bool, playMode: TuyaSmartCameraPlayMode) {
+    self.isMuted = isMute
+}
+```
+
 ### 清晰度获取与更改
+
+__Objective-C__
 
 ```objective-c
 // 预览开启成功的回调
@@ -394,7 +766,30 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isHd = isHd;
 }
 ```
+
+__Swift__
+
+``` swift
+// 预览开启成功的回调
+func cameraDidBeginPreview(_ camera: TuyaSmartCameraType!) {
+    // other code ...
+	// 发送查询清晰度的命令
+	self.camera.getHD()
+
+	// 更改清晰度
+	self.camera.enableHD(true)
+}
+
+// 清晰度状态回调，查询或设置清晰度的结果，统一由这个代理方法回调
+func camera(_ camera: TuyaSmartCameraType!, didReceiveDefinitionState isHd: Bool) {
+    // isHd: 是否高清；YES-高清；NO-标清
+	self.isHd = isHd
+}
+```
+
 ### 开启对讲
+
+__Objective-C__
 
 ```objective-c
 - (void)startTalk {
@@ -412,7 +807,28 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isTalking = YES;
 }
 ```
+
+__Swift__
+
+``` swift
+func startTalk() {
+    // 如果正在录制，停止录制
+    if self.isRecording {
+        self.camera.stopRecord()
+    }
+    // 发送开启对讲的命令
+    self.camera.startTalk()
+}
+
+// 成功回调
+func cameraDidBeginTalk(_ camera: TuyaSmartCameraType!) {
+    self.isTalking = true
+}
+```
+
 ### 停止对讲
+
+__Objective-C__
 
 ```objective-c
 - (void)stopTalk {
@@ -427,10 +843,28 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	self.isTalking = NO;
 }
 ```
+
+__Swift__
+
+``` swift
+func stopTalk() {
+    // 如果正在对讲，发送停止对讲的命令
+	if self.isTalking {
+		self.camera.stopTalk()
+	}
+}
+
+func cameraDidStopTalk(_ camera: TuyaSmartCameraType!) {
+    self.isTalking = false
+}
+```
+
 * 注：对讲和录制是互斥的，而且只有在预览时可以开启对讲。
 
 
 ### 分辨率改变回调
+
+__Objective-C__
 
 ```objective-c
 // 视频图像分辨率更改的回调
@@ -438,9 +872,21 @@ FOUNDATION_EXTERN NSString * const kTuyaSmartTimeSliceStopTime;
 	NSLog(@"---resolution changed: %ld x %ld", width, height);
 }
 ```
+
+__Swift__
+
+``` swift
+// 视频图像分辨率更改的回调
+func camera(_ camera: TuyaSmartCameraType!, resolutionDidChangeWidth width: Int, height: Int) {
+    print("---resolution changed: %ld x %ld", width, height)
+}
+```
+
 ### 开启裸流。
 
 如果需要自己渲染视频流，可以开启获取裸流属性。开启此属性后，p2p 1.0 会返回未解码的原始数据，p2p 2.0 会返回解码后的 YUV 数据。
+
+__Objective-C__
 
 ```objective-c
 - (void)viewDidLoad {
@@ -467,10 +913,38 @@ p2p 2.0 获取解码后的YUV数据的代理方法。
 - (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 
 ```
+
+__Swift__
+
+``` swift
+func viewDidLoad() {
+    self.camera.isRecvFrame = true
+}
+
+/**
+p2p 1.0 获取未解码原始视频帧数据的代理方法。
+@param camera      摄像头对象
+@param frameData   原始视频帧数据
+@param size        视频帧数据大小
+@param frameInfo   视频帧信息，包含编码方式和时间戳
+*/  
+func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveFrameData frameData: UnsafePointer<Int8>!, dataSize size: UInt32, frameInfo: TuyaSmartVideoStreamInfo)
+
+/**
+p2p 2.0 获取解码后的YUV数据的代理方法。
+@param camera      		摄像头对象
+@param sampleBuffer   	YUV视频帧数据
+@param frameInfo   		视频帧信息，包含分辨率，帧率和时间戳
+*/
+func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer: CMSampleBuffer!, frameInfo: TuyaSmartVideoFrameInfo)
+```
+
 * 注:  开启获取裸流后,原始的渲染视图(videoVIew)就不会渲染图像,需要开发者自行通过该接口的数据进行解析渲染。
 
 
 ### 销毁资源
+
+__Objective-C__
 
 ```objective-c
 // 摄像头面板销毁时，销毁摄像头资源。
@@ -479,3 +953,10 @@ p2p 2.0 获取解码后的YUV数据的代理方法。
 }
 ```
 
+__Swift__
+
+``` swift
+deinit {
+    self.camera.destory()
+}
+```

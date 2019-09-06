@@ -80,23 +80,38 @@ The details defined in ```TuyaSmartCameraDPManager.h```.
 
 TuyaSmartCameraDPManager provides device info communication ability, control orders issue, reach current data-points info
 
+__Objective-C__
+
 ```objective-c
 // init TuyaSmartCameraDPManager instance with device id
 TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:devId];
 ```
 
+__Swift__
+
+``` swift
+let dpManager = TuyaSmartCameraDPManager(deviceId: devId)
+```
 
 
 #### Listener
 
 
- TuyaSmartCameraDPObserver protocol provides listener device info data receiving.
+ `TuyaSmartCameraDPObserver` protocol provides listener device info data receiving.
+
+__Objective-C__
 
 ```objective-c
-// dpsData is the data that device reports。get the value of DP though [dpsData objectForKey:TuyaSmartCameraDPKey]。
+// dpsData is the data that device reports。get the value of DP though [dpsData objectForKey:TuyaSmartCameraDPKey]
 - (void)cameraDPDidUpdate:(TuyaSmartCameraDPManager *)manager dps:(NSDictionary *)dpsData;
 ```
 
+__Swift__
+
+``` swift
+// dpsData is the data that device reports。get the value of DP though [dpsData objectForKey:TuyaSmartCameraDPKey]
+ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHashable : Any]!)
+```
 
 
 
@@ -108,16 +123,31 @@ TuyaSmartCameraDPManager *dpManager = [[TuyaSmartCameraDPManager alloc] initWith
 
 Judge whether the device supports the data-point. Call data issues/data research will fail if the device dose not support certain data-point. 
 
+__Objective-C__
+
 ```objective-c
 - (BOOL)isSupportDP:(TuyaSmartCameraDPKey)dpName;
 ```
 
+__Swift__
+
+``` swift
+func isSupportDP(dpName: TuyaSmartCameraDPKey) -> Bool
+```
 
 
 【Method call】
 
+__Objective-C__
+
 ```objective-c
 BOOL isSupportDpBasicFlip = [self.dpManager isSupportDP:TuyaSmartCameraBasicFlipDPName];
+```
+
+__Swift__
+
+``` swift
+let isSupportDpBasicFlip = self.dpManager.isSupportDP(TuyaSmartCameraBasicFlipDPName)
 ```
 
 
@@ -133,6 +163,8 @@ Send message through LAN or cloud
 
 **【Method call】**
 
+__Objective-C__
+
 ```objective-c
 // the type of data is id, if the dp value is int or BOOL, need packed as NSNumber
 [self.dpManager setValue:@(YES) forDP:TuyaSmartCameraBasicFlipDPName success:^(id result) {
@@ -142,6 +174,16 @@ Send message through LAN or cloud
 }];
 ```
 
+__Swift__
+
+``` swift
+// the type of data is id, if the dp value is int or BOOL, need packed as NSNumber
+self.dpManager?.setValue(true, forDP: TuyaSmartCameraBasicFlipDPName, success: { (result) in
+            // success, result is the reponse of device, usually as same as the publish data
+        }, failure: { (error) in
+            // failed
+        })
+```
 
 
 #### Data research
@@ -151,7 +193,7 @@ Send message through LAN or cloud
 
 Obtain data-point info through cache, if has no cache, will push command to device for query the value.
 
-
+__Objective-C__
 
 ```objective-c
 // get the value of dp from app cache, most of the dps could get the latest value, device will auto report
@@ -160,24 +202,42 @@ Obtain data-point info through cache, if has no cache, will push command to devi
 - (void)valueForDP:(TuyaSmartCameraDPKey)dpName success:(TYSuccessID)success failure:(TYFailureError)failure;
 ```
 
+__Swift__
 
+``` swift
+// get the value of dp from app cache, most of the dps could get the latest value, device will auto report
+func value(forDP: TuyaSmartCameraDPKey!) -> Any!
+// publish the query command for dp
+func setValue(_ value: Any!, forDP: TuyaSmartCameraDPKey!, success: (Any?) -> Void, failure: (Error?) -> Void)
+```
 
 **【Method call】**
 
 
 Value data-point research
 
+__Objective-C__
+
 ```objective-c
 TuyaSmartCameraRecordMode mode = [self.dpManager valueForDP:TuyaSmartCameraRecordModeDPName];
 
 [self.dpManager valueForDP:TuyaSmartCameraSDCardStorageDPName success:^(id result) {
-	// succes, result is the value of the dp。
+	// succes, result is the value of the dp
 } failure:^(NSError *error) {
     // failed
 }];
 ```
 
+__Swift__
 
+``` swift
+let mode = self.dpManager?.value(forDP: TuyaSmartCameraRecordModeDPName)
+self.dpManager?.value(forDP: TuyaSmartCameraSDCardStorageDPName, success: { (result) in
+	// succes, result is the value of the dp
+}, failure: { (error) in
+    // failed
+})     
+```
 
 
 ### Others
@@ -198,6 +258,8 @@ typedef NSString * TuyaSmartCameraPowerMode NS_EXTENSIBLE_STRING_ENUM;
 
 How to use:
 
+__Objective-C__
+
 ```objective-c
 /// nightvision state has three values.
 /// TuyaSmartCameraNightvisionAuto,TuyaSmartCameraNightvisionOff,TuyaSmartCameraNightvisionOn
@@ -208,13 +270,25 @@ How to use:
 }];
 ```
 
+__Swift__
 
+``` swift
+/// nightvision state has three values.
+/// TuyaSmartCameraNightvisionAuto,TuyaSmartCameraNightvisionOff,TuyaSmartCameraNightvisionOn
+self.dpManager?.setValue(TuyaSmartCameraNightvisionOn, forDP: TuyaSmartCameraBasicNightvisionDPName, success: { (result) in
+         
+}, failure: { (error) in
+            
+})
+```
 
 
 #### Memory card 
 
 
 If device support sd card, could get the sd card status and format sd card.
+
+__Objective-C__
 
 ```objective-c
 // sd card state
@@ -258,6 +332,43 @@ TuyaSmartCameraSDCardStatus status = [[self.dpManager valueForDP:TuyaSmartCamera
 } failure:^(NSError *error) {
 	// failed
 }];
+```
+
+__Swift__
+
+``` swift
+// get sd card status
+    let status = dpManager?.value(forDP: TuyaSmartCameraSDCardStatusDPName) as? Int
+
+// get sd card storage
+    self.dpManager?.value(forDP: TuyaSmartCameraSDCardStorageDPName, success: { (result) in
+        // result is string, total space，used space，free space separated by "|", the unit is kB.
+        let components = result.components(separatedBy: "|")
+        guard components.count >= 3 else {
+        // exception
+            return
+        }
+        let total = components[0]
+        let used = components[1]
+        let free = components[2]
+        //other code
+    }, failure: { (error) in
+        //failed
+    })
+
+// format sd card
+    self.dpManager?.setValue(true, forDP: TuyaSmartCameraSDCardFormatDPName, success: { (result) in 
+    	// sd card is formatting
+    }, failure: { (error) in
+        // failed
+    })
+
+// get the progress of sd card formatting
+    self.dpManager?.setValue(true, forDP: TuyaSmartCameraSDCardFormatStateDPName, success: { (result) in
+            let progress = result as? Int
+    }, failure: { (error) in
+            //failed
+    })
 ```
 
 

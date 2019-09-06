@@ -6,7 +6,21 @@
 * TuyaSmartCameraDPManager 中增加获取 DP value 的同步方法，从 APP 端的缓存中获取。大多数 DP 都可以通过此方法获取到最新值，设备会主动上报。如 SD 卡容量，格式化进度等则需要下发查询。
 * SDK 中不在提供 TuyaSmartCameraDefault 类，但可以从仓库中的 Example 程序中获取，也可参照其实现。
 * "tuya.m.ipc.config.get" 接口需要升级到 2.0。
-* TuyaSmartCameraFactory 增加几个属性，并增加 ```+ (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data; ``` 方法。uid 可暂时传入空字符串。configData 参数传入 "tuya.m.ipc.config.get" 2.0 版本接口返回的数据即可，可以获取到对应的 TuyaSmartCameraConfig 对象。
+* TuyaSmartCameraFactory 增加几个属性，并增加工厂方法： 
+
+    __Objective-C__
+    
+    ``` objectivec
+    + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data; 
+    ``` 
+
+    __Swift__
+    
+    ```swift
+    func ipcConfig(withUid: String!, localKey: String!, configData: [AnyHashable : Any]!)
+    ```
+    
+uid 可暂时传入空字符串。configData 参数传入 `"tuya.m.ipc.config.get"`  2.0 版本接口返回的数据即可，可以获取到对应的 TuyaSmartCameraConfig 对象。
 * 视频渲染视图增加 scaleToFill，设置为 YES，视频图像会自动拉伸铺满整个视图。
 * 增加云存储视频播放功能。
 
