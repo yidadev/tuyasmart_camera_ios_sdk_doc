@@ -1,6 +1,8 @@
 # 准备工作
 
-TuyaSmartCamera 依赖于涂鸦智能iOS SDK，在接入此SDK时，需要先接入TuyaSmartHomeKit（点击[这里](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)查看接入文档）。
+TuyaSmartCamera 依赖于涂鸦智能iOS SDK，在接入此SDK时，请确保您对 TuyaSmartHomeKit 已经有了一定的了解（点击[这里](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)查看接入文档）。
+
+TuyaSmartCameraKit 只包含对摄像头设备的功能封装，配网功能需要接入 TuyaSmartHomeKit ，摄像头 p2p 配置信息也需要通过 TuyaSmartBaseKit 中的功能来获取。
 
 在使用Camera的文件顶部，添加以下内容：
 
@@ -13,7 +15,7 @@ __Objective-C__
 __Swift__
 
 ``` swift
-import TuyaSmartBaseKit
+import TuyaSmartCameraKit
 ```
 
 ## 示例代码约定
@@ -53,7 +55,7 @@ self.device = [[TuyaSmartDevice alloc] initWithDeviceId:@"your_device_id"];
 __Swift__
 
 ``` swift
-self.device = TuyaSmartDevice(deviceId: "your_device_id")d
+self.device = TuyaSmartDevice(deviceId: "your_device_id")
 ```
 
 若想让它正确执行，需要在当前的`ViewController`类中添加一个 `TuyaSmartDevice`属性：

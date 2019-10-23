@@ -84,39 +84,22 @@ let params = ["devId": "XXXXXXXX"]
 
   在最 3.2.0 版本中，不再需要关注 TuyaSmartCameraConfig 类的属性。在上面的接口调用成功后，可通过下面的方法来获取配置对象。
 
-__Objective-C__
-
   ```objective-c
-  #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
-  #define kTuyaSmartIPCConfigAPIVersion @"2.0"
-  __weak typeof(self) weakSelf = self;
-  [[TuyaSmartRequest new] requestWithApiName:kTuyaSmartIPCConfigAPI postData:@{@"devId": self.devId} version:kTuyaSmartIPCConfigAPIVersion success:^(id result) {
-  	__strong typeof(weakself) self = weakself;
-      // SDK 初始化的时候，可能会阻塞线程，建议在子线程创建Camera对象
-  	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-          // 根据接口返回的数据创建Config对象
-  		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:nil localKey:self.device.deviceModel.localKey configData:result];
-  		self.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType config:config delegate:self];
-  	});
-  } failure:^(NSError *error) {
-  	NSLog(@"error: %@", error);
-  }];
+  // TuyaSmartCameraFactory.h
+
+  /**
+   create TuyaSmartCameraConfig instance according to api request responder and user uid, device localKey
+   
+   @param uid [TuyaSmartUser sharedInstance].uid
+   @param localKey TuyaSmartDeviceModel.localKey
+   @param data api request responder of "tuya.m.ipc.config.get"
+   @return TuyaSmartCameraConfig instance
+   */
+  + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data;
   ```
 
-__Swift__
+  ​
 
-``` swift
-let kTuyaSmartIPCConfigAPI = "tuya.m.ipc.config.get"
-let kTuyaSmartIPCConfigAPIVersion = "2.0"
-TuyaSmartRequest().request(withApiName: kTuyaSmartIPCConfigAPI, postData: ["devId" : self.devId], version: kTuyaSmartIPCConfigAPIVersion, success: { [weak self] (result) in
-    DispatchQueue.global().async {
-        let config = TuyaSmartCameraFactory.ipcConfig(withUid: nil, localKey: "your localKey", configData: result)
-        self.camera = TuyaSmartCameraFactory.camera(withP2PType: p2pType, config: config, delegate: self)        
-    }
-}) { (error) in
-
-}
-```
 
 * 在创建摄像头的文件中，添加以下代码导入头文件：
 
@@ -152,7 +135,7 @@ __weak typeof(self) weakSelf = self;
     __strong typeof(weakself) self = weakself;
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 根据接口返回的数据创建Config对象
-		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:nil localKey:self.device.deviceModel.localKey configData:result];
+		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:[TuyaSmartUser sharedInstance].uid localKey:self.device.deviceModel.localKey configData:result];
 		self.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType config:config delegate:self];
 	});
 } failure:failure];
@@ -168,7 +151,7 @@ let p2pType = self.device.deviceModel.skills["p2pType"]
 self.requeset.request(withApiName: kTuyaSmartIPCConfigAPI, postData: ["devId" : self.devId], version: kTuyaSmartIPCConfigAPIVersion, success: { [weak self] (result) in
         DispatchQueue.global().async {
                 // 根据接口返回的数据创建Config对象
-        let config = TuyaSmartCameraFactory.ipcConfig(withUid: nil, localKey: self.device.deviceModel.localKey , configData: result)
+        let config = TuyaSmartCameraFactory.ipcConfig(withUid: TuyaSmartUser.sharedInstance()?.uid, localKey: self.device.deviceModel.localKey , configData: result)
         self.camera = TuyaSmartCameraFactory.camera(withP2PType: p2pType, config: config, delegate: self)
             }
 }) { (error) in

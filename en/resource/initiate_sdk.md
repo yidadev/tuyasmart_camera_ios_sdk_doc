@@ -85,41 +85,19 @@ let params = ["devId": "XXXXXXXX"]
 
   you can use this method to get config object after the request respond.
 
-  __Objective-C__
-
   ```objective-c
-  #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
-  #define kTuyaSmartIPCConfigAPIVersion @"2.0"
-  __weak typeof(self) weakSelf = self;
-  [[TuyaSmartRequest new] requestWithApiName:kTuyaSmartIPCConfigAPI postData:@{@"devId": self.devId} version:kTuyaSmartIPCConfigAPIVersion success:^(id result) {
-  	__strong typeof(weakself) self = weakself;
-    // SDK initialized may be blocking thread, so it is best to create camera in a sub-thread
+  // TuyaSmartCameraFactory.h
 
-  	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    // create config object according to the responder of the reqeust
-
-  		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:nil localKey:self.device.deviceModel.localKey configData:result];
-  		self.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType config:config delegate:self];
-  	});
-  } failure:^(NSError *error) {
-  	NSLog(@"error: %@", error);
-  }];
+  /**
+   create TuyaSmartCameraConfig instance according to api request responder and user uid, device localKey
+   
+   @param uid [TuyaSmartUser sharedInstance].uid
+   @param localKey TuyaSmartDeviceModel.localKey
+   @param data api request responder of "tuya.m.ipc.config.get"
+   @return TuyaSmartCameraConfig instance
+   */
+  + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data;
   ```
-
-    __Swift__
-    
-    ``` swift
-    let kTuyaSmartIPCConfigAPI = "tuya.m.ipc.config.get"
-    let kTuyaSmartIPCConfigAPIVersion = "2.0"
-    TuyaSmartRequest().request(withApiName: kTuyaSmartIPCConfigAPI, postData: ["devId" : self.devId], version: kTuyaSmartIPCConfigAPIVersion, success: { [weak self] (result) in
-        DispatchQueue.global().async {
-            let config = TuyaSmartCameraFactory.ipcConfig(withUid: nil, localKey: "your localKey", configData: result)
-            self.camera = TuyaSmartCameraFactory.camera(withP2PType: p2pType, config: config, delegate: self)        
-        }
-    }) { (error) in
-    
-    }
-    ```
 
 * When create camera，add below code to input head files：
 
@@ -155,7 +133,7 @@ __weak typeof(self) weakSelf = self;
 [self.request requestWithApiName:kTuyaSmartIPCConfigAPI postData:@{@"devId":self.devId} version:kTuyaSmartIPCConfigAPIVersion success:^(id result) {
     __strong typeof(weakself) self = weakself;
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:nil localKey:self.device.deviceModel.localKey configData:result];
+		TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:[TuyaSmartUser sharedInstance].uid localKey:self.device.deviceModel.localKey configData:result];
 		self.camera = [TuyaSmartCameraFactory cameraWithP2PType:p2pType config:config delegate:self];
 	});
 } failure:failure];
@@ -170,7 +148,7 @@ let kTuyaSmartIPCConfigAPIVersion = "2.0"
 let p2pType = self.device.deviceModel.skills["p2pType"]
 self.requeset.request(withApiName: kTuyaSmartIPCConfigAPI, postData: ["devId" : self.devId], version: kTuyaSmartIPCConfigAPIVersion, success: { [weak self] (result) in
         DispatchQueue.global().async {
-        let config = TuyaSmartCameraFactory.ipcConfig(withUid: nil, localKey: self.device.deviceModel.localKey , configData: result)
+        let config = TuyaSmartCameraFactory.ipcConfig(withUid: TuyaSmartUser.sharedInstance()?.uid, localKey: self.device.deviceModel.localKey , configData: result)
         self.camera = TuyaSmartCameraFactory.camera(withP2PType: p2pType, config: config, delegate: self)
             }
 }) { (error) in

@@ -2,6 +2,8 @@
 
 TuyaSmartCamera relies on the Tuya Smart iOS SDK, when accessing this SDK, you need to access TuyaSmartHomeKit (Click [Here](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/en/) to view the document) .
 
+TuyaSmartCameraKit only contains the functional package for the camera device. The distribution function needs to be connected to TuyaSmartHomeKit. The camera p2p configuration information also needs to be obtained through the functions in TuyaSmartBaseKit.
+
 Add blow code to AppDelegate.m top :
 
 __Objective-C__
@@ -13,7 +15,7 @@ __Objective-C__
 __Swift__
 
 ``` swift
-import TuyaSmartBaseKit
+import TuyaSmartCameraKit
 ```
 
 ## Example Code Appointment
@@ -30,7 +32,7 @@ __Objective-C__
 
 @implementation ViewController
 
-// 所有示例代码均位于此处
+// All sample code is located here
 
 @end
 ```
@@ -54,7 +56,7 @@ self.device = [[TuyaSmartDevice alloc] initWithDeviceId:@"your_device_id"];
 __Swift__
 
 ``` swift
-self.device = TuyaSmartDevice(deviceId: "your_device_id")d
+self.device = TuyaSmartDevice(deviceId: "your_device_id")
 ```
 
 if we want it excute correctly，need to add one TuyaSmartDevice property in ViewController：

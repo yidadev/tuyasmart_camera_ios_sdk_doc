@@ -1,10 +1,10 @@
-# 云存储
+# Cloud Storage
 
-## 云存储购买
+## Services Panel
 
-### SDK集成
+### SDK Integration
 
-云存储购买通道如果要走涂鸦平台，需要引入云存储购买页面的 SDK，在 podfile 中增加下面代码
+TYCameraCloudServicePanelSDK provides the ability to purchase cloud storage services from Tuya platform. Add the code in your podfile:
 
 ```ruby
 source 'https://github.com/TuyaInc/TYPublicSpecs.git'
@@ -16,19 +16,19 @@ target 'Your_Target' do
 end
 ```
 
-然后在工程主目录下执行```pod update```。
+Execute command ```pod update ``` in the project's root directory.
 
-### 初始化
+### Initialize SDK
 
-云存储购买服务 SDK 的初始化需要传入涂鸦平台上注册 APP 的渠道标识符。接口如下：
+TYCameraCloudServicePanelSDK need the scheme identifier of your app which resign up from Tuya.
 
 __Objective-C__
 
 ```objective-c
 /**
- 初始化SDK，需要在 TuyaSmartSDK 初始化后调用
+ initialize SDK，call this after TuyaSmartSDK has initialized.
 
- @param scheme iot平台上的渠道标识符
+ @param scheme scheme identifier for tuya iot
  */
 + (void)setupWithAppScheme:(NSString *)scheme;
 ```
@@ -39,7 +39,7 @@ __Swift__
 func setup(withAppScheme scheme: String)
 ```
 
-初始化方法需要在 APP 启动时，TuyaSmartHomeKit 初始化之后调用。示例代码如下：
+Example:
 
 __Objective-C__
 
@@ -61,15 +61,15 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-### 用户状态同步
+###  User Status Synchronization
 
-在用户登录/登出的时候，需要调用一下接口同步用户登录状态：
+When the user logs in/out, you need to call the interface to synchronize the user login status.
 
 __Objective-C__
 
 ```objective-c
 /**
- 在用户登录登出的时候，需要调用此方法，同步用户状态
+ When the user logs in/out，synchronize the user login status.
  */
 + (void)userStateChanged;
 ```
@@ -78,12 +78,12 @@ __Swift__
 
 ``` swift
 /**
- 在用户登录登出的时候，需要调用此方法，同步用户状态
+ When the user logs in/out，synchronize the user login status.
  */
 static func userStateChanged()
 ```
 
-示例代码：
+Example:
 
 __Objective-C__
 
@@ -109,24 +109,24 @@ func login() {
     }
 ```
 
-### 获取云存储购买页面
+### Cloud Service Panel
 
-云存储购买页面是 H5 页面，由于需要从云端请求对应的页面地址，所以获取云存储页面的接口是异步的，并需要传入对应设备的 ```TuyaSmartDeviceModel```对象。接口如下：
+Use this method to get cloud service panel:
 
 ```objective-c
 /**
- 获取云存储购买页面
+ get cloud service view controller for device
 
- @param deviceModel 设备
- @param success 成功回调
- @param failure 失败回调
+ @param deviceModel deviceMdoel
+ @param success 
+ @param failure 
  */
 + (void)cloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel
                             success:(void(^)(UIViewController *vc))success
                             failure:(void(^)(NSError *error))failure;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
@@ -150,13 +150,13 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 }
 ```
 
-## 云存储功能
+## Cloud Video
 
-云存储相关功能通过 ```TuyaSmartCameraKit中``` 的 ```TuyaSmartCloudManager```类操作。
+Use ```TuyaSmartCloudManager``` in ```TuyaSmartCameraKit```  to play cloud video.
 
-### 初始化
+### Initialize
 
-云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
+Cloud video default is muted, if you want turn on the sound when video start, you can set mute to NO when initialize cloud manager.  
 
 __Objective-C__
 
@@ -179,19 +179,19 @@ func viewDidLoad() {
 }
 ```
 
-### 代理
+### Delegate
 
-云存储代理接口为```TuyaSmartCloudManagerDelegate```，有一个代理方法，会返回每一帧视频的YUV数据和帧信息，如果你想要自己渲染视频，可以将 ```TuyaSmartCloudManager```的```autoRender```属性设置为“NO”（默认为“YES”），并在代理方法中获取视频帧的YUV数据加以渲染。
+```TuyaSmartCloudManagerDelegate ``` has a method to respond data of video frame. If  your want render the video by yourself, you can set  ```TuyaSmartCloudManager.autoRender``` to NO ( default is YES), and get the YUV data of video frame from this method.
 
 __Objective-C__
 
 ```objective-c
 /**
- 视频帧回调方法
+call when received video frame
 
  @param cloudManager cloudManager
- @param frameBuffer 视频帧YUV数据
- @param frameInfo 视频帧信息
+ @param frameBuffer YUV data of vdieo frame
+ @param frameInfo frame head info
  */
 - (void)cloudManager:(TuyaSmartCloudManager *)cloudManager didReceivedFrame:(CMSampleBufferRef)frameBuffer videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
@@ -200,36 +200,37 @@ __Swift__
 
 ``` swift
 /**
- 视频帧回调方法
+ call when received video frame
 
  @param cloudManager cloudManager
- @param frameBuffer 视频帧YUV数据
- @param frameInfo 视频帧信息
+ @param frameBuffer YUV data of vdieo frame
+ @param frameInfo frame head info
  */
 func cloudManager(_ cloudManager: TuyaSmartCloudManager!, didReceivedFrame frameBuffer: CMSampleBuffer!, videoFrameInfo frameInfo: TuyaSmartVideoFrameInfo)
 ```
 
-结构体```TuyaSmartVideoFrameInfo```的定义如下：
+ ```TuyaSmartVideoFrameInfo``` declared like this：
 
 ```objective-c
 typedef struct {
-    int nWidth;		// 视频图像宽度
-    int nHeight;	// 视频图像高度
+    int nWidth;		// width of video frame
+    int nHeight;	// height of video frame
     
-    int nFrameRate;	// 帧率
-    unsigned long long nTimeStamp;	// 时间戳
-    unsigned long long nDuration;	// 与云存储无关，可忽略
-    unsigned long long nProgress;   // 与云存储无关，可忽略
+    int nFrameRate;
+    unsigned long long nTimeStamp;
+    unsigned long long nDuration;
+    unsigned long long nProgress;
 } TuyaSmartVideoFrameInfo;
 ```
 
-### 加载云存储数据
+### Load  Cloud Data
 
 __Objective-C__
 
 ```objective-c
 /**
-加载云存储数据
+load cloud data
+
  @param complete callback
  */
 - (void)loadCloudData:(void(^)(TuyaSmartCloudState state))complete;
@@ -239,13 +240,13 @@ __Swift__
 
 ``` swift
 /**
-加载云存储数据
+load cloud data
  @param complete callback
  */
 func loadCloudData(complete: ((TuyaSmartCloudState) -> Void)!)
 ```
 
-在使用云存储播放功能前，还需要先加载云存储的相关数据，这个接口会返回云存储服务当前的状态，以及加载对应的加密秘钥，鉴权信息等。示例代码如下：
+Before using the cloud storage playback function, you also need to load the relevant data of the cloud storage. This interface will return the current state of the cloud storage service, and load the corresponding encryption key, authentication information, etc.
 
 __Objective-C__
 
@@ -272,57 +273,57 @@ func loadData() {
 }
 ```
 
-### 云存储服务状态
+### Cloud Service State
 
 ```
 typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
-    TuyaSmartCloudStateNoService,       // 未开通云存储服务
-    TuyaSmartCloudStateNoData,          // 已开通云存储服务，但是没有回放视频
-    TuyaSmartCloudStateValidData,       // 已开通云存储服务，且有回放视频
-    TuyaSmartCloudStateExpiredNoData,   // 云存储服务已过期，且无回放视频
-    TuyaSmartCloudStateExpiredData,     // 云存储服务已过期，但是还有可以查看的回放视频
-    TuyaSmartCloudStateLoadFailed       // 加载失败
+    TuyaSmartCloudStateNoService,       // Cloud storage service not activated
+    TuyaSmartCloudStateNoData,          // activated but no video
+    TuyaSmartCloudStateValidData,       // activated and has video
+    TuyaSmartCloudStateExpiredNoData,   // service expired and no video
+    TuyaSmartCloudStateExpiredData,     // service expired but has video could play
+    TuyaSmartCloudStateLoadFailed       // load failed
 };
 ```
 
-云存储服务过期后，已上传的云存储视频还会预留一段时间（通常是7天，具体看云存储服务协议），如果在此期间没有续费，到期后，云存储视频将会删除。
+After the cloud storage service expires, the uploaded cloud storage video will be reserved for a period of time (usually 7 days, depending on the cloud storage service agreement). If there is no renewal during this period, the cloud storage video will be deleted after expiration.
 
-### 云存储录像日期
+###  Cloud Storage Recording Date
 
-在加载云存储数据成功返回后，如果云端有视频回放数据，可以通过```cloudDays``` 属性获取有视频回放数据的日期。
+After the cloud storage data is successfully returned, if there is video playback data in the cloud, the date of the video playback data can be obtained through the ```cloudDays``` attribute.
 
 ```objective-c
 @property (nonatomic, strong, readonly) NSArray<TuyaSmartCloudDayModel *> *cloudDays;
 ```
 
-```TuyaSmartCloudDayModel```的定义如下：
+```TuyaSmartCloudDayModel``` declared like this:
 
 ```objective-c
 @interface TuyaSmartCloudDayModel : NSObject
 
-// 视频总长度，单位秒
+// cloud video total time seconds
 @property (nonatomic, assign) NSInteger sumDuration;
 
-// 日期, yyyy-MM-dd
+// date, yyyy-MM-dd
 @property (nonatomic, strong) NSString *uploadDay;
 
-// 当天 00:00:00 的 Unix 时间戳
+// Unix timestamp of 00:00:00 at the day
 @property (nonatomic, assign) NSInteger startTime;
 
-// 当天 23:59:59 的 Unix 时间戳
+// Unix timestamp of 23:59:59 at the day
 @property (nonatomic, assign) NSInteger endTime;
 
 @end
 ```
 
-### 时间片段数据
+###  Time segment data
 
-在播放云存储时间前，需要获取到当天的视频片段数据。
+Before playing the cloud storage time, you need to get the video clip data of the day.
 
 ```objective-c
 /**
- 获取某天的视频片段时间
- @param cloudDay 日期
+ get the video clip data of the day
+ @param cloudDay date
  @param success success callback
  @param failure failure callback
  */
@@ -331,7 +332,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
                      failure:(void(^)(NSError * error))failure;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
@@ -357,36 +358,36 @@ __Swift__
     }
 ```
 
-```TuyaSmartCloudTimePieceModel```类定义视频片段开始结束时间相关的信息。
+```TuyaSmartCloudTimePieceMode``` class defines information about the start and end time of a video clip.
 
 ```objective-c
 @interface TuyaSmartCloudTimePieceModel : NSObject
 
-// 视频开始时间 Unix 时间戳
+// Unix timestamp of start
 @property (nonatomic, assign) NSInteger startTime;
 
-// 视频开始时间 NSDate
+// NSdate of start
 @property (nonatomic, strong) NSDate *startDate;
 
-// 视频结束时间 Unix 时间戳
+// Unix timestamp of end
 @property (nonatomic, assign) NSInteger endTime;
 
-// 视频结束时间 NSDate
+// NSDate of end
 @property (nonatomic, strong) NSDate *endDate;
 
 @end
 ```
 
-### 报警事件
+### Alarm Event
 
-可以通过以下接口获取触发视频录制的报警事件列表。
+A list of alarm events that trigger video recording can be obtained through the following interfaces.
 
 ```objective-c
 /**
- 获取某天的报警事件
- @param 日期
- @param offset 偏移，0 表示从第一个事件开始
- @param limit  数量限制，-1 表示获取所有事件
+ get alarm event list
+ @param date
+ @param offset 0 indicates that the first event starts
+ @param limit  -1 indicates get all
  @param success success callback
  @param failure failure callback
  */
@@ -397,7 +398,7 @@ __Swift__
                        failure:(void(^)(NSError * error))failure;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
@@ -423,39 +424,39 @@ func requestEventList() {
     }
 ```
 
-```TuyaSmartCloudTimeEventModel```定义时间相关信息。
+```TuyaSmartCloudTimeEventModel``` class defines information about the alarm event.
 
-```
+```objective-c
 @interface TuyaSmartCloudTimeEventModel : NSObject
 
-// 事件描述
+// description of event
 @property (nonatomic, strong) NSString *describe;
 
-// 事件开始时间 Unix 时间戳
+// Unix timestamp of start
 @property (nonatomic, assign) NSInteger startTime;
 
-// 事件结束时间 Unix 时间戳
+// Unix timestamp of end
 @property (nonatomic, assign) NSInteger endTime;
 
-// 缩略图
+// Thumbnail
 @property (nonatomic, strong) NSString *snapshotUrl;
 
 @end
 ```
 
-### 云存储视频播放
+### Cloud Video Play
 
-播放云存储视频时，需要指定开始播放的时间，结束时间，和是否是播放事件。接口定义：
+When playing a cloud storage video, you need to specify the time to start playback, the end time, and whether it is a playback event. Interface definition:
 
 ```objective-c
 /**
- 播放云存储视频
+start play cloud video
 
- @param startTime 开始播放时间
- @param endTime 结束时间，云存储视频播放会自动连续播放到当天所有视频结束
- @param isEvent 是否是事件
- @param responseCallback errCode 0 表示成功，负数表示失败
- @param finishedCallback 视频播放结束
+ @param startTime start play time
+ @param endTime the end time, cloud storage video playback will automatically play continuously until the end of all videos on the day.
+ @param isEvent whether it is a event
+ @param responseCallback errCode 0 is success， negative numbers indicate failure
+ @param finishedCallback cloud video play finished
  */
 - (void)playCloudVideoWithStartTime:(long)startTime
                             endTime:(long)endTime
@@ -464,7 +465,7 @@ func requestEventList() {
                          onFinished:(void(^)(int errCode))finishedCallback;
 ```
 
-如果是直接播放某个视频片段（TuyaSmartCloudTimePieceModel），开始时间传入 TuyaSmartCloudTimePieceModel 中介于 startTime 和 endTime 之间的一个时间戳， isEvent 传入 NO。如果是想要播放某个事件（TuyaSmartCloudTimeEventModel），开始时间传入 TuyaSmartCloudTimeEventModel 中的 startTime ，isEvent 传入YES，结束时间可以传入当天的结束时间，也就是 TuyaSmartCloudDayModel 的 endTime,。示例代码如下：
+If you are playing a video clip directly (TuyaSmartCloudTimePieceModel), the start time is passed to a timestamp between startTime and endTime in TuyaSmartCloudTimePieceModel, and isEvent is passed in NO. If you want to play an event (TuyaSmartCloudTimeEventModel), the start time is passed to startTime in TuyaSmartCloudTimeEventModel , isEvent is passed YES, and the end time can be passed to the end time of the day, which is the endTime of TuyaSmartCloudDayModel. The sample code is as follows:
 
 __Objective-C__
 
@@ -534,25 +535,25 @@ func playVideo(_ timePiece: TuyaSmartCloudTimePieceModel) {
     }
 ```
 
-### 暂停
+### Pause
 
 ```objective-c
 /**
- 暂停
+ Pause play
 
- @return errCode 错误码，0 表示成功
+ @return errCode 0 is success
  */
 - (int)pausePlayCloudVideo;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
 ```objective-c
 - (void)pause {
     if ([self.cloudManager pausePlayCloudVideo] != 0) {
-        // 暂停失败
+        // pause play failed
     }
 }
 ```
@@ -562,30 +563,30 @@ __Swift__
 ``` swift
 func pause() {
     if self.cloudManager.pausePlayCloudVideo() != 0 {
-        //暂停失败
+        // pause play failed
     }
 }
 ```
 
-### 继续播放
+### Resume
 
 ```objective-c
 /**
- 恢复播放
+resume play
 
- @return errCode 错误码，0 表示成功
+ @return errCode 0 is success
  */
 - (int)resumePlayCloudVideo;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
 ```objective-c
 - (void)resume {
     if ([self.cloudManager resumePlayCloudVideo] != 0) {
-        // 恢复播放失败
+        // resume play failed
     }
 }
 ```
@@ -595,30 +596,30 @@ __Swift__
 ``` swift
 func resume() {
     if self.cloudManager.resumePlayCloudVideo() != 0 {
-        // 恢复播放失败
+        // resume play failed
     }
 }
 ```
 
-### 停止播放
+### Stop
 
 ```objective-c
 /**
- 停止播放
+ stop play
 
- @return errCode 错误码，0 表示成功
+ @return errCode 0 is success
  */
 - (int)stopPlayCloudVideo;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
 ```objective-c
 - (void)stop {
     if ([self.cloudManager stopPlayCloudVideo] != 0) {
-        // 停止播放失败
+        // stop play failed
     }
 }
 ```
@@ -628,30 +629,30 @@ __Swift__
 ``` swift
 func stop() {
     if self.cloudManager.stopPlayCloudVideo() != 0 {
-        // 恢复播放失败
+        // stop play failed
     }
 }
 ```
 
-### 声音开关
+### Mute
 
 ```objective-c
 /**
- 设置静音状态.
- @param mute 静音
+set mute state.
+ @param mute mute state
  @param success success call back.
  @param failure failed call back.
  */
 - (void)enableMute:(BOOL)mute success:(void(^)(void))success failure:(void (^)(NSError * error))failure;
 
 /**
- 获取静音状态
- @return BOOL 是否静音
+ get mute state
+ @return BOOL is muted
  */
 - (BOOL)isMuted;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
@@ -679,7 +680,7 @@ func muteAction() {
 }
 ```
 
-### 录制视频
+### Record
 
 ```objective-c
 /**
@@ -694,7 +695,7 @@ func muteAction() {
 - (int)stopRecord;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
@@ -704,9 +705,9 @@ __Objective-C__
 - (void)recordAction {
     if (self.isRecording) {
         if ([self.cloudManager stopRecord] != 0) {
-            // 录制失败
+            // record failed
         }else {
-            // 录制成功，视频已保存到系统相册
+            // record video has saved in photo library
         }
     }else {
         [self.cloudManager startRecord];
@@ -721,9 +722,9 @@ __Swift__
 func recordAction() {
     if self.isRecording {
         if self.cloudManager.stopRecord() != 0 {
-            //录制失败
+            // record failed
         } else {
-            //录制成功，视频已保存系统相册
+            // record video has saved in photo library
         }
     } else {
         self.cloudManager.startRecord()
@@ -732,7 +733,7 @@ func recordAction() {
 }
 ```
 
-### 截图
+### SnapShoot
 
 ```objective-c
 /**
@@ -741,16 +742,16 @@ func recordAction() {
 - (UIImage *)snapShoot;
 ```
 
-示例代码：
+Example：
 
 __Objective-C__
 
 ```objective-c
 - (void)snapShoot {
     if ([self.cloudManager snapShoot]) {
-        // 图片已保存到系统相册
+        // picture has saved in photo library
     }else {
-        // 截图失败
+        // failed
     }
 }
 ```
@@ -760,9 +761,9 @@ __Swift__
 ``` swift
 func snapShoot() {
     if self.cloudManager.snapShoot() {
-        // 图片已保存到系统相册
+        // picture has saved in photo library
     } else {
-        // 截图失败
+        // failed
     }
 }
 ```
