@@ -7,7 +7,9 @@
 
 ### TuyaSmartCameraM 4.0.4、TuyaSmartLogger 0.1.0
 
-* 增加本地日志输出文件功能，开发中遇到阻塞问题，可以接入 TuyaSmartLogger 库，将日志文件导出并在涂鸦工单平台提问，附件日志文件。
+* 修复一些音视频相关问题。
+
+* 增加本地日志输出文件功能，开发中遇到阻塞问题，可以接入 TuyaSmartLogger 库，将日志文件导出并在涂鸦工单平台提问，附件日志文件，详情参考[调试日志文件](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/log_file.html)
 
 ### 4.0.2
 

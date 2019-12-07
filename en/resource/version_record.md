@@ -8,6 +8,7 @@
 ## 4.0.2
 
 * Fix occasional recording crash.
+* [Debug Log File](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/log_file.html)
 
 ## 4.0.1
 
