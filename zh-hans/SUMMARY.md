@@ -11,5 +11,6 @@
 * [二维码配网](resource/qrcode_network_configuration.md)
 * [云存储](resource/CloudStorage.md)
 * [版本记录](resource/version_record.md)
+* [调试日志文件](resource/log_file.md)
 * [FAQ](resource/FAQ_zh.md)
 

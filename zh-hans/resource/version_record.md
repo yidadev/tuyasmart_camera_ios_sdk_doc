@@ -1,5 +1,23 @@
 # 版本更新记录
 
+### TuyaSmartCameraBase 4.2.5、TuyaSmartCameraM 4.2.5、TuyaSmartCameraKit 4.3.2、TuyaCamera 3.13.3
+
+* P2P 和 音视频解码库独立为 TuyaCamera 组件，改为动态库方式，以解决相关库版本冲突问题。
+* 增加录制、截图，保存到指定文件路径的接口。
+
+### TuyaSmartCameraM 4.0.4、TuyaSmartLogger 0.1.0
+
+* 增加本地日志输出文件功能，开发中遇到阻塞问题，可以接入 TuyaSmartLogger 库，将日志文件导出并在涂鸦工单平台提问，附件日志文件。
+
+### 4.0.2
+
+* 修复偶现录制崩溃问题
+
+### 4.0.1
+
+* 增加回声消除功能
+* 增加云存储视频播放功能
+
 ### 3.2.0
 
 * SDK 拆分为 TuyaSmartCameraKit，TuyaSmartCameraBase, TuyaSmartCameraM，TuyaSmartCameraT。如果您不需要支持 p2p 1.0 ，则直接使用 ```pod "TuyaSmartCameraKit"```即可。
@@ -12,7 +30,7 @@
     
     ``` objectivec
     + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data; 
-    ``` 
+    ```
 
     __Swift__
     
@@ -20,6 +38,7 @@
     func ipcConfig(withUid: String!, localKey: String!, configData: [AnyHashable : Any]!)
     ```
     
+
 uid 可暂时传入空字符串。configData 参数传入 `"tuya.m.ipc.config.get"`  2.0 版本接口返回的数据即可，可以获取到对应的 TuyaSmartCameraConfig 对象。
 * 视频渲染视图增加 scaleToFill，设置为 YES，视频图像会自动拉伸铺满整个视图。
 * 增加云存储视频播放功能。

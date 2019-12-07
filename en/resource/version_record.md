@@ -1,6 +1,20 @@
 # Change Log
 
-##3.2.0
+## TuyaSmartCameraBase 4.2.5、TuyaSmartCameraM 4.2.5、TuyaSmartCameraKit 4.3.2、TuyaCamera 3.13.3
+
+* The P2P and audio and video codec libraries are independent TuyaCamera components, and they are changed to dynamic library  to resolve the conflict of different library versions.
+* Add interfaces for recording, screenshots, and saving to a specified file path.
+
+## 4.0.2
+
+* Fix occasional recording crash.
+
+## 4.0.1
+
+* Add echo cancellation.
+* Add cloud video play ability.
+
+## 3.2.0
 
 * Split SDK to TuyaSmartCameraKit，TuyaSmartCameraBase, TuyaSmartCameraM，TuyaSmartCameraT components. If you not support p2p 1.0, just use ```pod "TuyaSmartCameraKit"```.
 * TuyaSmartCameraDPManager add interface ```-(id)valueForDP:(TuyaSmartCameraDPKey)dpName```. It will get the value from app caches, most of dp could get the latest value, because device will report automatically. but TuyaSmartCameraSDCardStorageDPName, TuyaSmartCameraSDCardFormatStateDPName need publish the query command.
@@ -9,10 +23,10 @@
 * TuyaSmartCameraFactory add some property, and interface: 
 
      __Objective-C__
-    
+        
     ``` objectivec
     + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data; 
-    ``` 
+    ```
 
     __Swift__
     
