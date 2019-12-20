@@ -1,5 +1,9 @@
 # Change Log
 
+## TuyaSmartCameraBase 4.2.6、TuyaSmartCameraM 4.2.6、TuyaCamera 3.13.4
+
+* Add interface to get audio data of talk, provide to development process the audio.
+
 ## TuyaSmartCameraBase 4.2.5、TuyaSmartCameraM 4.2.5、TuyaSmartCameraKit 4.3.2、TuyaCamera 3.13.3
 
 * The P2P and audio and video codec libraries are independent TuyaCamera components, and they are changed to dynamic library  to resolve the conflict of different library versions.
@@ -24,7 +28,7 @@
 * TuyaSmartCameraFactory add some property, and interface: 
 
      __Objective-C__
-        
+     
     ``` objectivec
     + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data; 
     ```

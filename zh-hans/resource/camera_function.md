@@ -627,6 +627,50 @@ func cameraDidStartRecord(_ camera: TuyaSmartCameraType!) {
 }
 ```
 
+### 录制视频到指定文件
+
+默认的视频录制，是保存到手机相册，从 TuyaSmartCameraBase-4.2.5，TuyaSmartCameraM-4.2.5，TuyaSmartCameraKit-4.3.2 开始，提供录制视频到指定文件的接口，此接口没有成功回调，不会失败。P2P 1.0 设备不支持此功能。
+
+__Objective-C__
+
+```objective-c
+- (void)startRecord {
+	// 如果没有播放任何视频，或者已经在录制中，不做任何操作
+	if (self.playMode == TuyaSmartCameraPlayModeNone || self.isRecording) {
+		return;
+	}
+
+	// 如果正在对讲，则关闭对讲
+	if (self.isTalking) {
+		[self.camera startTalk];
+	}
+
+	// 开启录制
+  NSString *videoPath = @"folder/filename.mp4";
+	[self.camera startRecordWithFilePath:videoPath];
+}
+```
+
+__Swift__
+
+```swift
+func startRecord() {
+    // 如果没有播放任何视频，或者已经在录制中，不做任何操作
+	if self.playMode == TuyaSmartCameraPlayModeNone || self.isRecording {
+		return
+	}
+
+	// 如果正在对讲，则关闭对讲
+	if self.isTalking {
+		self.camera.startTalk()
+	}
+
+	// 开启录制
+  let videoPath = "folder/filename.mp4"
+	self.camera.startRecord(videoPath)
+}
+```
+
 ### 停止视频录制
 
 __Objective-C__
@@ -701,6 +745,37 @@ func cameraSnapShootSuccess(_ camera: TuyaSmartCameraType!) {
 ```
 
 * 注：如果截图成功，图片会直接保存在手机相册。同时，会在手机相册中创建一个与APP同名的自定义相册，截图将会出现在这个自定义相册中。
+
+### 截图保存到指定文件
+
+默认的视频截图是保存到手机系统相册，从 TuyaSmartCameraBase-4.2.5，TuyaSmartCameraM-4.2.5，TuyaSmartCameraKit-4.3.2 开始，提供截图保存到指定文件的接口，同时返回截取到的图片对象，返回 nil 表示截图失败。P2P 1.0 设备不支持此功能。
+
+__Objective-C__
+
+```objective-c
+- (void)snapShoot {
+	// 如果没有播放任何视频，不做任何操作
+	if (self.playMode == TuyaSmartCameraPlayModeNone) {
+		return;
+	}
+	// 截图操作, thumbnilPath 为缩略图保存地址，可以为nil
+	NSString *filePath = "folder/filename.png";
+	[self.camera snapShootSavedAtPath:filePath thumbnilPath:nil];
+}
+```
+
+__Swift__
+
+```swift
+func snapShoot() {
+    // 如果没有播放任何视频，不做任何操作
+	if self.playMode == TuyaSmartCameraPlayModeNone {
+		return
+	}
+	// 截图操作
+	self.camera.snapShootSaved(_ filePath, thumbnilPath: nil);
+}
+```
 
 
 ### 设置静音
@@ -940,6 +1015,36 @@ func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer
 ```
 
 * 注:  开启获取裸流后,原始的渲染视图(videoVIew)就不会渲染图像,需要开发者自行通过该接口的数据进行解析渲染。
+
+### 对讲音频处理
+
+如果你需要处理对讲时，APP 采集的音频数据，可以通过下面的方法。
+
+__Objective-C__
+
+```objective-c
+- (void)cameraDidConnected:(id<TuyaSmartCameraType>)camera {
+	// 开始音频接收
+  [camer enableAudioProcess:YES];
+}
+// 实现对讲音频数据接收的代理方法
+- (void)camera:(id<TuyaSmartCameraType>)camera ty_didRecieveAudioRecordDataWithPCM:(const unsigned char*)pcm length:(int)length sampleRate:(int)sampleRate {
+  // 在这个方法中同步处理 pcm 数据，但不要改变数据的长度
+}
+```
+
+__Swift__
+
+```swift
+func cameraDidConnected(_ camera: TuyaSmartCameraType!) {
+	camera.enableAudioProcess(true);
+}
+
+func camera(_ camera: TuyaSmartCameraType!, ty_didRecieveAudioRecordData pcm: const unsigned char*, length:int sampleRate: int) {
+  // 在这个方法中同步处理 pcm 数据，但不要改变数据的长度
+}
+```
+
 
 
 ### 销毁资源

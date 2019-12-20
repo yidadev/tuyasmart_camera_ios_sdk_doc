@@ -1,5 +1,9 @@
 # 版本更新记录
 
+### TuyaSmartCameraBase 4.2.6、TuyaSmartCameraM 4.2.6、TuyaCamera 3.13.4
+
+* 增加获取对讲时所采集的音频数据的接口，以供开发者对音频数据二次处理
+
 ### TuyaSmartCameraBase 4.2.5、TuyaSmartCameraM 4.2.5、TuyaSmartCameraKit 4.3.2、TuyaCamera 3.13.3
 
 * P2P 和 音视频解码库独立为 TuyaCamera 组件，改为动态库方式，以解决相关库版本冲突问题。

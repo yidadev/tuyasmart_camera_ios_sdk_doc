@@ -617,6 +617,50 @@ func cameraDidStartRecord(_ camera: TuyaSmartCameraType!) {
 }
 ```
 
+### Recording to File
+
+Recording video is saved in system photo library by default, we provide this interface to save video to specified file path since TuyaSmartCameraBase-4.2.5，TuyaSmartCameraM-4.2.5，TuyaSmartCameraKit-4.3.2. This method will not failed, so it has no callback function, and P2P 1.0 dose not support.
+
+__Objective-C__
+
+```objective-c
+- (void)startRecord {
+    // If no video is playing, or it is already in recording, do nothing.
+	if (self.playMode == TuyaSmartCameraPlayModeNone || self.isRecording) {
+		return;
+	}
+
+	// if in talking, stop talking
+	if (self.isTalking) {
+		[self.camera startTalk];
+	}
+
+	// start recording
+  NSString *videoPath = @"folder/filename.mp4";
+	[self.camera startRecordWithFilePath:videoPath];
+}
+```
+
+__Swift__
+
+```swift
+func startRecord() {
+    // If no video is playing, or it is already in recording, do nothing.
+	if self.playMode == TuyaSmartCameraPlayModeNone || self.isRecording {
+		return
+	}
+
+	// if in talking, stop talking
+	if self.isTalking {
+		self.camera.startTalk()
+	}
+
+	// start recording
+  let videoPath = "folder/filename.mp4"
+	self.camera.startRecord(videoPath)
+}
+```
+
 ### Stop video recording
 
 __Objective-C__
@@ -693,6 +737,37 @@ func cameraSnapShootSuccess(_ camera: TuyaSmartCameraType!) {
 ```
 
 * if screen shot successfully, the picture will be stored in the phone photo album.
+
+### Screenshot in file
+
+The screenshot picture is saved in photo library by default, we provide this interface to save picture to specified file path since TuyaSmartCameraBase-4.2.5，TuyaSmartCameraM-4.2.5，TuyaSmartCameraKit-4.3.2, and return the image object, if return nil, it is failed. P2P 1.0 dose not support.
+
+__Object-C__
+
+```objective-c
+- (void)snapShoot {
+    // If no video is played, no action is taken
+	if (self.playMode == TuyaSmartCameraPlayModeNone) {
+		return;
+	}
+	// snapshoot, thumbnilPath could take nil
+	NSString *filePath = "folder/filename.png";
+	[self.camera snapShootSavedAtPath:filePath thumbnilPath:nil];
+}
+```
+
+__Swift__
+
+```swift
+func snapShoot() {
+  // If no video is played, no action is taken
+	if self.playMode == TuyaSmartCameraPlayModeNone {
+		return
+	}
+	// snapshoot, thumbnilPath could take nil
+	self.camera.snapShootSaved(_ filePath, thumbnilPath: nil);
+}
+```
 
 ### Mute
 
@@ -929,6 +1004,38 @@ func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer
 ```
 
 * After the raw stream is opened, the original rendered view (videoVIew) will not render the image, and the developer needs to parse and render the data through the interface.
+
+### Audio data of talk
+
+You could do secondary processing of the collected audio data when talking.
+
+__Objective-C__
+
+```objective-c
+- (void)cameraDidConnected:(id<TuyaSmartCameraType>)camera {
+	// enable auido data receive
+  [camer enableAudioProcess:YES];
+}
+// implement the delegate method
+- (void)camera:(id<TuyaSmartCameraType>)camera ty_didRecieveAudioRecordDataWithPCM:(const unsigned char*)pcm length:(int)length sampleRate:(int)sampleRate {
+  // process the pcm data synchronized, but not change the pcm length.
+}
+```
+
+__Swift__
+
+```swift
+func cameraDidConnected(_ camera: TuyaSmartCameraType!) {
+	// enable auido data receive
+	camera.enableAudioProcess(true);
+}
+// implement the delegate method
+func camera(_ camera: TuyaSmartCameraType!, ty_didRecieveAudioRecordData pcm: const unsigned char*, length:int sampleRate: int) {
+  // process the pcm data synchronized, but not change the pcm length.
+}
+```
+
+
 
 ### Destory resource
 
