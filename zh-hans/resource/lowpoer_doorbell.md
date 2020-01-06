@@ -77,3 +77,49 @@ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHa
 } 
     
 ```
+
+### 门铃呼叫
+
+设备成功绑定到家庭并且在线状态下，有人按门铃，APP 将收到门铃呼叫的事件。事件以通知的形式出发。
+
+* 通知名：**kNotificationMQTTMessageNotification**
+* 参数：
+  * **devId**：触发门铃呼叫的设备ID
+  * **etype**：事件标识，```doorbell```表示门铃呼叫
+
+__Objective-C__
+
+```objective-c
+#define kTuyaDoorbellNotification @"kNotificationMQTTMessageNotification"
+
+- (void)observeDoorbellCall:(void(^)(NSString *devId, NSString *type))callback {
+    if (!callback) {
+        return;
+    }
+    [[NSNotificationCenter defaultCenter] addObserverForName:kTuyaDoorbellNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary *eventInfo = note.object;
+        NSString *devId = eventInfo[@"devId"];
+        NSString *eType = [eventInfo objectForKey:@"etype"];
+        if ([eType isEqualToString:@"doorbell"]) {
+            callback(devId, eType);
+        }
+    }];
+}
+```
+
+__Swift__
+
+```swift
+func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
+    NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "kNotificationMQTTMessageNotification"), object: nil, queue: nil) { (noti) in
+        if let eventInfo = noti.object as? [String: Any?] {
+            let devId = eventInfo["devId"] as! String
+            let eType = eventInfo["etype"] as! String
+            if eType == "doorbell" {
+                callBack(devId, eType)
+            }
+        }
+    }
+}
+```
+

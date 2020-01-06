@@ -79,3 +79,48 @@ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHa
     
 ```
 
+### Doorbell call
+
+When doorbell bind to home success, and doorbell is online, app will receive notification when someone rings the doorbell.
+
+* Notification Name: **kNotificationMQTTMessageNotification**
+* Params: 
+  * **devId**: device id of doorbell
+  * **etype**: Event identifier, ```doorbell``` indicates doorbell call
+
+__Objective-C__
+
+```objective-c
+#define kTuyaDoorbellNotification @"kNotificationMQTTMessageNotification"
+
+- (void)observeDoorbellCall:(void(^)(NSString *devId, NSString *type))callback {
+    if (!callback) {
+        return;
+    }
+    [[NSNotificationCenter defaultCenter] addObserverForName:kTuyaDoorbellNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary *eventInfo = note.object;
+        NSString *devId = eventInfo[@"devId"];
+        NSString *eType = [eventInfo objectForKey:@"etype"];
+        if ([eType isEqualToString:@"doorbell"]) {
+            callback(devId, eType);
+        }
+    }];
+}
+```
+
+__Swift__
+
+```swift
+func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
+    NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "kNotificationMQTTMessageNotification"), object: nil, queue: nil) { (noti) in
+        if let eventInfo = noti.object as? [String: Any?] {
+            let devId = eventInfo["devId"] as! String
+            let eType = eventInfo["etype"] as! String
+            if eType == "doorbell" {
+                callBack(devId, eType)
+            }
+        }
+    }
+}
+```
+
