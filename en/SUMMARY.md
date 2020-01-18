@@ -12,5 +12,6 @@
 * [Cloud Storage](resource/CloudStorage.md)
 * [Debug Log File](resource/log_file.md)
 * [Change Log](resource/version_record.md)
+* [API Docs](resource/api_doc.md)
 * [FAQ](resource/FAQ_en.md)
 
