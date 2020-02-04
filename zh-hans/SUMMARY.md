@@ -5,6 +5,7 @@
 * [准备工作](resource/preparation_work.md)
 * [初始化](resource/initiate_sdk.md)
 * [摄像头功能](resource/camera_function.md)
+* [报警消息](resource/detect_message.md)
 * [设备功能点](resource/camera_device_points.md)
 * [低功耗门铃](resource/lowpoer_doorbell.md)
 * [需要的权限](resource/required_permission.md)
