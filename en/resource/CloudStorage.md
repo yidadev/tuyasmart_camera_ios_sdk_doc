@@ -133,7 +133,8 @@ __Objective-C__
 ```objective-c
 - (void)gotoCloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel {
     [TYCameraCloudServicePanelSDK cloudServicePanelWithDevice:deviceModel success:^(UIViewController *vc) {
-		[self.navigationController pushViewController:vc animated:YES];
+      // vc is a subclass of UINavigationController
+		[self presentViewController:vc animated:YES completion:nil];
 	} failure:^(NSError *error) {
 		NSLog(@"Error: %@", error);
 	}];
@@ -144,7 +145,7 @@ __Swift__
 
 ``` swift
 TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success: { (vc) in
-     self.navigationController?.pushViewController(vc, animated: true)
+     self.presentViewController(vc, animated: true, completion:nil)
 }) { (error) in
             //failed
 }
