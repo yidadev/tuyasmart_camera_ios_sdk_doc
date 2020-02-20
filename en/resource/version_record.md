@@ -1,5 +1,12 @@
 # Change Log
 
+## TuyaCameraSDK-3.14.1、TuyaSmartCameraBase-4.3.2、TuyaSmartCameraM-4.2.8、TuyaSmartCameraKit-4.3.7
+
+* TuyaCamera is renamed TuyaCameraSDK. If you have specified the TuyaCamera version number in the podfile, you need to change the library name and version number.
+* Removed some classes and interfaces that have not been standardized (not described in the documentation).
+* Pictures in alarm messages and  cloud storage events are changed to unencrypted.
+* Fixed some stability issues.
+
 ## TuyaSmartCameraBase 4.2.6、TuyaSmartCameraM 4.2.6、TuyaCamera 3.13.4
 
 * Add interface to get audio data of talk, provide to development process the audio.

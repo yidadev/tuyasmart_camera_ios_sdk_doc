@@ -1,5 +1,12 @@
 # 版本更新记录
 
+### TuyaCameraSDK-3.14.1、TuyaSmartCameraBase-4.3.2、TuyaSmartCameraM-4.2.8、TuyaSmartCameraKit-4.3.7
+
+* TuyaCamera 更名为 TuyaCameraSDK，如果有在 podfile 中指定 TuyaCamera 的版本号，需要改一下库名和版本。
+* 去除掉了部分尚未标准化（文档中未介绍过）的类和接口。
+* 报警消息、云存储事件中的图片改为不加密的状态。
+* 修复一些稳定性问题。
+
 ### TuyaSmartCameraBase 4.2.6、TuyaSmartCameraM 4.2.6、TuyaCamera 3.13.4
 
 * 增加获取对讲时所采集的音频数据的接口，以供开发者对音频数据二次处理
