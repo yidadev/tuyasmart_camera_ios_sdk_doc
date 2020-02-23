@@ -6,7 +6,7 @@
 
 __Objective-C__
 
-```objective-c
+```objc
 self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];
 self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
 // 添加 DP 监听
@@ -97,7 +97,7 @@ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHa
 
 __Objective-C__
 
-```objective-c
+```objc
 #define kTuyaDoorbellNotification @"kNotificationMQTTMessageNotification"
 
 - (void)observeDoorbellCall:(void(^)(NSString *devId, NSString *type))callback {
@@ -141,7 +141,7 @@ func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)viewDidLoad {
 		if ([self.dpManager isSupportDP:TuyaSmartCameraWirelessPowerModeDPName]) {
         TuyaSmartCameraPowerMode powerMode = [[self.dpManager valueForDP:TuyaSmartCameraWirelessPowerModeDPName] tysdk_toString];

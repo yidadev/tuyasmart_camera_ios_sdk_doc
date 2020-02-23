@@ -1,6 +1,6 @@
 ## 存储卡管理
 
-存储卡管理也是通过设备功能点来实现的，相关的功能点请在设备功能点的章节中查看。
+存储卡管理也是通过设备功能点来实现的，相关的功能点请在[设备功能点](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/device_points.html#%E5%8A%9F%E8%83%BD%E7%82%B9%E5%B8%B8%E9%87%8F)中查看。
 
 ### 状态
 
@@ -18,7 +18,7 @@
 
 在格式化存储卡的时候，根据摄像机厂商的实现，有两种情况。有些厂商实现的固件中，会主动上报格式化的进度，格式化完成后也会主动上报当前的容量状态，但是有少部分厂商的固件，不会主动上报，所以需要定时主动去查询格式化的进度，当进度达到 100 时，再主动去查询当前的容量状态，需要使用下面的接口查询功能点的值：
 
-```objective-c
+```objc
 - (void)valueForDP:(TuyaSmartCameraDPKey)dpName success:(TYSuccessID)success failure:(TYFailureError)failure;
 ```
 
@@ -35,7 +35,7 @@
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 获取存储卡状态

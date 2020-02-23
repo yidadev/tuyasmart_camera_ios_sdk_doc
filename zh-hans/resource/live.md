@@ -6,7 +6,7 @@
 
 在开始播放视频之前，需要先连接 p2p 通道。p2p 的连接状态需要开发者自己维护，SDK 只负责下发命令和接收响应结果。p2p 通道连接相关的接口如下：
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraType
 /**
  开始连接 p2p 通道
@@ -30,15 +30,13 @@
 
 ```
 
-```
-connect 方法可能会阻塞线程，建议在子线程调用。
-```
+> connect 方法可能会阻塞线程，建议在子线程调用。
 
 ### 实时视频播放
 
 p2p 通道连接成功以后，就可以开始播放实时视频了，相关的接口如下：
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraType
 /**
  开始视频实时预览
@@ -74,7 +72,7 @@ p2p 通道连接成功以后，就可以开始播放实时视频了，相关的�
 
 视频渲染视图提供下面几个属性和方法：
 
-```objective-c
+```objc
 /**
 是否缩放图像已铺满整个视图，默认是 NO ，如果视图的宽高比和图像的宽高比不一样，则会在图像的上下或者左右两侧留有黑边
  */
@@ -101,9 +99,7 @@ p2p 通道连接成功以后，就可以开始播放实时视频了，相关的�
 - (UIImage *)screenshot;
 ```
 
-```
-TuyaSmartCameraType 对象还提供了一个 autoRender 属性，默认是 YES，如果开发者不希望 SDK 自动渲染视频，可将此属性设置为 NO，然后可以从代理方法中获取到每一帧视频的 YUV 数据，并自主开发视频渲染，详细的接口在“裸流数据”章节中介绍。
-```
+> TuyaSmartCameraType 对象还提供了一个 autoRender 属性，默认是 YES，如果开发者不希望 SDK 自动渲染视频，可将此属性设置为 NO，然后可以从代理方法中获取到每一帧视频的 YUV 数据，并自主开发视频渲染，详细的接口在“裸流数据”章节中介绍。
 
 #### 全屏播放
 
@@ -112,6 +108,7 @@ SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染�
 ### 流程图
 
 ```flow
+
 st=>start: 初始化Camera
 conn=>operation: 连接p2p
 isconned=>condition: 是否已经连接？
@@ -137,7 +134,7 @@ stop->e
 
 摄像头操作的所有错误回调都将通过下面的代理方法反馈：
 
-```objective-c
+```objc
 /**
  camera 操作失败回调
 
@@ -156,7 +153,7 @@ stop->e
 
 __Objective-C__
 
-```objective-c
+```objc
 #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
 #define kTuyaSmartIPCConfigAPIVersion @"2.0"
 
@@ -274,9 +271,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 }
 ```
 
-```
-App 进入后台的时候，要需要停止视频播放，视频数据使用硬件解码，OpenGL 渲染，在后台的时候，继续播放，可能会造成 App 崩溃。另外，涂鸦智能摄像机一般最多支持同时连接 5 路 p2p 通道（即支持 5 个手机同时连接），建议 App 在后台停留一段时间后，主动断开 p2p 连接，以释放资源。
-```
+> App 进入后台的时候，要需要停止视频播放，视频数据使用硬件解码，OpenGL 渲染，在后台的时候，继续播放，可能会造成 App 崩溃。另外，涂鸦智能摄像机一般最多支持同时连接 5 路 p2p 通道（即支持 5 个手机同时连接），建议 App 在后台停留一段时间后，主动断开 p2p 连接，以释放资源。
 
 
 

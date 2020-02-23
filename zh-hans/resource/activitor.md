@@ -6,15 +6,13 @@
 * 热点模式（AP模式）
 * 二维码模式
 
-```
-二维码模式较为简单，建议使用二维码配网，如果设备扫描不了二维码，再尝试快连模式。
-```
+> 二维码模式较为简单，建议使用二维码配网，如果设备扫描不了二维码，再尝试快连模式。
 
 由于云云对接和 SDK 对接，集成的配网 SDK 不一样，设备激活的流程和代码会有少许不同。
 
 **快连模式**和**热点模式**这两种配网方式和涂鸦其他设备的配网方式一样，云云对接方案接入的是裁剪版的配网 SDK，可以参考[云云对接配网文档](https://github.com/TuyaInc/tuyasmart_ios_activator_sdk/blob/master/README-zh.md)。
 
-涂鸦智能 SDK 对接方案，可以参考文档[设备配网]([https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Activator.html#%E8%AE%BE%E5%A4%87%E9%85%8D%E7%BD%91](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Activator.html#设备配网))。
+涂鸦智能 SDK 对接方案，可以参考文档[设备配网](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Activator.html#%E8%AE%BE%E5%A4%87%E9%85%8D%E7%BD%91)。
 
 下面着重介绍一下智能摄像机特有的二维码配网模式。
 
@@ -48,6 +46,7 @@ APP->SDK: 开始配网 ssid/pwd/token
 Service-->Device: 激活成功
 Device-->SDK: 激活成功
 SDK-->APP: 激活成功
+
 ```
 
 #### 获取token
@@ -56,7 +55,7 @@ SDK-->APP: 激活成功
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)getToken {
     [[TuyaSmartActivator sharedInstance] getTokenWithHomeId:homeId success:^(NSString *token) {
         NSLog(@"getToken success: %@", token);
@@ -88,7 +87,7 @@ func getToken() {
 
 __Objective-C__
 
-```objective-c
+```objc
 NSDictionary *dictionary = @{
 @"s": self.ssid,
 @"p": self.pwd,
@@ -116,7 +115,7 @@ self.wifiJsonStr = String(data: jsonData, encoding: String.Encoding.utf8)
 
 __Objective-C__
 
-```objective-c
+```objc
 [[TuyaSmartActivator sharedInstance] startConfigWiFi:TYActivatorModeQRCode ssid:self.ssid password:self.pwd token:self.token timeout:100];
 ```
 
@@ -132,7 +131,7 @@ TuyaSmartActivator.sharedInstance()?.startConfigWiFi(TYActivatorModeQRCode, ssid
 
 __Objective-C__
 
-```objective-c
+```objc
 [[TuyaSmartActivator sharedInstance] stopConfigWiFi];
 ```
 
@@ -148,7 +147,7 @@ TuyaSmartActivator.sharedInstance()?.stopConfigWiFi()
 
 __Objective-C__
 
-```objective-c
+```objc
 // deviceModel 则为配网成功的设备的信息
 - (void)activator:(TuyaSmartActivator *)activator didReceiveDevice:(TuyaSmartDeviceModel *)deviceModel error:(NSError *)error;
 ```

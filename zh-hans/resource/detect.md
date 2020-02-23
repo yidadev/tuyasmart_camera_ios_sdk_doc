@@ -14,7 +14,7 @@
 
 获取消息列表前，需要使用设备 ID 和时区初始化消息管理器。
 
-```objective-c
+```objc
 - (instancetype)initWithDeviceId:(NSString *)devId timeZone:(NSTimeZone *)timeZone;
 ```
 
@@ -22,7 +22,7 @@
 
 可以通过下面接口获取某年某月有报警消息的日期，以便于在日历上直观展示。
 
-```objective-c
+```objc
 /**
  get day list which has messages
  获取有消息的日期
@@ -44,7 +44,7 @@
 
 通过下面的接口获取默认的消息分类列表，可以通过分类查询消息。
 
-```objective-c
+```objc
 /**
  get message schemes list
  获取消息分类列表
@@ -86,7 +86,7 @@
 
 获取消息列表的接口定义如下：
 
-```objective-c
+```objc
 /**
  获取消息列表
 
@@ -140,7 +140,7 @@
 
 视频播放相关的接口定义如下，返回 0 表示成功：
 
-```objective-c
+```objc
 /**
  play encrypt video in detect message
  播放报警消息中的加密视频
@@ -182,7 +182,7 @@
 
 视频消息的播放同云存储视频的播放类似，在接收到视频帧时，会回调下面的代理方法：
 
-```objective-c
+```objc
 - (void)cloudManager:(TuyaSmartCloudManager *)cloudManager didReceivedFrame:(CMSampleBufferRef)frameBuffer videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
 
@@ -193,7 +193,7 @@
 
 视频声音开关同云存储一样，使用下面的接口：
 
-```objective-c
+```objc
 /**
  set mute.
  @param mute mute sound.
@@ -217,7 +217,7 @@
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)enableDetect {
 		if ([self.dpManager isSupportDP:TuyaSmartCameraMotionDetectDPName]) {
         bool motionDetectOn = [[self.dpManager valueForDP:TuyaSmartCameraMotionDetectDPName] tysdk_toBool];

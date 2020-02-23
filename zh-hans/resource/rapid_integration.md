@@ -56,7 +56,7 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
 3. 在项目的```PrefixHeader.pch```文件添加以下内容（Swift 项目可以添加在```xxx_Bridging-Header.h```桥接文件中）：
 
-   ```objective-c
+   ```objc
    #import <TuyaSmartBaseKit/TuyaSmartBaseKit.h>
    #import <TuyaSmartActivatorKit/TuyaSmartActivatorKit.h>
    #import <TuyaSmartCameraKit/TuyaSmartCameraKit.h>
@@ -66,7 +66,7 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
    __Objective-C__
 
-   ```objective-c
+   ```objc
    [[TuyaSmartSDK sharedInstance] startWithAppKey:<#your_app_key#> secretKey:<#your_secret_key#>];
    ```
 
@@ -84,7 +84,7 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
 __Objective-C__
 
-```objective-c
+```objc
 #ifdef DEBUG
     [[TuyaSmartSDK sharedInstance] setDebugMode:YES];
 #else

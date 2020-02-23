@@ -1,12 +1,12 @@
 ## 摄像设备功能点
 
-涂鸦智能设备通过设备功能点来控制设备，并且通过标准化的功能点实现设备与App之间的交互。IPC SDK 基于 [自定义设备控制]([https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#自定义设备控制)) 封装了一套 IPC 的扩展功能，
+涂鸦智能设备通过设备功能点来控制设备，并且通过标准化的功能点实现设备与App之间的交互。IPC SDK 基于 [自定义设备控制](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6) 封装了一套 IPC 的扩展功能，
 
 ### 接口介绍
 
 `TuyaSmartCameraDPManager`类提供与摄像机通信的能力，提供了获取当前设备状态，控制指令下发等能力，需要使用设备的`devId`初始化。
 
-```objective-c
+```objc
 /**
  初始化
 */
@@ -134,7 +134,7 @@
 
 ```TuyaSmartCameraDPObserver```协议提供监听设备主动上报的功能点状态变化的能力。
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraDPObserver
 /**
  设备功能点状态变化
@@ -149,7 +149,7 @@
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];

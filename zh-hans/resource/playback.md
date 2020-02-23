@@ -1,6 +1,6 @@
 ## 存储卡视频回放
 
-涂鸦 IPC 设备支持 SD 卡录制功能。智能摄像机插入存储卡后，可以查看存储卡的信息和状态，并设置录像开关和模式，详情可以参考[存储卡管理]()章节。
+涂鸦 IPC 设备支持 SD 卡录制功能。智能摄像机插入存储卡后，可以查看存储卡的信息和状态，并设置录像开关和模式，详情可以参考[存储卡管理](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/sd_card.html)章节。
 
 设备在存储卡中保存视频录像后，可以通过涂鸦 IPC SDK 在 App 端播放视频录像，同实时视频直播一样，在开始回放前，需要先连接上 p2p 通道。p2p 通道连接成功后，可以获取到设备端 SD 卡中录制的视频片段时间信息，然后播放视频片段。
 
@@ -8,7 +8,7 @@
 
 设备端保存在 SD 卡中的视频片段，最长为 10 分钟一段，最短为 10 秒钟一段。IPC SDK 支持以天为单位查看和播放视频录像，并且提供查询某年某月中，哪几天保存有视频录像，以便于用户查看，查询结果通过`TuyaSmartCameraDelegate`中的代理方法返回。相关接口如下：
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraType
 /**
  查询某年某月中哪几天保存有视频录像
@@ -50,15 +50,13 @@
 - (void)camera:(id<TuyaSmartCameraType>)camera didReceiveTimeSliceQueryData:(NSArray<NSDictionary *> *)timeSlices;
 ```
 
-```
-如果获取有视频录像的日期获取获取某天的视频录像片段失败了，代理方法返回的数据将是空数组。
-```
+> 如果获取有视频录像的日期获取获取某天的视频录像片段失败了，代理方法返回的数据将是空数组。
 
 ### 视频播放
 
 在成功获取到某天中的视频录像片段后，就可以开始播放录像视频了。值得注意的是，如果停止播放视频录像后，切换到了直播模式播放，或者 p2p 连接断开后，重新连接上 p2p 通道后，再次播放视频录像，需要重新获取一下当天的视频录像片段，否则可能会出现播放异常。
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraType
 /**
  开始播放某段视频录像，参数使用 Unix 时间戳，playTime 必须是大于等于 startTime，小于 stopTime 的一个时间
@@ -119,7 +117,7 @@
 
 如果某天的视频录像片段是不连续的（即视频录像片段 A 结束后，隔了一段时间才有视频录像片段B），在播放到断开的地方（即播放到视频片段 A 的最后一帧），视频流会自动停止，SDK 也不会收到视频录像播放结束的回调。这在最新涂鸦 IPC 嵌入式 SDK 中已经修改为，视频片段不连续时，每一个片段播放结束都会回调视频录像播放结束，故开发者可以在收到视频播放结束的代理方法后，播放下一段视频录像，以达到连续播放的目的。但如果设备的固件版本不是最新的，则需要开发者通过视频帧信息回调方法，帧头信息中的时间戳来判断当前帧是否是当前视频录像片段的最后一帧，手动判断当前视频录像片段是否播放结束。
 
-```objective-c
+```objc
 /**
  视频帧信息回调，SDK 播放每一帧视频时调用
 */
@@ -139,6 +137,7 @@
 ### 流程图
 
 ```flow
+
 st=>start: 初始化Camera
 conn=>operation: 连接p2p
 isconned=>condition: 是否已经连接？
@@ -173,7 +172,7 @@ hasNext(no)->e
 
 __Objective-C__
 
-```objective-c
+```objc
 #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
 #define kTuyaSmartIPCConfigAPIVersion @"2.0"
 
@@ -433,8 +432,6 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 }
 ```
 
-```
-在实时视频播放时，如果想要切换到录像播放模式，不需要断开 p2p 连接再重新连接 p2p 通道，但是需要先停止实时视频播放，再去获取当天的视频录像开始播放，否则会出现实时视频画面和视频录像画面串流闪烁的情况。视频录像回放切换实时视频播放的时候同理。
-另外，不要对同一个设备，同时创建两个 TuyaSmartCameraType 对象，会导致资源错误释放出现异常情况。
-```
+> 在实时视频播放时，如果想要切换到录像播放模式，不需要断开 p2p 连接再重新连接 p2p 通道，但是需要先停止实时视频播放，再去获取当天的视频录像开始播放，否则会出现实时视频画面和视频录像画面串流闪烁的情况。视频录像回放切换实时视频播放的时候同理。
+> 另外，不要对同一个设备，同时创建两个 TuyaSmartCameraType 对象，会导致资源错误释放出现异常情况。
 

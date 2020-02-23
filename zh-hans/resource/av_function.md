@@ -6,7 +6,7 @@
 
 当视频成功开始播放以后（可以是视频直播，也可以是录像回放），可以将当前正在播放的视频录制到手机中，SDK 提供下面两个录制接口：
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraType
 /**
  开始录制视频，视频将会存储在系统相册
@@ -42,7 +42,7 @@
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)startRecord {
     if (self.isRecording) {
         return;
@@ -115,15 +115,13 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 }
 ```
 
-```
-在视频录制的过程中，请不要再切换视频清晰度，开关声音及对讲。
-```
+> 在视频录制的过程中，请不要再切换视频清晰度，开关声音及对讲。
 
 ### 视频截图
 
 同样的，当视频成功开始播放以后（可以是视频直播，也可以是录像回放），可以对当前显示的视频图像截图，SDK 提供三种截图的方式。下面两种方式是`TuyaSmartCameraType` 对象提供的方法：
 
-```objective-c
+```objc
 /**
  获取视频的截图，图片将存储在系统相册
  
@@ -156,7 +154,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)snapShoot {
     // 在播放视频时才可以截图
     if (self.previewing || self.playbacking) {
@@ -180,9 +178,7 @@ func snapShoot() {
 }
 ```
 
-```
-在使用上面的录制/截图方法时，请确保 App 已获得手机相册的访问权限，否则会导致 App 崩溃。
-```
+> 在使用上面的录制/截图方法时，请确保 App 已获得手机相册的访问权限，否则会导致 App 崩溃。
 
 ### 视频声音
 
@@ -249,9 +245,7 @@ func snapShoot() {
 
 在实时视频直播时，打开视频声音，此时播放的声音即为摄像机实时采集的人声与环境声音，此时打开 App 到摄像机的声音通道，即可实现双向对讲功能。
 
-```
-部分摄像机可能没有扬声器或者拾音器，此类摄像机无法实现双向对讲。
-```
+> 部分摄像机可能没有扬声器或者拾音器，此类摄像机无法实现双向对讲。
 
 #### 单向对讲
 
@@ -263,7 +257,7 @@ func snapShoot() {
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)startTalk {
     [self.camera startTalk];
     // 如果不是静音状态，关闭声音
@@ -352,7 +346,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 当视频成功开始播放以后（可以是视频直播，也可以是录像回放），可以通过 SDK 直接获取到当前视频图像的分辨率，视频的分辨率改变时，也会调用代理方法通知代理监听。
 
-```objective-c
+```objc
 /**
  获取当前视频图像宽度
  
@@ -380,7 +374,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 在实时视频直播时，可以切换清晰度（少数摄像机只支持一种清晰度），目前只有高清和标清两种清晰度，且只有实时视频直播时才支持。视频录像在录制时只保存了一种清晰度的视频流。
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraType
 
 /**
@@ -462,7 +456,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 涂鸦 IPC SDK 提供访问视频裸流数据的代理回调方法，此方法返回视频帧的 YUV 数据，颜色编码格式为 YUV 420sp，iOS 中，对应于 `kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange` 格式。
 
-```objective-c
+```objc
 #pragma mark - TuyaSmartCameraDefines.h
 typedef struct {
     int nWidth;		///< 视频图像宽度
@@ -494,7 +488,7 @@ typedef struct {
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo {
     CVPixelBufferRef pixelBuffer = (CVPixelBufferRef)sampleBuffer;
     // retain pixelbuffer，防止提前释放
@@ -516,7 +510,5 @@ func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer
 }
 ```
 
-```
-此方法只支持 p2p 2.0 及以上的版本，p2p 1.0 由于不再维护，不建议接入，如果有必要的需求，可以参考后面的 p2p 1.0 章节。
-```
+> 此方法只支持 p2p 2.0 及以上的版本，p2p 1.0 由于不再维护，不建议接入，如果有必要的需求，可以参考后面的 p2p 1.0 章节。
 

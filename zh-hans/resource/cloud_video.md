@@ -25,7 +25,7 @@ end
 
 云存储购买服务 SDK 的初始化需要传入涂鸦平台上注册 APP 的渠道标识符。接口如下：
 
-```objective-c
+```objc
 /**
  初始化SDK，需要在 TuyaSmartSDK 初始化后调用
 
@@ -38,7 +38,7 @@ end
 
 __Objective-C__
 
-```objective-c
+```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[TuyaSmartSDK sharedInstance] startWithAppKey:@"your_appKey" secretKey:@"your_appSecret"];
@@ -60,7 +60,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 在用户登录/登出的时候，需要调用一下接口同步用户登录状态：
 
-```objective-c
+```objc
 /**
  在用户登录登出的时候，需要调用此方法，同步用户状态
  */
@@ -71,7 +71,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)login {
     [[TuyaSmartUser sharedInstance] loginByPhone:@"countryCode" phoneNumber:@"phoneNumber" password:@"password" success:^{
 				[TYCameraCloudServicePanelSDK userStateChanged];
@@ -97,7 +97,7 @@ func login() {
 
 云存储购买页面是 H5 页面，由于需要从云端请求对应的页面地址，所以获取云存储页面的接口是异步的，并需要传入对应设备的 ```TuyaSmartDeviceModel```对象。接口如下：
 
-```objective-c
+```objc
 /**
  获取云存储购买页面
 
@@ -114,7 +114,7 @@ func login() {
 
 __Objective-C__
 
-```objective-c
+```objc
 - (void)gotoCloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel {
     [TYCameraCloudServicePanelSDK cloudServicePanelWithDevice:deviceModel success:^(UIViewController *vc) {
       // 这里返回的 vc 是一个 UINavigationController 的子类
@@ -143,7 +143,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 ```TuyaSmartCloudManager```初始化时，需要传入设备 id 。云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
 
-```objective-c
+```objc
 /**
 	初始化方法
 	
@@ -156,7 +156,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 云存储代理接口为```TuyaSmartCloudManagerDelegate```，只有一个代理方法，会返回每一帧视频的 YUV 数据和帧信息，如果你想要自己渲染视频，可以将 ```TuyaSmartCloudManager```的```autoRender```属性设置为“NO”（默认为“YES”），并在代理方法中获取视频帧的YUV数据加以渲染。
 
-```objective-c
+```objc
 /**
  视频帧回调方法
 
@@ -169,7 +169,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 结构体```TuyaSmartVideoFrameInfo```的定义如下：
 
-```objective-c
+```objc
 typedef struct {
     int nWidth;		// 视频图像宽度
     int nHeight;	// 视频图像高度
@@ -185,7 +185,7 @@ typedef struct {
 
 在使用云存储播放功能前，还需要先加载云存储的相关数据，这个接口会返回云存储服务当前的状态，以及加载对应的加密秘钥，鉴权信息等。
 
-```objective-c
+```objc
 /**
  加载云存储数据
 
@@ -196,7 +196,7 @@ typedef struct {
 
 #### 云存储服务状态
 
-```objective-c
+```objc
 typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
     TuyaSmartCloudStateNoService,       // 未开通云存储服务
     TuyaSmartCloudStateNoData,          // 已开通云存储服务，但是没有回放视频
@@ -213,13 +213,13 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 在加载云存储数据成功返回后，如果云端有视频回放数据，可以通过```cloudDays``` 属性获取有视频回放数据的日期。
 
-```objective-c
+```objc
 @property (nonatomic, strong, readonly) NSArray<TuyaSmartCloudDayModel *> *cloudDays;
 ```
 
 ```TuyaSmartCloudDayModel```的定义如下：
 
-```objective-c
+```objc
 @interface TuyaSmartCloudDayModel : NSObject
 
 // 视频总长度，单位秒
@@ -241,7 +241,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 在播放云存储时间前，需要获取到当天的视频片段数据。
 
-```objective-c
+```objc
 /**
  获取某天的视频片段时间
  
@@ -256,7 +256,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 ```TuyaSmartCloudTimePieceModel```类定义视频片段开始结束时间相关的信息。
 
-```objective-c
+```objc
 @interface TuyaSmartCloudTimePieceModel : NSObject
 
 // 视频开始时间 Unix 时间戳
@@ -278,7 +278,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 可以通过以下接口获取触发云视频录制的报警事件列表。云存储的报警事件和侦测报警消息略有不同。他们的触发原因可能是一样的，但是侦测报警消息的删除不会影响到云存储事件，也不是所有的侦测报警消息都会触发云视频录制，比如电量警告等。而且云存储事件和云视频相关联，正常情况下，每一个云存储事件都会有一段对应的云视频。
 
-```objective-c
+```objc
 /**
  获取某天的报警事件
  
@@ -297,7 +297,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 ```TuyaSmartCloudTimeEventModel```定义事件相关信息。
 
-```objective-c
+```objc
 @interface TuyaSmartCloudTimeEventModel : NSObject
 
 // 事件描述
@@ -319,7 +319,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 播放云存储视频时，需要指定开始播放的时间，结束时间，和是否是播放事件。接口定义：
 
-```objective-c
+```objc
 /**
  播放云存储视频
 
@@ -373,7 +373,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 云存储视频播放也提供有声音开关，本地视频录制，截图等功能。
 
-```objective-c
+```objc
 /**
  设置静音状态.
  @param mute 静音
@@ -426,7 +426,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 
 __Objective-C__
 
-```objective-c
+```objc
 // self.devId = @"xxxxx";
 - (void)viewDidLoad {
 	_cloudManager = [[TuyaSmartCloudManager alloc] initWithDeviceId:self.devId];
