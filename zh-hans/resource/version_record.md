@@ -1,6 +1,6 @@
 # 版本更新记录
 
-### TuyaCameraSDK-3.14.1、TuyaSmartCameraBase-4.3.2、TuyaSmartCameraM-4.2.8、TuyaSmartCameraKit-4.3.7
+### TuyaCameraSDK-3.15.3、TuyaSmartCameraBase-4.4.2、TuyaSmartCameraM-4.3.4、TuyaSmartCameraKit-4.4.4
 
 * TuyaCamera 更名为 TuyaCameraSDK，如果有在 podfile 中指定 TuyaCamera 的版本号，需要改一下库名和版本。
 * 去除掉了部分尚未标准化（文档中未介绍过）的类和接口。
