@@ -132,7 +132,7 @@
 
 ### 监听代理
 
-```TuyaSmartCameraDPObserver```协议提供监听设备主动上报的功能点状态变化的能力。
+`TuyaSmartCameraDPObserver`协议提供监听设备主动上报的功能点状态变化的能力。
 
 ```objc
 #pragma mark - TuyaSmartCameraDPObserver

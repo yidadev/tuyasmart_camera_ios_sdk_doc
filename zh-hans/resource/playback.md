@@ -136,6 +136,8 @@
 
 ### 流程图
 
+存储卡视频播放的流程如下：
+
 ```flow
 st=>start: 初始化Camera
 conn=>operation: 连接p2p
