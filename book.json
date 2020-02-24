@@ -16,7 +16,8 @@
         "objective-c": "objectivec"
       },
       "ignore": [
-        "sequence"
+        "sequence",
+        "flow"
       ]
     }
   }
