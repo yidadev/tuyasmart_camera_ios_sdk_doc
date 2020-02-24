@@ -108,7 +108,6 @@ SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染�
 ### 流程图
 
 ```flow
-
 st=>start: 初始化Camera
 conn=>operation: 连接p2p
 isconned=>condition: 是否已经连接？
@@ -127,7 +126,6 @@ play->playSuccess
 playSuccess(no)->error
 playSuccess(yes)->stop
 stop->e
-
 ```
 
 ### 错误回调

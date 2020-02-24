@@ -137,7 +137,6 @@
 ### 流程图
 
 ```flow
-
 st=>start: 初始化Camera
 conn=>operation: 连接p2p
 isconned=>condition: 是否已经连接？
@@ -165,7 +164,6 @@ playSuccess(yes)->stop
 stop->hasNext
 hasNext(yes)->play
 hasNext(no)->e
-
 ```
 
 ### 示例代码
