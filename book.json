@@ -3,7 +3,8 @@
     "js-sequence-diagram-full@>=0.3.1",
     "prism",
     "-highlight",
-    "anchors"
+    "anchors",
+    "mermaid-gb3"
   ],
   "pluginsConfig": {
     "prism": {
