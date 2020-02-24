@@ -34,7 +34,7 @@ end
 + (void)setupWithAppScheme:(NSString *)scheme;
 ```
 
-初始化方法需要在 APP 启动时，TuyaSmartHomeKit 初始化之后调用。示例代码如下：
+初始化方法需要在 APP 启动时，`TuyaSmartHomeKit` 初始化之后调用。示例代码如下：
 
 __Objective-C__
 
@@ -137,11 +137,11 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 ### 云视频
 
-购买过云存储服务后，智能摄像机会把录制的视频上传涂鸦云端。云存储相关功能通过 ```TuyaSmartCameraKit``` 中的 ```TuyaSmartCloudManager```类操作。
+购买过云存储服务后，智能摄像机会把录制的视频上传涂鸦云端。云存储相关功能通过 `TuyaSmartCameraKit` 中的 `TuyaSmartCloudManager`类操作。
 
 #### 初始化
 
-```TuyaSmartCloudManager```初始化时，需要传入设备 id 。云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
+`TuyaSmartCloudManager`初始化时，需要传入设备 id 。云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
 
 ```objc
 /**
@@ -154,7 +154,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 #### 代理
 
-云存储代理接口为```TuyaSmartCloudManagerDelegate```，只有一个代理方法，会返回每一帧视频的 YUV 数据和帧信息，如果你想要自己渲染视频，可以将 ```TuyaSmartCloudManager```的```autoRender```属性设置为“NO”（默认为“YES”），并在代理方法中获取视频帧的YUV数据加以渲染。
+云存储代理接口为`TuyaSmartCloudManagerDelegate`，只有一个代理方法，会返回每一帧视频的 YUV 数据和帧信息，如果你想要自己渲染视频，可以将 `TuyaSmartCloudManager`的`autoRender`属性设置为“NO”（默认为“YES”），并在代理方法中获取视频帧的YUV数据加以渲染。
 
 ```objc
 /**
@@ -167,7 +167,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 - (void)cloudManager:(TuyaSmartCloudManager *)cloudManager didReceivedFrame:(CMSampleBufferRef)frameBuffer videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
 
-结构体```TuyaSmartVideoFrameInfo```的定义如下：
+结构体`TuyaSmartVideoFrameInfo`的定义如下：
 
 ```objc
 typedef struct {
@@ -217,7 +217,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 @property (nonatomic, strong, readonly) NSArray<TuyaSmartCloudDayModel *> *cloudDays;
 ```
 
-```TuyaSmartCloudDayModel```的定义如下：
+`TuyaSmartCloudDayModel`的定义如下：
 
 ```objc
 @interface TuyaSmartCloudDayModel : NSObject
@@ -254,7 +254,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
                      failure:(void(^)(NSError * error))failure;
 ```
 
-```TuyaSmartCloudTimePieceModel```类定义视频片段开始结束时间相关的信息。
+`TuyaSmartCloudTimePieceModel`类定义视频片段开始结束时间相关的信息。
 
 ```objc
 @interface TuyaSmartCloudTimePieceModel : NSObject
@@ -295,7 +295,7 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
                        failure:(void(^)(NSError * error))failure;
 ```
 
-```TuyaSmartCloudTimeEventModel```定义事件相关信息。
+`TuyaSmartCloudTimeEventModel`定义事件相关信息。
 
 ```objc
 @interface TuyaSmartCloudTimeEventModel : NSObject
