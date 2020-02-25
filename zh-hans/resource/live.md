@@ -109,25 +109,21 @@ SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染�
 
 实时视频播放的流程如下：
 
-```flow
-st=>start: 初始化Camera
-conn=>operation: 连接p2p
-isconned=>condition: 是否已经连接？
-success=>condition: 是否成功？
-error=>operation: 错误提示
-play=>operation: 开始直播
-playSuccess=>condition: 直播成功？
-stop=>operation: 停止直播
-e=>end: 断开链接
-st->isconned
-isconned(yes)->play
-isconned(no)->conn->success
-success(yes)->play
-success(no)->error
-play->playSuccess
-playSuccess(no)->error
-playSuccess(yes)->stop
-stop->e
+```mermaid
+graph TB
+    A[初始化Camera] -->|判断P2P状态| B(是否已连接)
+    B --> |NO| C[连接P2P]
+    B --> |YES| D[开始直播]
+		C --> |连接失败| E[重新连接]
+		C --> |连接成功| D[开始直播]
+		E --> |YES| C
+		D --> |播放成功| G[渲染视频]
+		D --> |播放失败| F[重新播放]
+		F --> |YES| D
+		F --> |NO| I[断开连接]
+		E --> |NO| I
+		G --> |退出| J[停止播放]
+		J --> I
 ```
 
 ### 错误回调

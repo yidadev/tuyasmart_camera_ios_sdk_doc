@@ -138,34 +138,27 @@
 
 存储卡视频播放的流程如下：
 
-```flow
-st=>start: 初始化Camera
-conn=>operation: 连接p2p
-isconned=>condition: 是否已经连接？
-success=>condition: 是否成功？
-error=>operation: 错误提示
-query=>operation: 查询视频录像
-querySuccess=>condition: 查询成功
-play=>operation: 开始播放
-playSuccess=>condition: 播放成功？
-stop=>operation: 播放结束
-hasNext=>condition: 是否有下一段录像？
-e=>end: 断开链接
-
-st->isconned
-isconned(yes)->query
-isconned(no)->conn->success
-success(yes)->query
-success(no)->error
-query->querySuccess
-querySuccess(no)->error
-querySuccess(yes)->play
-play->playSuccess
-playSuccess(no)->error
-playSuccess(yes)->stop
-stop->hasNext
-hasNext(yes)->play
-hasNext(no)->e
+```mermaid
+graph TB
+    A[初始化Camera] -->|判断P2P状态| B(是否已连接)
+    B --> |NO| C[连接P2P]
+    B --> |YES| D[查询视频录像]
+    D --> |查询失败| F[重试]
+    F --> |YES| D
+    F --> |NO| E[断开连接]
+    C --> |连接成功| D
+    C --> |连接失败| G[重新连接]
+    G --> |YES| C
+    G --> |NO| E
+    C --> |连接成功| D
+    D --> |查询成功| P[开始播放]
+    P --> |播放成功| R[渲染视频]
+    P --> |播放失败| J[重新播放]
+    J --> |YES| R
+    J --> |NO| E
+    R --> |退出| L[停止播放]
+    L --> E
+    
 ```
 
 ### 示例代码
