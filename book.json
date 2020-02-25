@@ -4,7 +4,7 @@
     "prism",
     "-highlight",
     "anchors",
-    "mermaid-gb3"
+    "mermaid"
   ],
   "pluginsConfig": {
     "prism": {
@@ -14,7 +14,10 @@
       "lang": {
         "oc": "objectivec",
         "objc": "objectivec",
-        "objective-c": "objectivec"
+        "objective-c": "objectivec",
+        "Objective-C": "objectivec",
+        "obejctivec": "objectivec",
+        "Swift": "swift"
       },
       "ignore": [
         "sequence",
