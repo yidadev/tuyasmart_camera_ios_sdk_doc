@@ -4,7 +4,7 @@
     "prism",
     "-highlight",
     "anchors",
-    "mermaid"
+    "mermaid-gb3"
   ],
   "pluginsConfig": {
     "prism": {
