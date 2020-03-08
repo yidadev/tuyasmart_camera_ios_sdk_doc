@@ -1,18 +1,22 @@
 ## 存储卡管理
 
-存储卡管理也是通过设备功能点来实现的，相关的功能点请在[设备功能点](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/device_points.html#%E5%8A%9F%E8%83%BD%E7%82%B9%E5%B8%B8%E9%87%8F)中查看。
+存储卡管理通过设备功能点实现，相关的功能点请在[设备功能点](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/device_points.html#%E5%8A%9F%E8%83%BD%E7%82%B9%E5%B8%B8%E9%87%8F)中查看。
 
 ### 状态
 
-存储卡有下面五种状态：
+在开始管理存储卡或者进行录像回放前，需要先获取存储卡的状态，如果设备未检测到存储卡，则无法进行下一步。如果存储卡异常，则需要先格式化存储卡。
 
-* **TuyaSmartCameraSDCardStatusNormal**：正常使用中
-* **TuyaSmartCameraSDCardStatusException**：存储卡异常，需要格式化
-* **TuyaSmartCameraSDCardStatusMemoryLow**：空闲容量太小
-* **TuyaSmartCameraSDCardStatusFormatting**：正在格式化
-* **TuyaSmartCameraSDCardStatusNone**：没有检测到存储卡
+**TuyaSmartCameraSDCardStatus 枚举**
 
-通过在开始录像回放或者进入存储卡管理页面时，需要先判断一下存储卡的状态，如果未检测到存储卡，则无法进行下一步。如果存储卡异常，则需要先格式化存储卡。
+| 枚举值                                | 说明                   |
+| ------------------------------------- | ---------------------- |
+| TuyaSmartCameraSDCardStatusNormal     | 存储卡正常使用中       |
+| TuyaSmartCameraSDCardStatusException  | 存储卡异常，需要格式化 |
+| TuyaSmartCameraSDCardStatusMemoryLow  | 存储卡内存不足         |
+| TuyaSmartCameraSDCardStatusFormatting | 存储卡正在格式化       |
+| TuyaSmartCameraSDCardStatusNone       | 设备未检测到存储卡     |
+
+
 
 ### 格式化
 
@@ -26,14 +30,14 @@
 
 ### 存储卡录制
 
-涂鸦摄像机在插入存储卡后，可以将采集的视频录制保存在存储卡中，可以通过 IPC SDK 设置视频录制开关和模式。录制模式分为以下两种：
+涂鸦摄像机在插入存储卡后，可以将采集的影像录制保存在存储卡中，可以通过 IPC SDK 设置视频录制开关和模式。录制模式分为以下两种：
 
 * **连续录制**：摄像机会将采集到的音视频连续不断的录制保存在存储卡中，存储卡的容量不足的时候，将会覆盖最早录制的视频数据。
 * **事件录制**：摄像机只会在触发侦测报警的时候才会开始录制视频，视频的长短会根据事件类型，和事件持续时间而变化。
 
 ### 示例代码
 
-__Objective-C__
+__ObjC__
 
 ```objc
 - (void)viewDidLoad {

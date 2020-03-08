@@ -2,15 +2,23 @@
 
 ### 休眠唤醒
 
-低功耗门铃由电池供电，为了节省电量，在一定时间内没有 p2p 连接会休眠，休眠后无法直接连接p2p，需要通过设备功能点`TuyaSmartCameraWirelessAwakeDPName`先唤醒设备，唤醒后再连接p2p通道。具体流程如下：
+低功耗门铃由电池供电，为了节省电量，在一定时间内没有 p2p 连接会休眠，休眠后无法直接连接p2p，需要通过设备功能点`TuyaSmartCameraWirelessAwakeDPName`先唤醒设备，唤醒后再连接p2p通道。
 
-__Objective-C__
+**示例代码**
+
+__ObjC__
 
 ```objc
-self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];
-self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
-// 添加 DP 监听
-[self.dpManager addObserver:self];
+- (void)viewDidLoad {
+		[super viewDidLoad];
+	  self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];
+		self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
+		// 添加 DP 监听
+		[self.dpManager addObserver:self];
+  
+  	[self start];
+}
+
 // 判断是否是低功耗门铃
 - (BOOL)isDoorbell {
     return [self.dpManager isSupportDP:TuyaSmartCameraWirelessAwakeDPName];
@@ -47,10 +55,15 @@ self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
 __Swift__
 
 ``` swift
-self.dpManager = TuyaSmartCameraDPManager(deviceId: self.devId)
-self.device = TuyaSmartDevice(deviceId: self.devId)
-// 添加 DP 监听
-self.dpManager?.addObserver(self)
+func viewDidLoad() {
+  	super.viewDidLoad()
+	  self.dpManager = TuyaSmartCameraDPManager(deviceId: self.devId)
+		self.device = TuyaSmartDevice(deviceId: self.devId)
+		// 添加 DP 监听
+		self.dpManager?.addObserver(self)
+  
+  	self.start()
+}
 
 // 判断是否是低功耗门铃
 func isDoorbell() -> Bool {
@@ -95,7 +108,9 @@ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHa
   * **devId**：触发门铃呼叫的设备ID
   * **etype**：事件标识，```doorbell```表示门铃呼叫
 
-__Objective-C__
+**示例代码**
+
+__ObjC__
 
 ```objc
 #define kTuyaDoorbellNotification @"kNotificationMQTTMessageNotification"
@@ -137,9 +152,9 @@ func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
 
 低功耗门铃有两种供电方式，插电和电池供电。通过 SDK 可以查询到设备当前的供电模式以及当前的电量。还可以设置一个低电量报警阈值，当电量过低时，会触发一个报警通知。
 
-#### 示例代码
+**示例代码**
 
-__Objective-C__
+__ObjC__
 
 ```objc
 - (void)viewDidLoad {

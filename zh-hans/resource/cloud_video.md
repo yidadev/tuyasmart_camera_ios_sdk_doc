@@ -1,10 +1,10 @@
-## 云存储
+# 云存储
 
 涂鸦平台为智能摄像机提供云存储的服务，可以将设备录制的视频上传到涂鸦云端。
 
-### 云存储服务购买
+## 云存储服务购买
 
-#### SDK集成
+### SDK集成
 
 云存储购买需要引入云存储服务购买页面的 SDK，在 podfile 中增加下面代码
 
@@ -21,22 +21,29 @@ end
 
 然后在工程主目录下执行```pod update```。
 
-#### 初始化
+### 初始化
 
-云存储购买服务 SDK 的初始化需要传入涂鸦平台上注册 APP 的渠道标识符。接口如下：
+云存储购买服务 SDK 的初始化需要传入涂鸦平台上注册 App 的渠道标识符。
+
+**接口介绍**
+
+初始化 SDK，需要在 `TuyaSmartSDK`激活后调用
 
 ```objc
-/**
- 初始化SDK，需要在 TuyaSmartSDK 初始化后调用
-
- @param scheme iot平台上的渠道标识符
- */
 + (void)setupWithAppScheme:(NSString *)scheme;
 ```
 
-初始化方法需要在 APP 启动时，`TuyaSmartHomeKit` 初始化之后调用。示例代码如下：
+**参数说明**
 
-__Objective-C__
+| 参数   | 说明             |
+| ------ | ---------------- |
+| scheme | App 的渠道标识符 |
+
+
+
+**示例代码**
+
+__ObjC__
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -56,27 +63,30 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-#### 用户状态同步
+### 用户状态同步
 
-在用户登录/登出的时候，需要调用一下接口同步用户登录状态：
+在用户登录/登出的时候，需要同步用户登录状态。
+
+**接口说明**
+
+同步用户登陆状态
 
 ```objc
-/**
- 在用户登录登出的时候，需要调用此方法，同步用户状态
- */
 + (void)userStateChanged;
 ```
 
-示例代码：
 
-__Objective-C__
+
+**示例代码**
+
+__ObjC__
 
 ```objc
 - (void)login {
     [[TuyaSmartUser sharedInstance] loginByPhone:@"countryCode" phoneNumber:@"phoneNumber" password:@"password" success:^{
 				[TYCameraCloudServicePanelSDK userStateChanged];
     } failure:^(NSError *error) {
-		// failed
+				// failed
     }];
 }
 ```
@@ -93,26 +103,33 @@ func login() {
     }
 ```
 
-#### 获取云存储购买页面
+### 获取云存储购买页面
 
-云存储购买页面是 H5 页面，由于需要从云端请求对应的页面地址，所以获取云存储页面的接口是异步的，并需要传入对应设备的 ```TuyaSmartDeviceModel```对象。接口如下：
+云存储购买页面是 H5 页面，由于需要从云端请求对应的页面地址，所以获取云存储页面的接口是异步的，并需要传入对应设备的 ```TuyaSmartDeviceModel```对象。
+
+**接口说明**
+
+获取云存储购买的视图控制器
 
 ```objc
-/**
- 获取云存储购买页面
-
- @param deviceModel 设备
- @param success 成功回调
- @param failure 失败回调
- */
 + (void)cloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel
                             success:(void(^)(UIViewController *vc))success
                             failure:(void(^)(NSError *error))failure;
 ```
 
-示例代码：
+**参数说明**
 
-__Objective-C__
+| 参数        | 说明                                                   |
+| ----------- | ------------------------------------------------------ |
+| deviceModel | 需要购买云存储服务的设备模型                           |
+| success     | 成功回调，返回一个 `UINavigationController` 子类的对象 |
+| failure     | 失败回调，error 标示错误信息                           |
+
+> 接口返回的云存储购买视图控制器是一个 `UINavigationController` 的子类的对象，所以不能使用 `push` 的方式将其加入到导航控制器的视图栈中。
+
+**示例代码**
+
+__ObjC__
 
 ```objc
 - (void)gotoCloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel {
@@ -135,81 +152,95 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 }
 ```
 
-### 云视频
+## 云视频
 
-购买过云存储服务后，智能摄像机会把录制的视频上传涂鸦云端。云存储相关功能通过 `TuyaSmartCameraKit` 中的 `TuyaSmartCloudManager`类操作。
+购买过云存储服务后，智能摄像机会把录制的视频上传涂鸦云端。可以通过 SDK 播放已经上传到涂鸦云端的视频录像。云存储相关功能通过 `TuyaSmartCameraKit` 中的 `TuyaSmartCloudManager`类操作。
 
-#### 初始化
+**相关类和协议**
+
+| 类名（协议名）                | 说明                                     |
+| ----------------------------- | ---------------------------------------- |
+| TuyaSmartCloudManager         | 云存储服务状态，视频数据维护和云视频播放 |
+| TuyaSmartCloudManagerDelegate | 云存储视频播放，视频帧数据回调代理       |
+
+### 初始化
 
 `TuyaSmartCloudManager`初始化时，需要传入设备 id 。云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
 
+**接口说明**
+
+`TuyaSmartCloudManager`初始化方法
+
 ```objc
-/**
-	初始化方法
-	
-	@param devId 设备id
- */
 - (instancetype)initWithDeviceId:(NSString *)devId;
 ```
 
-#### 代理
+**参数说明**
 
-云存储代理接口为`TuyaSmartCloudManagerDelegate`，只有一个代理方法，会返回每一帧视频的 YUV 数据和帧信息，如果你想要自己渲染视频，可以将 `TuyaSmartCloudManager`的`autoRender`属性设置为“NO”（默认为“YES”），并在代理方法中获取视频帧的YUV数据加以渲染。
+| 参数  | 说明    |
+| ----- | ------- |
+| devId | 设备 id |
+
+
+
+### 代理
+
+云存储代理接口为`TuyaSmartCloudManagerDelegate`，只有一个代理方法，会返回每一帧视频的 YUV 数据和帧信息，如果你想要自己渲染视频，可以将 `TuyaSmartCloudManager`的`autoRender`属性设置为`NO`（默认为`YES`），并在代理方法中获取视频帧的YUV数据加以渲染。
+
+**接口说明**
+
+视频帧数据代理回调
 
 ```objc
-/**
- 视频帧回调方法
-
- @param cloudManager cloudManager
- @param frameBuffer 视频帧YUV数据
- @param frameInfo 视频帧信息
- */
 - (void)cloudManager:(TuyaSmartCloudManager *)cloudManager didReceivedFrame:(CMSampleBufferRef)frameBuffer videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
 
-结构体`TuyaSmartVideoFrameInfo`的定义如下：
+**参数说明**
 
-```objc
-typedef struct {
-    int nWidth;		// 视频图像宽度
-    int nHeight;	// 视频图像高度
-    
-    int nFrameRate;	// 帧率
-    unsigned long long nTimeStamp;	// 时间戳
-    unsigned long long nDuration;	// 播放视频消息时，表示视频总长度
-    unsigned long long nProgress;   // 播放视频消息时，表示播放进度
-} TuyaSmartVideoFrameInfo;
-```
+| 参数         | 说明                                      |
+| ------------ | ----------------------------------------- |
+| cloudManager | 播放云视频的 `TuyaSmartCloudManager` 对象 |
+| frameBuffer  | 视频帧 YUV 数据                           |
+| frameInfo    | 视频帧信息                                |
 
-#### 加载云存储数据
+
+
+### 加载云存储数据
 
 在使用云存储播放功能前，还需要先加载云存储的相关数据，这个接口会返回云存储服务当前的状态，以及加载对应的加密秘钥，鉴权信息等。
 
-```objc
-/**
- 加载云存储数据
+**接口说明**
 
- @param complete callback
- */
+加载云存储数据
+
+```objc
 - (void)loadCloudData:(void(^)(TuyaSmartCloudState state))complete
 ```
 
-#### 云存储服务状态
+**参数说明**
 
-```objc
-typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
-    TuyaSmartCloudStateNoService,       // 未开通云存储服务
-    TuyaSmartCloudStateNoData,          // 已开通云存储服务，但是没有回放视频
-    TuyaSmartCloudStateValidData,       // 已开通云存储服务，且有回放视频
-    TuyaSmartCloudStateExpiredNoData,   // 云存储服务已过期，且无回放视频
-    TuyaSmartCloudStateExpiredData,     // 云存储服务已过期，但是还有可以查看的回放视频
-    TuyaSmartCloudStateLoadFailed       // 加载失败
-};
-```
+| 参数     | 说明                                   |
+| -------- | -------------------------------------- |
+| complete | 加载完成回调，返回当前的云存储服务状态 |
+
+
+
+**TuyaSmartCloudState 枚举**
+
+| 枚举值                           | 说明                                         |
+| -------------------------------- | -------------------------------------------- |
+| TuyaSmartCloudStateNoService     | 未开通云存储服务                             |
+| TuyaSmartCloudStateNoData        | 已开通云存储服务，但是没有回放视频           |
+| TuyaSmartCloudStateValidData     | 已开通云存储服务，且有回放视频               |
+| TuyaSmartCloudStateExpiredNoData | 云存储服务已过期，且无回放视频               |
+| TuyaSmartCloudStateExpiredData   | 云存储服务已过期，但是还有可以查看的回放视频 |
+| TuyaSmartCloudStateLoadFailed    | 加载失败                                     |
+
+
 
 云存储服务过期后，已上传的云存储视频还会预留一段时间（通常是7天，具体看云存储服务协议），如果在此期间没有续费，到期后，云存储视频将会删除。
 
-#### 云存储录像日期
+### 云存储录像日期
 
 在加载云存储数据成功返回后，如果云端有视频回放数据，可以通过```cloudDays``` 属性获取有视频回放数据的日期。
 
@@ -217,77 +248,61 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
 @property (nonatomic, strong, readonly) NSArray<TuyaSmartCloudDayModel *> *cloudDays;
 ```
 
-`TuyaSmartCloudDayModel`的定义如下：
+**TuyaSmartCloudDayModel 模型**
 
-```objc
-@interface TuyaSmartCloudDayModel : NSObject
+| 字段        | 类型      | 说明                         |
+| ----------- | --------- | ---------------------------- |
+| sumDuration | NSInteger | 当天云视频总长度             |
+| uploadDay   | NSString  | 日期，格式为：yyyy-MM-dd     |
+| startTime   | NSInteger | 当天 00:00:00 的 Unix 时间戳 |
+| endTime     | NSInteger | 当天 23:59:59 的 Unix 时间戳 |
 
-// 视频总长度，单位秒
-@property (nonatomic, assign) NSInteger sumDuration;
 
-// 日期, yyyy-MM-dd
-@property (nonatomic, strong) NSString *uploadDay;
 
-// 当天 00:00:00 的 Unix 时间戳
-@property (nonatomic, assign) NSInteger startTime;
-
-// 当天 23:59:59 的 Unix 时间戳
-@property (nonatomic, assign) NSInteger endTime;
-
-@end
-```
-
-#### 时间片段数据
+### 时间片段数据
 
 在播放云存储时间前，需要获取到当天的视频片段数据。
 
+**接口说明**
+
+获取某天的视频片段时间数据
+
 ```objc
-/**
- 获取某天的视频片段时间
- 
- @param cloudDay 日期
- @param success success callback
- @param failure failure callback
- */
 - (void)timeLineWithCloudDay:(TuyaSmartCloudDayModel *)cloudDay
                      success:(void(^)(NSArray<TuyaSmartCloudTimePieceModel *> * timePieces))success
                      failure:(void(^)(NSError * error))failure;
 ```
 
-`TuyaSmartCloudTimePieceModel`类定义视频片段开始结束时间相关的信息。
+**参数说明**
+
+| 参数     | 说明                                             |
+| -------- | ------------------------------------------------ |
+| cloudDay | 云存储录像日期模型                               |
+| success  | 成功回调，返回当天所有视频片段时间数据模型的数组 |
+| failure  | 失败回调，error 标示错误信息                     |
+
+
+
+**TuyaSmartCloudTimePieceModel 数据模型**
+
+| 字段      | 类型      | 说明                     |
+| --------- | --------- | ------------------------ |
+| startTime | NSInteger | 视频开始时间 Unix 时间戳 |
+| startDate | NSDate    | 视频开始时间             |
+| endTime   | NSInteger | 视频结束时间 Unix 时间戳 |
+| endDate   | NSDate    | 视频结束时间             |
+
+
+
+### 云存储事件
+
+开启云存储服务后，设备通过侦测报警上报的事件，会和云视频关联起来。云存储的报警事件和侦测报警消息略有不同。他们的触发原因可能是一样的，但是侦测报警消息的删除不会影响到云存储事件，也不是所有的侦测报警消息都会触发云视频录制，比如电量警告等。而且云存储事件和云视频相关联，正常情况下，每一个云存储事件都会有一段对应的云视频。
+
+**接口说明**
+
+获取某天的云存储报警事件
 
 ```objc
-@interface TuyaSmartCloudTimePieceModel : NSObject
-
-// 视频开始时间 Unix 时间戳
-@property (nonatomic, assign) NSInteger startTime;
-
-// 视频开始时间 NSDate
-@property (nonatomic, strong) NSDate *startDate;
-
-// 视频结束时间 Unix 时间戳
-@property (nonatomic, assign) NSInteger endTime;
-
-// 视频结束时间 NSDate
-@property (nonatomic, strong) NSDate *endDate;
-
-@end
-```
-
-#### 云存储事件
-
-可以通过以下接口获取触发云视频录制的报警事件列表。云存储的报警事件和侦测报警消息略有不同。他们的触发原因可能是一样的，但是侦测报警消息的删除不会影响到云存储事件，也不是所有的侦测报警消息都会触发云视频录制，比如电量警告等。而且云存储事件和云视频相关联，正常情况下，每一个云存储事件都会有一段对应的云视频。
-
-```objc
-/**
- 获取某天的报警事件
- 
- @param 日期
- @param offset 偏移，0 表示从第一个事件开始
- @param limit  数量限制，-1 表示获取所有事件
- @param success success callback
- @param failure failure callback
- */
 - (void)timeEventsWithCloudDay:(TuyaSmartCloudDayModel *)cloudDay
                         offset:(int)offset
                          limit:(int)limit
@@ -295,136 +310,223 @@ typedef NS_ENUM(NSUInteger, TuyaSmartCloudState) {
                        failure:(void(^)(NSError * error))failure;
 ```
 
-`TuyaSmartCloudTimeEventModel`定义事件相关信息。
+**参数说明**
+
+| 参数     | 说明                           |
+| -------- | ------------------------------ |
+| cloudDay | 云存储录像日期模型             |
+| offset   | 偏移量，0 标示从第一个事件开始 |
+| limit    | 数量限制，-1 标示获取所有事件  |
+| success  | 成功回调，返回事件模型的数组   |
+| failure  | 失败回调，error 标示错误信息   |
+
+
+
+**TuyaSmartCloudTimeEventModel 数据模型**
+
+| 字段        | 类型      | 说明                           |
+| ----------- | --------- | ------------------------------ |
+| describe    | NSString  | 事件描述                       |
+| startTime   | NSInteger | 事件开始时间 Unix 时间戳       |
+| endTime     | NSInteger | 事件结束时间 Unix 时间戳       |
+| snapshotUrl | NSString  | 事件发生时，设备抓拍的实时图片 |
+
+
+
+### 云视频播放
+
+播放云存储视频时，需要指定开始播放的时间，结束时间，和是否是播放事件。
+
+**接口说明**
+
+播放云存储视频
 
 ```objc
-@interface TuyaSmartCloudTimeEventModel : NSObject
-
-// 事件描述
-@property (nonatomic, strong) NSString *describe;
-
-// 事件开始时间 Unix 时间戳
-@property (nonatomic, assign) NSInteger startTime;
-
-// 事件结束时间 Unix 时间戳
-@property (nonatomic, assign) NSInteger endTime;
-
-// 缩略图
-@property (nonatomic, strong) NSString *snapshotUrl;
-
-@end
-```
-
-#### 云视频播放
-
-播放云存储视频时，需要指定开始播放的时间，结束时间，和是否是播放事件。接口定义：
-
-```objc
-/**
- 播放云存储视频
-
- @param startTime 开始播放时间
- @param endTime 结束时间，云存储视频播放会自动连续播放到当天所有视频结束
- @param isEvent 是否是事件
- @param responseCallback errCode 0 表示成功，负数表示失败
- @param finishedCallback 视频播放结束
- */
 - (void)playCloudVideoWithStartTime:(long)startTime
                             endTime:(long)endTime
                             isEvent:(BOOL)isEvent
                          onResponse:(void(^)(int errCode))responseCallback
                          onFinished:(void(^)(int errCode))finishedCallback;
-
-/**
- 暂停播放
- 
- @return errCode 错误码，0 表示成功
- */
-- (int)pausePlayCloudVideo;
-
-/**
- 恢复播放
-
- @return errCode 错误码，0 表示成功
- */
-- (int)resumePlayCloudVideo;
-
-/**
- 停止播放
-
- @return errCode 错误码，0 表示成功
- */
-- (int)stopPlayCloudVideo;
-
-/**
- 视频帧渲染视图
- 
- @return render view
- */
-- (UIView<TuyaSmartVideoViewType> *)videoView;
-
 ```
+
+**参数说明**
+
+| 参数             | 说明                                                       |
+| ---------------- | ---------------------------------------------------------- |
+| startTime        | 开始播放的时间                                             |
+| endTime          | 结束时间，云存储视频播放会自动连续播放到当天所有视频结束   |
+| isEvent          | 是否播放的事件                                             |
+| responseCallback | 结果回调，errCode 标示错误码，0 表示成功开始播放           |
+| finishedCallback | 播放结束回调，errCode 标示结束原因，0 表示视频正常播放结束 |
+
+
+
+暂停播放
+
+```objc
+- (int)pausePlayCloudVideo;
+```
+
+**返回值**
+
+| 类型 | 说明               |
+| ---- | ------------------ |
+| int  | 错误码，0 表示成功 |
+
+
+
+恢复播放
+
+```objc
+- (int)resumePlayCloudVideo;
+```
+
+**返回值**
+
+| 类型 | 说明               |
+| ---- | ------------------ |
+| int  | 错误码，0 表示成功 |
+
+
+
+停止播放
+
+```objc
+- (int)stopPlayCloudVideo;
+```
+
+**返回值**
+
+| 类型 | 说明               |
+| ---- | ------------------ |
+| int  | 错误码，0 表示成功 |
+
+
+
+获取视频渲染视图
+
+```objc
+- (UIView<TuyaSmartVideoViewType> *)videoView;
+```
+
+**返回值**
+
+| 类型                           | 说明                   |
+| ------------------------------ | ---------------------- |
+| UIView<TuyaSmartVideoViewType> | 云存储视频默认渲染视图 |
+
+
 
 如果是直接播放某个视频片段（`TuyaSmartCloudTimePieceModel`），开始时间传入 `TuyaSmartCloudTimePieceModel` 中介于 `startTime` 和 `endTime` 之间的一个时间戳， isEvent 传入 NO。如果是想要播放某个事件（`TuyaSmartCloudTimeEventModel`），开始时间传入 `TuyaSmartCloudTimeEventModel` 中的`startTime` ，`isEvent` 传入 `YES`，结束时间可以传入当天的结束时间，也就是 `TuyaSmartCloudDayModel` 的 `endTime`。
 
 `TuyaSmartCloudManager`会自动渲染视频，通过`videoView`方法获取视频渲染视图，并添加到屏幕上。
 
-#### 其他功能
+### 其他功能
 
 云存储视频播放也提供有声音开关，本地视频录制，截图等功能。
 
+**接口说明**
+
+设置静音状态
+
 ```objc
-/**
- 设置静音状态.
- @param mute 静音
- @param success success call back.
- @param failure failed call back.
- */
 - (void)enableMute:(BOOL)mute success:(void(^)(void))success failure:(void (^)(NSError * error))failure;
-
-/**
- 获取静音状态
- @return BOOL 是否静音
- */
-- (BOOL)isMuted;
-
-/**
- 开始录制，视频自动保存到系统相册中
- */
-- (void)startRecord;
-
-/**
- 开始录制，并且视频将会存到 filepath
-
- @param filePath 视频保存路径
- */
-- (void)startRecordAtPath:(NSString *)filePath;
-
-/**
- 停止录制
- 
- @return 错误码. 0 表示成功
- */
-- (int)stopRecord;
-
-/**
-	视频截图，保存到系统相册中，截图成功返回 UIImage 对象，失败返回 nil
- */
-- (UIImage *)snapShoot;
-
-/**
- 获取视频的截图并存储到指定的目录，如果不需要缩略图，设置 thumbnilPath 为 nil
- 截图成功返回 UIImage 对象，失败返回 nil
- */
-- (UIImage *)snapShootAtPath:(NSString *)filePath thumbnilPath:(NSString *)thumbnilPath;
-
 ```
+
+**参数说明**
+
+| 参数    | 说明                         |
+| ------- | ---------------------------- |
+| mute    | 是否静音                     |
+| success | 成功回调                     |
+| failure | 失败回调，error 标示错误信息 |
+
+
+
+获取静音状态
+
+```objc
+- (BOOL)isMuted;
+```
+
+**返回值**
+
+| 类型 | 说明       |
+| ---- | ---------- |
+| BOOL | 是否是静音 |
+
+
+
+开始录制视频，视频自动保存到系统相册中
+
+```objc
+- (void)startRecord;
+```
+
+
+
+开始录制视频，视频保存到指定文件路径
+
+```objc
+- (void)startRecordAtPath:(NSString *)filePath;
+```
+
+**参数说明**
+
+| 参数     | 说明                   |
+| -------- | ---------------------- |
+| filePath | 视频录像文件保存的路径 |
+
+
+
+停止录制，并保存视频文件
+
+```objc
+- (int)stopRecord;
+```
+
+**返回值**
+
+| 类型 | 说明                       |
+| ---- | -------------------------- |
+| int  | 错误码，0 表示视频保存成功 |
+
+
+
+视频截图，图片保存在手机系统相册中
+
+```objc
+- (UIImage *)snapShoot;
+```
+
+**返回值**
+
+| 类型    | 说明                                    |
+| ------- | --------------------------------------- |
+| UIImage | 视频截图的 UIImage 对象，失败时返回 nil |
+
+
+
+视频截图，图片保存到指定文件路径
+
+```objc
+- (UIImage *)snapShootAtPath:(NSString *)filePath thumbnilPath:(NSString *)thumbnilPath;
+```
+
+**参数说明**
+
+| 参数         | 说明                                     |
+| ------------ | ---------------------------------------- |
+| filePath     | 保存视频截图的文件路径                   |
+| thumbnilPath | 缩略图保存路径，如果不需要缩略图，传 nil |
+
+
 
 同样的，如果你只需要获取当前视频截图 `UIImage`对象，不需要自动保存，可以通过 `videoView`的 `- (UIImage *)screenshot;`方法获取截图。
 
 ### 示例代码
 
-__Objective-C__
+__ObjC__
 
 ```objc
 // self.devId = @"xxxxx";

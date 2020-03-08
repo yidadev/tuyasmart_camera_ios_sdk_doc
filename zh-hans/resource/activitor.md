@@ -1,4 +1,4 @@
-## 设备配网
+# 设备配网
 
 涂鸦 IPC 硬件 Wi-Fi 主要支持以下配网模式：
 
@@ -16,9 +16,9 @@
 
 下面着重介绍一下智能摄像机特有的二维码配网模式。
 
-### 二维码配网
+## 二维码配网
 
-**二维码模式配网流程：**
+**二维码模式配网流程**
 
 ```sequence
 
@@ -49,11 +49,82 @@ SDK-->APP: 激活成功
 
 ```
 
-#### 获取token
+**相关类和协议**
 
-开始配网之前，SDK需要在联网状态下从涂鸦云获取配网 Token，然后将 Wi-Fi 的 ssid 与密码一起生成二维码。Token的有效期为10分钟，且配置成功后就会失效（再次配网需要重新获取）。设备配网需要依赖于家庭，设备必须绑定在某个家庭下，所有获取配网 Token 时，需要传入一个家庭的 ID 作为参数，设备使用这个 Token 激活成功后，就会绑定在这个家庭的设备列表中。
+| 类名（协议名）             | 说明                 |
+| -------------------------- | -------------------- |
+| TuyaSmartActivator         | 设备配网相关功能封装 |
+| TuyaSmartActivatorDelegate | 设备配网结果回调代理 |
 
-__Objective-C__
+**接口说明**
+
+配网 Token 获取接口
+
+```objc
+- (void)getTokenWithHomeId:(long long)homeId
+                   success:(TYSuccessString)success
+                   failure:(TYFailureError)failure;
+```
+
+**参数说明**
+
+| 参数    | 说明                             |
+| ------- | -------------------------------- |
+| homeId  | 设备将要绑定到的家庭的 id        |
+| success | 成功回调，返回此次配网用的 Token |
+| failure | 失败回调，error 标示失败原因     |
+
+
+
+开始配网接口
+
+```objc
+- (void)startConfigWiFi:(TYActivatorMode)mode
+                   ssid:(NSString *)ssid
+               password:(NSString *)password
+                  token:(NSString *)token
+                timeout:(NSTimeInterval)timeout;
+```
+**参数说明**
+
+| 参数     | 说明                         |
+| -------- | ---------------------------- |
+| mode     | 配网模式                     |
+| ssid     | 期望设备连接的 Wi-Fi 的 ssid |
+| password | 期望设备连接的 Wi-Fi 的密码  |
+| token    | 配网 Token                   |
+| timeout  | 超时时间                     |
+
+
+
+停止配网接口
+
+```objc
+- (void)stopConfigWiFi;
+```
+
+
+
+配网结果代理回调
+
+```objc
+- (void)activator:(TuyaSmartActivator *)activator didReceiveDevice:(TuyaSmartDeviceModel *)deviceModel error:(NSError *)error;
+```
+**参数说明**
+
+| 参数        | 说明                                               |
+| ----------- | -------------------------------------------------- |
+| activator   | 此次配网使用的 TuyaSmartActivator 对象             |
+| deviceModel | 配网成功时，返回此次配网的设备模型，失败时返回 nil |
+| error       | 配网失败时，标示错误信息，成功时为 nil             |
+
+
+
+### 获取token
+
+开始配网之前，SDK 需要在联网状态下从涂鸦云获取配网 Token，然后将 Wi-Fi 的 ssid 与密码一起生成二维码。Token的有效期为10分钟，且配置成功后就会失效（再次配网需要重新获取）。设备配网需要依赖于家庭，设备必须绑定在某个家庭下，所有获取配网 Token 时，需要传入一个家庭的 id 作为参数，设备使用这个 Token 激活成功后，就会绑定在这个家庭的设备列表中。
+
+__ObjC__
 
 ```objc
 - (void)getToken {
@@ -81,11 +152,11 @@ func getToken() {
 }
 ```
 
-#### 生成二维码
+### 二维码字符串
 
 获取到配网 Token 后，还需要有期望设备连接的 Wi-Fi 的 ssid 和密码，通过下面的方式拼接成字符串，然后根据这个字符串生成一个二维码图片。
 
-__Objective-C__
+__ObjC__
 
 ```objc
 NSDictionary *dictionary = @{
@@ -109,11 +180,11 @@ let jsonData = JSONSerialization.data(withJSONObject: dictionary, options: JSONS
 self.wifiJsonStr = String(data: jsonData, encoding: String.Encoding.utf8)
 ```
 
-#### 开始配网
+### 开始配网
 
 使用上面生成的 wifiJsonStr 生成二维码，确定设备处于配网状态，将二维码对准摄像头，设备捕捉到二维码信息后会发出提示音。此时通过以下接口开始监听配网结果。
 
-__Objective-C__
+__ObjC__
 
 ```objc
 [[TuyaSmartActivator sharedInstance] startConfigWiFi:TYActivatorModeQRCode ssid:self.ssid password:self.pwd token:self.token timeout:100];
@@ -125,11 +196,11 @@ __Swift__
 TuyaSmartActivator.sharedInstance()?.startConfigWiFi(TYActivatorModeQRCode, ssid: self.ssid, password: self.pwd, token: self.token, timeout: 100)
 ```
 
-#### 停止配网
+### 停止配网
 
 配网过程中，可使用下面的方法停止配网。
 
-__Objective-C__
+__ObjC__
 
 ```objc
 [[TuyaSmartActivator sharedInstance] stopConfigWiFi];
@@ -141,11 +212,11 @@ __Swift__
 TuyaSmartActivator.sharedInstance()?.stopConfigWiFi()
 ```
 
-#### 设备激活回调
+### 设备激活回调
 
 配网结果通过代理 ```TuyaSmartActivatorDelegate```回调，代理方法如下：
 
-__Objective-C__
+__ObjC__
 
 ```objc
 // deviceModel 则为配网成功的设备的信息
@@ -158,7 +229,7 @@ __Swift__
 func activator(_ activator: TuyaSmartActivator!, didReceiveDevice deviceModel: TuyaSmartDeviceModel!, error: Error!)
 ```
 
-#### 云云对接方案 Token
+### 云云对接方案 Token
 
 云云对接方案集成的 mini 配网 SDK，没有直接获取配网 Token 的接口，需要接入方从自己的云端获取配网 Token。接入方的云端会从涂鸦云端获取配网 Token，具体可以参考[云云对接文档-配网管理](https://docs.tuya.com/zh/iot/open-api/api-list/api/paring-management)。
 

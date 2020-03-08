@@ -1,24 +1,26 @@
-## 家庭与设备管理
+# 家庭与设备管理
 
-### 家庭管理
+## 家庭管理
 
 用户登录成功后需要通过`TuyaSmartHomeManager`去获取整个家庭列表的信息,然后初始化其中的一个家庭`TuyaSmartHome`，获取家庭详情信息，对家庭中的设备进行管理，控制。参考文档[家庭管理](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Home.html#%E5%AE%B6%E5%BA%AD%E7%AE%A1%E7%90%86)。
 
-### 设备管理
+## 设备管理
 
 设备管理相关的所有功能对应`TuyaSmartDevice`类，需要使用设备Id进行初始化。错误的设备Id可能会导致初始化失败，返回`nil`。参考文档[设备管理](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86)。
 
 > 请始终通过家庭来获取设备列表，并从家庭的设备列表里获取设备 id 来初始化 TuyaSmartDevice 类，以避免未同步家庭数据，TuyaSmartDevice 初始化失败的情况。
 
-### 初始化摄像机
+## 摄像机
 
 在获取到设备列表后，就可以根据设备的类型来判断是否是智能摄像机设备，如果是智能摄像机设备，则可以根据`TuyaSmartDeviceModel`中的信息来创建摄像机对象。
 
-#### 判断是否是智能摄像机
+### 判断是否是智能摄像机
 
 可以根据`TuyaSmartDeviceModel`的`category`属性来判断设备的类型，智能摄像机的类型是`sp`。
 
-__Objective-C__
+**示例代码**
+
+__ObjC__
 
 ```objc
 [[TuyaSmartHomeManager new] getHomeListWithSuccess:^(NSArray<TuyaSmartHomeModel *> *homes) {
@@ -63,17 +65,19 @@ homeManager.getHomeList(success: { homeList in
 
 > 注意，这里的示例代码只是展示筛选出摄像头设备的最简单流程，实际开发中，应该根据 UI 交互的逻辑来展示和管理设备。
 
-#### 摄像头配置信息
+### 摄像机配置信息
 
 筛选出智能摄像机设备后，就可以根据设备ID，即`TuyaSmartDeviceModel`的`devId`属性来获取摄像机的配置信息。
 
-配置信息需要通过涂鸦云端 API 来获取，接口信息如下：
+配置信息需要通过涂鸦云端 API 来获取。
 
-| 接口名                | 版本 | 描述                        |
+**接口说明**
+
+| 接口名                | 版本 | 说明                        |
 | --------------------- | ---- | --------------------------- |
 | tuya.m.ipc.config.get | 2.0  | 获取摄像机设备的P2P配置信息 |
 
-接口参数：
+**参数说明**
 
 | 参数名 | 类型   | 说明   | 是否必须 |
 | ------ | ------ | ------ | -------- |
@@ -81,18 +85,50 @@ homeManager.getHomeList(success: { homeList in
 
 需要使用`TuyaSmartRequest`类来调用涂鸦云端的 API，参考文档[通用接口](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/CommonInterface.html)。
 
+### 摄像机实例
+
+SDK 提供创建摄像机配置对象和摄像机控制对象的工厂方法。
+
+**类（协议）说明**
+
+| 类名（协议名）          | 说明                                                     |
+| ----------------------- | -------------------------------------------------------- |
+| TuyaSmartCameraFactory  | 创建摄像机配置和摄像机对象的工具类                       |
+| TuyaSmartCameraConfig   | 摄像机配置类，开发者不用关心它的属性                     |
+| TuyaSmartCameraType     | 摄像机接口协议，根据摄像机固件类型不同，有不同的具体实现 |
+| TuyaSmartCameraDelegate | 摄像机代理，摄像机功能方法的结果反馈都将通过代理方法回调 |
+
+
+
 根据接口返回的数据，使用`TuyaSmartCameraFactory`工具类创建`TuyaSmartCameraConfig`对象，以作为创建摄像机对象的参数。`TuyaSmartCameraFactory`相关接口如下：
 
-```objc
-/**
- 创建一个camera配置实例
+**TuyaSmartCameraFactory 接口说明**
 
- @param uid 使用 [TuyaSmartUser sharedInstance].uid
- @param localKey 使用 TuyaSmartDeviceModel.localKey
- @param data 请求"tuya.m.ipc.config.get" API 返回的数据
- @return TuyaSmartCameraConfig 对象
-*/
+创建摄像机配置对象
+
+```objc
 + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data;
+```
+
+**参数说明**
+
+| 参数     | 说明                                                     |
+| -------- | -------------------------------------------------------- |
+| uid      | 用户 `uid`，通过`[TuyaSmartUser sharedInstance].uid`获取 |
+| localKey | 设备的密钥，通过`TuyaSmartDeviceModel.localKey`获取      |
+| data     | 通过`tuya.m.ipc.config.get`接口获取到的配置信息          |
+
+**返回值**
+
+| 类型                  | 说明           |
+| --------------------- | -------------- |
+| TuyaSmartCameraConfig | 摄像机配置对象 |
+
+
+
+创建摄像机实例对象
+
+```objc
 
 /**
  创建一个camera实例
@@ -106,11 +142,27 @@ homeManager.getHomeList(success: { homeList in
 + (id<TuyaSmartCameraType>)cameraWithP2PType:(id)type config:(TuyaSmartCameraConfig *)ipcConfig delegate:(id<TuyaSmartCameraDelegate>)delegate;
 ```
 
-#### P2P 类型
+**参数说明**
 
-涂鸦 IPC SDK 支持三种 p2p 通道实现方案，SDK 会根据 p2p 类型来初始化不同的摄像头对象，通过下面的方式获取设备的 p2p 类型。
+| 参数      | 说明              |
+| --------- | ----------------- |
+| type      | 摄像机的 p2p 类型 |
+| ipcConfig | 摄像机配置对象    |
+| delegate  | 摄像机代理        |
 
-__Objective-C__
+**返回值**
+
+| 类型                    | 说明                     |
+| ----------------------- | ------------------------ |
+| id<TuyaSmartCameraType> | 摄像机接口的具体实现对象 |
+
+
+
+### P2P 类型
+
+涂鸦 IPC SDK 支持三种 p2p 通道实现方案，SDK 会根据 p2p 类型来初始化不同的摄像机具体实现的对象，通过下面的方式获取设备的 p2p 类型。
+
+__ObjC__
 
 ```objc
 id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
@@ -122,12 +174,12 @@ __Swift__
 let p2pType = deviceModel.skills["p2pType"]
 ```
 
-#### 示例代码
+### 示例代码
 
-__Objective-C__
+__ObjC__
 
 ```objc
-// deviceModel 为设备列表中的摄像机设备
+// deviceModel 为设备列表中的摄像机设备的数据模型
 id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
 [[TuyaSmartRequest new] requestWithApiName:@"tuya.m.ipc.config.get" postData:@{@"devId": deviceModel.devId} version:@"2.0" success:^(id result) {
     TuyaSmartCameraConfig *config = [TuyaSmartCameraFactory ipcConfigWithUid:[TuyaSmartUser sharedInstance].uid localKey:deviceModel.localKey configData:result];

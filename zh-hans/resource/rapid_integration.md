@@ -1,6 +1,6 @@
-## 快速集成
+# 快速集成
 
-### 对接方式
+## 对接方式
 
 在接入涂鸦 IPC SDK 之前，您可以先了解一下[涂鸦全屋智能 APP SDK](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)，涂鸦 IPC SDK 需要依赖涂鸦全屋智能 APP SDK 其中的一部分，下面的文档也会介绍到依赖的这一部分。
 
@@ -8,7 +8,7 @@
 
 涂鸦 IPC SDK 使用 CocoaPods 集成。
 
-#### 云云对接
+### 云云对接
 
 在 ```Podfile```文件中添加以下内容：
 
@@ -24,7 +24,7 @@ target 'your_target_name' do
 end
 ```
 
-#### SDK 对接
+### SDK 对接
 
 在```Podfile```文件中添加以下内容：
 
@@ -44,11 +44,15 @@ end
 
 CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
-### 准备工作
+## 准备工作
 
 在开始使用 SDK 开发前，需要在涂鸦智能开发平台上注册开发者账号、创建产品等，并获取到激活 SDK 的密钥，具体的操作流程请参考 [准备工作](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Preparation.html)。
 
-### 初始化 SDK
+在获取 App SDK 时，方案选择`IPC 对接方案`，如下图所示：
+
+<img src="./images/options.jpg" alt="选择方案" style="zoom:50%;" />
+
+## 初始化 SDK
 
 1. 打开项目设置，Target => General，修改```Bundle Identifier```为涂鸦开发者平台上注册的 APP 对应的 iOS 包名。
 
@@ -64,7 +68,7 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
 4. 打开`AppDelegate.m`文件，在`[AppDelegate application:didFinishLaunchingWithOptions:]`方法中，使用在涂鸦开发者平台上，APP 对应的 `App Key`，`App Secret` 初始化SDK：
 
-   __Objective-C__
+   __ObjC__
 
    ```objc
    [[TuyaSmartSDK sharedInstance] startWithAppKey:<#your_app_key#> secretKey:<#your_secret_key#>];
@@ -78,11 +82,11 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
 至此，涂鸦智能 App SDK 已经成功激活，可以开始 App 开发了。
 
-### Debug 模式
+## Debug 模式
 
 在开发的过程中可以开启 Debug 模式，打印一些日志用于分析问题。
 
-__Objective-C__
+__ObjC__
 
 ```objc
 #ifdef DEBUG

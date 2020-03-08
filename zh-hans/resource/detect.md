@@ -1,4 +1,4 @@
-## 侦测报警
+# 侦测报警
 
 涂鸦智能摄像机通常具有侦测报警的功能，可以通过设备功能点打开侦测开关。侦测告警主要分两种，声音检测和移动检测。当设备检测到声音或者物体移动时，会上报一个警告消息，如果你的 App 集成了推送功能，App 还会收到一个推送通知。集成推送请参考[集成 Push](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Push.html)。
 
@@ -6,98 +6,137 @@
 
 直供电门铃设备，提供视频消息的能力。当有人按下门铃时，设备可以上传一段留言视频，这个消息也会通过报警消息获取到，消息体会附带一段 6 秒的加密视频。
 
-### 消息列表
+## 消息列表
 
-报警消息的相关接口封装在 ```TuyaSmartCameraKit/TuyaSmartCameraMessage.h``` 中。
+**类说明**
 
-#### 初始化
+| 类名                   | 说明                       |
+| ---------------------- | -------------------------- |
+| TuyaSmartCameraMessage | 摄像机侦测报警事件消息管理 |
 
-获取消息列表前，需要使用设备 ID 和时区初始化消息管理器。
+
+
+### 初始化
+
+获取消息列表前，需要使用设备 id 和时区初始化消息管理器。
+
+**接口说明**
+
+消息管理类初始化接口
 
 ```objc
 - (instancetype)initWithDeviceId:(NSString *)devId timeZone:(NSTimeZone *)timeZone;
 ```
 
-#### 消息日历
+**参数说明**
 
-可以通过下面接口获取某年某月有报警消息的日期，以便于在日历上直观展示。
+| 参数     | 说明                                                    |
+| -------- | ------------------------------------------------------- |
+| devId    | 设备 id                                                 |
+| timeZone | 时区，默认使用手机系统时区：[NSTimeZone systemTimeZone] |
+
+
+
+### 消息日历
+
+可以通过 SDK 查询到某年某月有报警消息的日期，以便于在日历上直观展示。
+
+**接口说明**
+
+获取有消息记录的日期
 
 ```objc
-/**
- get day list which has messages
- 获取有消息的日期
-
- @param year year
- @param month month
- @param success callback
- @param failure callback
- */
 - (void)messageDaysForYear:(NSInteger)year
                      month:(NSInteger)month
                    success:(void (^)(NSArray<NSString *> *result))success
                    failure:(void (^)(NSError *error))failure;
 ```
 
-```result``` 为字符串数组，元素为日期字符串，如：“01”、“11”、“30”。
+**参数说明**
 
-#### 消息分类
+| 参数    | 说明                                   |
+| ------- | -------------------------------------- |
+| year    | 年，如：2020                           |
+| month   | 月，如：2                              |
+| success | 成功回调，返回当月有消息记录的日期数组 |
+| failure | 失败回调，error 标示错误信息           |
 
-通过下面的接口获取默认的消息分类列表，可以通过分类查询消息。
+>  ```result``` 为字符串数组，元素为日期字符串，如：“01”、“11”、“30”。
+
+
+
+### 消息分类
+
+侦测报警消息根据触发方式定义有多种类型，部分类型又可以划分为一个大的分类。SDK 提供获取默认分类的列表，以便于分类查询报警消息。
+
+**接口说明**
+
+获取消息分类列表
 
 ```objc
-/**
- get message schemes list
- 获取消息分类列表
-
- @param success callback
- @param failure callback
- */
 - (void)getMessageSchemes:(void (^)(NSArray<TuyaSmartCameraMessageSchemeModel *> *result))success
                   failure:(void (^)(NSError *error))failure;
 ```
 
-```TuyaSmartCameraMessageSchemeModel``` 为消息分类的数据模型，其中 ```msgCodes``` 属性表示此分类包含哪些类型的消息。在获取消息列表时，可以传入此属性的值，以获取指定类型的消息，其他属性可以查看 ```TuyaSmartCameraMessageModel.h``` 文件中，``` TuyaSmartCameraMessageSchemeModel``` 类的定义。
+**参数说明**
 
-#### 消息类型
+| 参数    | 说明                                 |
+| ------- | ------------------------------------ |
+| success | 成功回调，返回消息分类数据模型的数组 |
+| failure | 失败回调，error 标示错误信息         |
 
-消息类型表示报警消息的触发形式，代码中体现为消息模型的`msgCode`属性，取值范围如下：
 
-* **ipc_motion**：移动侦测
-* **ipc_doorbell**：门铃呼叫
-* **ipc_dev_link**：设备联动
-* **ipc_passby**：有人经过
-* **ipc_linger**：有人徘徊
-* **ipc_leave_msg**：门铃消息留言
-* **ipc_connected**：门铃已接听
-* **ipc_unconnected**：门铃未接听
-* **ipc_refuse**：门铃拒接
-* **ipc_human**：人形检测
-* **ipc_cat**：宠物检测
-* **ipc_car**：车辆检测
-* **ipc_baby_cry**：婴儿哭声
-* **ipc_bang**：异响
-* **ipc_face**：检测到人脸
-* **ipc_antibreak**：强拆报警
-* **ipc_low_battery**：低电量告警
+
+**TuyaSmartCameraMessageSchemeModel 数据模型**
+
+| 字段     | 类型     | 说明                         |
+| -------- | -------- | ---------------------------- |
+| describe | NSString | 消息分类描述                 |
+| msgCodes | NSArray  | 消息分类所包含的消息类型数组 |
+
+> 在获取消息列表时，可以传入消息分类的`msgCodes`属性的值，以获取这个分类包含的所有类型的报警消息。
+
+
+
+### 消息类型
+
+消息类型表示报警消息的触发形式，代码中体现为报警消息数据模型的`msgCode`属性。
+
+**消息类型说明**
+
+| 类型            | 说明         |
+| --------------- | ------------ |
+| ipc_motion      | 移动侦测     |
+| ipc_doorbell    | 门铃呼叫     |
+| ipc_dev_link    | 设备联动     |
+| ipc_passby      | 有人经过     |
+| ipc_linger      | 有人徘徊     |
+| ipc_leave_msg   | 门铃消息留言 |
+| ipc_connected   | 门铃已接听   |
+| ipc_unconnected | 门铃未接听   |
+| ipc_refuse      | 门铃拒接     |
+| ipc_human       | 人形检测     |
+| ipc_cat         | 宠物检测     |
+| ipc_car         | 车辆检测     |
+| ipc_baby_cry    | 婴儿哭声     |
+| ipc_bang        | 异响         |
+| ipc_face        | 检测到人脸   |
+| ipc_antibreak   | 强拆报警     |
+| ipc_low_battery | 低电量告警   |
+
+
 
 由于设备能力的不同，能触发的消息类型会有差别。消息分类和消息类型不同，消息类型表示报警消息的触发方式，消息分类是将一个或多个类型的消息组合成一个大类，比如 `ipc_passby`、`ipc_linger`、`ipc_motion` 可以组合成一个分类为移动侦测。
 
-#### 消息列表
+### 消息列表
 
-获取消息列表的接口定义如下：
+可以通过 SDK 查询和删除侦测报警消息。
+
+**接口说明**
+
+获取侦测报警消息列表
 
 ```objc
-/**
- 获取消息列表
-
- @param msgCodes 消息类型
- @param offset 偏移量
- @param limit 分页大小
- @param startTime 传 0 表示无开始时间限制
- @param endTime 结束时间
- @param success callback
- @param failure callback
- */
 - (void)messagesWithMessageCodes:(NSArray *)msgCodes
                           Offset:(NSInteger)offset
                            limit:(NSInteger)limit
@@ -105,32 +144,58 @@
                          endTime:(NSInteger)endTime
                          success:(void (^)(NSArray<TuyaSmartCameraMessageModel *> *result))success
                          failure:(void (^)(NSError *error))failure;
+```
 
-/**
-批量删除消息
+**参数说明**
 
- @param msgIds 需要删除的消息的id数组，TuyaSmartCameraMessageModel.msgId
- @param success callback
- @param failure callback
-*/
+| 参数      | 说明                                                         |
+| --------- | ------------------------------------------------------------ |
+| msgCodes  | 消息类型数组，传 nil 可以获取所有类型的消息                  |
+| offset    | 偏移量，0 表示从第一个报警消息开始                           |
+| limit     | 分页大小，最大数量为 200                                     |
+| startTime | 获取不早于 startTime 上报的消息，传 0 表示不限制开始时间，使用 Unix 时间戳 |
+| endTime   | 获取不晚于 endTime 上报的消息，使用 Unix 时间戳              |
+| success   | 成功回调，返回报警消息数据模型数组                           |
+| failure   | 失败回调，error 标示错误信息                                 |
+
+
+
+批量删除报警消息
+
+```objc
 - (void)removeMessagesWithMessageIds:(NSArray *)msgIds
                              success:(void (^)(void))success
                              failure:(void (^)(NSError *))failure;
 ```
 
-获取消息列表的参数定义：
+**参数说明**
 
-* **msgCodes** : 获取的消息类型列表，可以通过 ```TuyaSmartCameraMessageSchemeModel``` 中的 ```msgCodes``` 属性获取。
-* **offset** : 偏移量，指从 offset 个消息开始。
-* **limit** : 数量限制，一次获取多少个消息。最大为 200。
-* **startTime** : 消息列表的最早时间限制，获取不早于 startTime 上报的消息。传入 0 表示无最早时间限制。
-* **endTime** : 消息列表的最晚时间显示，获取不晚于 endTime 上报的消息。
-* **success** : 成功回调，返回消息模型的数组。
-* **failure** : 失败回调。
+| 参数    | 说明                         |
+| ------- | ---------------------------- |
+| msgIds  | 欲删除的报警消息的 id 数组   |
+| success | 成功回调                     |
+| failure | 失败回调，error 标示错误信息 |
 
-#### 消息模型
 
-消息模型的具体定义可查看在 ```TuyaSmartCameraMessageModel.h``` 文件中的 ```TuyaSmartCameraMessageModel``` 类。
+
+### 报警消息模型
+
+**TuyaSmartCameraMessageModel 数据模型**
+
+| 字段           | 类型      | 说明                           |
+| -------------- | --------- | ------------------------------ |
+| dateTime       | NSString  | 报警消息上报的日期字符串       |
+| msgTypeContent | NSString  | 消息类型描述                   |
+| attachPic      | NSString  | 图片附件地址                   |
+| attachVideos   | NSArray   | 视频附件地址数组               |
+| msgSrcId       | NSString  | 触发报警消息的设备 id          |
+| msgContent     | NSString  | 消息内容                       |
+| msgTitle       | NSString  | 消息标题                       |
+| msgId          | NSString  | 消息 id                        |
+| msgCode        | NSString  | 消息类型                       |
+| time           | NSInteger | 报警消息上报时间的 Unix 时间戳 |
+
+
 
 根据消息类型不同，可能会有不同的附件。通过 ```attachPic``` 属性获取图片附件的地址，```attachVideos``` 属性获取视频附件的地址，通常情况下，这个属性只有一个元素。
 
@@ -138,55 +203,71 @@
 
 视频消息中的视频附件，是加密后的视频，需要通过 ```TuyaSmartCloudManager``` 提供的接口播放。 ```attachVideos``` 中的元素格式为："视频地址@密钥"，播放视频时，需要同时传入视频地址和密钥。
 
-视频播放相关的接口定义如下，返回 0 表示成功：
+**接口说明**
+
+播放报警消息中的视频
 
 ```objc
-/**
- play encrypt video in detect message
- 播放报警消息中的加密视频
- 
- @param url video path
- @param nStartTime Start time to play
- @param encryptKey encrypt key
- @param callback start callback
- @param finihedCallBack finish callback
+- (int)playVideoMessageWithUrl:(NSString *)url 
+  									 startTime:(int)nStartTime 
+                    encryptKey:(NSString *)encryptKey 
+                    onResponse:(void (^)(int errCode))callback 
+                      onFinish:(void (^)(int errCode))finihedCallBack;
+```
 
- @return error code
-*/
-- (int)playVideoMessageWithUrl:(NSString *)url startTime:(int)nStartTime encryptKey:(NSString *)encryptKey onResponse:(void (^)(int errCode))callback onFinish:(void (^)(int errCode))finihedCallBack;
+**参数说明**
 
-/**
- pause play
- 暂停播放
- 
- @return error code
-*/
+| 参数             | 说明                                                     |
+| ---------------- | -------------------------------------------------------- |
+| url              | 视频地址                                                 |
+| nStartTime       | 开始播放的时间点，从 0 开始，单位为`秒`                  |
+| encryptKey       | 视频加密的密钥                                           |
+| callback         | 视频播放结果回调，errCode 标示错误码，0 表示播放成功     |
+| finishedCallBack | 视频播放结束回调，errCode 标示错误码，0 表示正常播放结束 |
+
+
+
+暂停播放
+
+```objc
 - (int)pausePlayVideoMessage;
+```
 
-/**
- resume play
- 恢复播放
- 
- @return error code
-*/
+
+
+恢复播放
+
+```objc
 - (int)resumePlayVideoMessage;
+```
 
-/**
- stop play
- 停止播放
- 
- @return error code
-*/
+
+
+停止播放
+
+```objc
 - (int)stopPlayVideoMessage;
 ```
 
-视频消息的播放同云存储视频的播放类似，在接收到视频帧时，会回调下面的代理方法：
+
+
+**返回值**
+
+| 类型 | 说明                   |
+| ---- | ---------------------- |
+| int  | 错误码，0 表示操作成功 |
+
+
+
+视频消息的播放同云存储视频的播放类似，在接收到视频帧时，会有视频帧数据代理回调。
 
 ```objc
-- (void)cloudManager:(TuyaSmartCloudManager *)cloudManager didReceivedFrame:(CMSampleBufferRef)frameBuffer videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
+- (void)cloudManager:(TuyaSmartCloudManager *)cloudManager 
+  	didReceivedFrame:(CMSampleBufferRef)frameBuffer 
+      videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
 
-结构体```TuyaSmartVideoFrameInfo```中的下面两个属性描述视频的总时长和进度，单位是毫秒。
+结构体```TuyaSmartVideoFrameInfo```中的下面两个属性描述视频的总时长和进度，单位是`毫秒`。
 
 * **nDuration** : 视频总时长
 * **nProgress** : 当前视频帧的进度
@@ -194,12 +275,6 @@
 视频声音开关同云存储一样，使用下面的接口：
 
 ```objc
-/**
- set mute.
- @param mute mute sound.
- @param success success call back.
- @param failure failed call back.
- */
 - (void)enableMute:(BOOL)mute success:(void(^)(void))success failure:(void (^)(NSError * error))failure;
 ```
 
@@ -213,9 +288,7 @@
 
 ### 示例代码
 
-完整的示例代码请参考 demo 程序中的`TYCameraMessageViewController.m`文件。
-
-__Objective-C__
+__ObjC__
 
 ```objc
 - (void)enableDetect {
