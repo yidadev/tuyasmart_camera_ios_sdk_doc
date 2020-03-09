@@ -182,7 +182,7 @@ SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染�
 
 
 
-`errorCode`的含义可以参考后面的[错误码](./resource/errors.md)章节。
+`errorCode`的含义可以参考后面的[错误码](./resource/errors.html)章节。
 
 ### 示例代码
 
