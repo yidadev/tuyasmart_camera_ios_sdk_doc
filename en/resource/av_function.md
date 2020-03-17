@@ -332,8 +332,8 @@ ObjC
 }
 
 - (void)cameraDidStopTalk:(id<TuyaSmartCameraType>)camera {
-		// talk did stap
-		// unmute video sound
+	// talk did stop
+	// unmute video sound
     if (self.isMuted) {
         [self.camera enableMute:NO forPlayMode:TuyaSmartCameraPlayModePreview];
     }
@@ -373,11 +373,11 @@ func stopTalk() {
 }
 
 func cameraDidBeginTalk(_ camera: TuyaSmartCameraType!) {
-    // begin talk
+	// begin talk
 }
 
 func cameraDidStopTalk(_ camera: TuyaSmartCameraType!) {
-    // talk did stap
+	// talk did stop
     if self.isMuted {
         self.camera.enableMute(false, for: .preview)
     }
@@ -485,7 +485,7 @@ ObjC
 
 ```objc
 - (void)changeHD {
-		[self.camera enableHD:!self.HD];
+  	[self.camera enableHD:!self.HD];
 }
 
 - (void)camera:(id<TuyaSmartCameraType>)camera resolutionDidChangeWidth:(NSInteger)width height:(NSInteger)height {
@@ -508,7 +508,7 @@ Swift
 
 ```swift
 func changeHD() {
-    self.camera.enableHD(true)
+  	self.camera.enableHD(true)
 }
 
 func camera(_ camera: TuyaSmartCameraType!, resolutionDidChangeWidth width: Int, height: Int) {
