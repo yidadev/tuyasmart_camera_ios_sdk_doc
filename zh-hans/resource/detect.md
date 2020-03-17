@@ -286,7 +286,7 @@
 
 ### 示例代码
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)enableDetect {
@@ -338,7 +338,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func enableDectect() {

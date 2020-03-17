@@ -8,7 +8,7 @@ Before starting to control the PTZ camera rotation, you need to determine whethe
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)startPtz {
@@ -32,7 +32,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startPtz() {

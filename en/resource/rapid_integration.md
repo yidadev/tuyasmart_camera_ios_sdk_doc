@@ -92,13 +92,13 @@ Please select IP Camera device solution when obtain SDK.
 
 4. Open file `AppDelegate.m`，and use the `App Key` and `App Secret` obtained from the development platform in the `[AppDelegate application:didFinishLaunchingWithOptions:]`method to initialize SDK:
 
-   __ObjC__
+   ObjC
 
    ```objc
    [[TuyaSmartSDK sharedInstance] startWithAppKey:<#your_app_key#> secretKey:<#your_secret_key#>];
    ```
 
-   __Swift__
+   Swift
 
    ```swift
    TuyaSmartSDK.sharedInstance()?.start(withAppKey: <#your_app_key#>, secretKey: <#your_secret_key#>)
@@ -110,7 +110,7 @@ Now all the prepare work has been completed. You can use the sdk to develop your
 
 During the development we can open debug mode, print the log to analyze some problem.
 
-__ObjC__
+ObjC
 
 ```objc
 #ifdef DEBUG
@@ -119,7 +119,7 @@ __ObjC__
 #endif
 ```
 
-__Swift__
+Swift
 
 ```swift
 #if DEBUG

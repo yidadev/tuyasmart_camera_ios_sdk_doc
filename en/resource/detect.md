@@ -282,7 +282,7 @@ However, if there is a video recording at the time when the alarm message occurs
 
 ### Example
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)enableDetect {
@@ -334,7 +334,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func enableDectect() {

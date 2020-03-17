@@ -196,7 +196,7 @@ In addition, after successfully obtaining the time data of the video recording s
 
 ### Example
 
-__ObjC__
+ObjC
 
 ```objc
 #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
@@ -318,7 +318,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startPlayback() {

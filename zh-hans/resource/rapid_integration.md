@@ -2,7 +2,7 @@
 
 ## 对接方式
 
-在接入Tuya Smart Camera SDK 之前，您可以先了解一下[涂鸦全屋智能 APP SDK](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)，Tuya Smart Camera SDK 需要依赖涂鸦全屋智能 APP SDK 其中的一部分，下面的文档也会介绍到依赖的这一部分。
+在接入Tuya Smart Camera SDK 之前，您可以先了解一下[涂鸦全屋智能 App SDK](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)，Tuya Smart Camera SDK 需要依赖涂鸦全屋智能 App SDK 其中的一部分，下面的文档也会介绍到依赖的这一部分。
 
 涂鸦平台提供多种对接方案，开发者可以根据自己的需求选择不同的对接方式，可以参考[方案介绍](https://docs.tuya.com/zh/iot/open-api/quick-start/solution-overview)。
 
@@ -12,9 +12,9 @@
 
 云云对接方案是指，开发者可以通过涂鸦云端提供的 open api 完成用户对接，以及设备管理、控制等功能，App 端只需要集成删减版的涂鸦智能设备配网 SDK 完成设备的绑定即可。这种方式的优点是 SDK 依赖最小，App 侵入性低，缺点是 App 开发工作量大，并需要开发者拥有较强的云端服务支持，控制链路过长。此方案适合已经有成型的账号体系和较完善的 App 产品。
 
-由于无法通过 open api 实现摄像机的视频播放功能，所以云云对接仍然需要集成 Tuya Smart Camera SDK。
+由于无法通过 open api 实现摄像机的视频播放功能，所以云云对接仍然需要集成 Tuya smart camera SDK。
 
-可通过涂鸦云端提供的 open api 完成用户对接，云存储，侦测报警，以及基于设备功能点实现的功能。使用 Tuya Smart Camera SDK 完成视频直播，存储卡回放，实时对讲等摄像机基础功能。
+可通过涂鸦云端提供的 open api 完成用户对接，云存储，侦测报警，以及基于设备功能点实现的功能。使用 Tuya smart camera SDK 完成视频直播，存储卡回放，实时对讲等摄像机基础功能。
 
 **模块说明**
 
@@ -80,7 +80,7 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
 ## 初始化 SDK
 
-1. 打开项目设置，Target => General，修改```Bundle Identifier```为涂鸦开发者平台上注册的 APP 对应的 iOS 包名。
+1. 打开项目设置，Target => General，修改```Bundle Identifier```为涂鸦开发者平台上注册的 App 对应的 iOS 包名。
 
 2. 将上面[准备工作](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Preparation.html)中下载的安全图片导入到工程根目录，重命名为```t_s.bmp```，并加入「项目设置 => Target => Build Phases => Copy Bundle Resources」中。
 
@@ -92,15 +92,15 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
    #import <TuyaSmartCameraKit/TuyaSmartCameraKit.h>
    ```
 
-4. 打开`AppDelegate.m`文件，在`[AppDelegate application:didFinishLaunchingWithOptions:]`方法中，使用在涂鸦开发者平台上，APP 对应的 `App Key`，`App Secret` 初始化SDK：
+4. 打开`AppDelegate.m`文件，在`[AppDelegate application:didFinishLaunchingWithOptions:]`方法中，使用在涂鸦开发者平台上，App 对应的 `App Key`，`App Secret` 初始化SDK：
 
-   __ObjC__
+   ObjC
 
    ```objc
    [[TuyaSmartSDK sharedInstance] startWithAppKey:<#your_app_key#> secretKey:<#your_secret_key#>];
    ```
 
-   __Swift__
+   Swift
 
    ```swift
    TuyaSmartSDK.sharedInstance()?.start(withAppKey: <#your_app_key#>, secretKey: <#your_secret_key#>)
@@ -112,7 +112,7 @@ CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
 在开发的过程中可以开启 Debug 模式，打印一些日志用于分析问题。
 
-__ObjC__
+ObjC
 
 ```objc
 #ifdef DEBUG
@@ -121,7 +121,7 @@ __ObjC__
 #endif
 ```
 
-__Swift__
+Swift
 
 ```swift
 #if DEBUG

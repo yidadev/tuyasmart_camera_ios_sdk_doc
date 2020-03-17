@@ -20,7 +20,7 @@ You can determine the type of device according to the `category` property of` Tu
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 [[TuyaSmartHomeManager new] getHomeListWithSuccess:^(NSArray<TuyaSmartHomeModel *> *homes) {
@@ -41,7 +41,7 @@ __ObjC__
 }];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let homeManager = TuyaSmartHomeManager()
@@ -152,13 +152,13 @@ Create a camera instance object.
 
 The Tuya smart camera SDK supports three p2p channel implementation. The SDK initializes different camera specific implementation objects according to the p2p type.
 
-__ObjC__
+ObjC
 
 ```objc
 id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let p2pType = deviceModel.skills["p2pType"]
@@ -166,7 +166,7 @@ let p2pType = deviceModel.skills["p2pType"]
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
@@ -178,7 +178,7 @@ id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
 }];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let p2pType = deviceModel.skills["p2pType"]

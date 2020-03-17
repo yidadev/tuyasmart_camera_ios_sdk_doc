@@ -124,7 +124,7 @@ Before starting network configuration, the SDK needs to get the token from the s
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)getToken {
@@ -137,7 +137,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func getToken() {
@@ -158,7 +158,7 @@ After got the token, the ssid and password of the wi-fi  which the device is exp
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 NSDictionary *dictionary = @{
@@ -170,7 +170,7 @@ NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 
 self.wifiJsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let dictionary = [
@@ -188,13 +188,13 @@ Use the `wifiJsonStr` to generate the qr code, reset the device , point the qr c
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 [[TuyaSmartActivator sharedInstance] startConfigWiFi:TYActivatorModeQRCode ssid:self.ssid password:self.pwd token:self.token timeout:100];
 ```
 
-__Swift__
+Swift
 
 ```swift
 TuyaSmartActivator.sharedInstance()?.startConfigWiFi(TYActivatorModeQRCode, ssid: self.ssid, password: self.pwd, token: self.token, timeout: 100)
@@ -206,13 +206,13 @@ Stop configuration by this method.
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 [[TuyaSmartActivator sharedInstance] stopConfigWiFi];
 ```
 
-__Swift__
+Swift
 
 ```swift
 TuyaSmartActivator.sharedInstance()?.stopConfigWiFi()
@@ -224,7 +224,7 @@ The result of network configuration response by `TuyaSmartActivatorDelegate`.
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)activator:(TuyaSmartActivator *)activator didReceiveDevice:(TuyaSmartDeviceModel *)deviceModel error:(NSError *)error {
@@ -236,7 +236,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func activator(_ activator: TuyaSmartActivator!, didReceiveDevice deviceModel: TuyaSmartDeviceModel?, error: Error!) {

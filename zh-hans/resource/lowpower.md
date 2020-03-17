@@ -16,7 +16,7 @@
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -62,7 +62,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ``` swift
 func viewDidLoad() {
@@ -120,7 +120,7 @@ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHa
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 #define kTuyaDoorbellNotification @"kNotificationMQTTMessageNotification"
@@ -141,7 +141,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
@@ -164,7 +164,7 @@ func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -203,7 +203,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 override func viewDidLoad() {

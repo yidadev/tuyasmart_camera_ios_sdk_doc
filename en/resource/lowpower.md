@@ -18,7 +18,7 @@ When success callback, it is means wake up cammand has publish succeed, but door
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -62,7 +62,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ``` swift
 func viewDidLoad() {
@@ -115,7 +115,7 @@ When the device is successfully bound to the home and online, when someone rings
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 #define kTuyaDoorbellNotification @"kNotificationMQTTMessageNotification"
@@ -136,7 +136,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
@@ -159,7 +159,7 @@ There are two ways to power low-power doorbells, plug-in and battery-powered. Th
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -197,7 +197,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 override func viewDidLoad() {

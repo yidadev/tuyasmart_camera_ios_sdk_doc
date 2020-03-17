@@ -43,7 +43,7 @@ To initialize the SDK, it needs to be called after `TuyaSmartSDK` is activated.
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -53,7 +53,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ``` swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -79,7 +79,7 @@ Synchronize user login status.
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)login {
@@ -91,7 +91,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ``` swift
 func login() {
@@ -129,7 +129,7 @@ Gets the view controller that cloud storage purchased.
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)gotoCloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel {
@@ -141,7 +141,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ``` swift
 TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success: { (vc) in
@@ -523,7 +523,7 @@ Video screenshot, image saved in the specified file path.
 
 ### Example
 
-__ObjC__
+ObjC
 
 ```objc
 // self.devId = @"xxxxx";
@@ -629,7 +629,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func viewDidLoad() {

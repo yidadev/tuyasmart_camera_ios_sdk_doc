@@ -1,6 +1,6 @@
 # 摄像设备功能点
 
-涂鸦智能设备通过设备功能点来控制设备，并且通过标准化的功能点实现设备与 App 之间的交互。Tuya Smart Camera SDK 基于 [自定义设备控制](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6) 封装了一套智能摄像机的扩展功能。
+涂鸦智能设备通过设备功能点来控制设备，并且通过标准化的功能点实现设备与 App 之间的交互。Tuya smart camera SDK 基于 [自定义设备控制](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6) 封装了一套智能摄像机的扩展功能。
 
 **类和协议**
 
@@ -120,7 +120,7 @@
 
 ## 功能点查询
 
-除了部分存储卡状态的功能点，摄像机在功能点状态变化时，会主动上报到云端，Tuya Smart Camera SDK 会实时更新设备功能点状态缓存，所以大部分情况下，直接获取缓存中功能点的值就可以了。
+除了部分存储卡状态的功能点，摄像机在功能点状态变化时，会主动上报到云端，Tuya smart camera SDK 会实时更新设备功能点状态缓存，所以大部分情况下，直接获取缓存中功能点的值就可以了。
 
 异步查询功能点的值，是下发`NULL`到设备端，正常情况下，设备端收到`NULL`的功能点数据后，会主动上报一次对应功能点的值。但是这个行为是由摄像机厂商实现的，有些厂商没有处理这个逻辑，所以下发`NULL`后，会导致摄像机固件程序崩溃。所以在使用此接口时，请向厂商确定他们有对这些功能点正确处理`NULL`的逻辑。
 
@@ -216,7 +216,7 @@
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -246,7 +246,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 override func viewDidLoad() {

@@ -8,7 +8,7 @@
 
 设备管理相关的所有功能对应`TuyaSmartDevice`类，需要使用设备 id 进行初始化。错误的设备 id 可能会导致初始化失败，返回`nil`。参考文档[设备管理](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86)。
 
-> 请始终通过家庭来获取设备列表，并从家庭的设备列表里获取设备 id 来初始化 TuyaSmartDevice 类，以避免未同步家庭数据，TuyaSmartDevice 初始化失败的情况。
+> 请始终通过家庭来获取设备列表，并从家庭的设备列表里获取设备 id 来初始化 `TuyaSmartDevice` 类，以避免未同步家庭数据，`TuyaSmartDevice` 初始化失败的情况。
 
 ## 摄像机
 
@@ -20,7 +20,7 @@
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 [[TuyaSmartHomeManager new] getHomeListWithSuccess:^(NSArray<TuyaSmartHomeModel *> *homes) {
@@ -41,7 +41,7 @@ __ObjC__
 }];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let homeManager = TuyaSmartHomeManager()
@@ -69,21 +69,21 @@ homeManager.getHomeList(success: { homeList in
 
 筛选出智能摄像机设备后，就可以根据设备 id，即`TuyaSmartDeviceModel`的`devId`属性来获取摄像机的配置信息。
 
-配置信息需要通过涂鸦云端 API 来获取。
+配置信息需要通过涂鸦云端 open api 来获取。
 
 **接口说明**
 
-| 接口名                | 版本 | 说明                        |
-| --------------------- | ---- | --------------------------- |
-| tuya.m.ipc.config.get | 2.0  | 获取摄像机设备的P2P配置信息 |
+| 接口名                | 版本 | 说明                          |
+| --------------------- | ---- | ----------------------------- |
+| tuya.m.ipc.config.get | 2.0  | 获取摄像机设备的 p2p 配置信息 |
 
 **参数说明**
 
-| 参数名 | 类型   | 说明   | 是否必须 |
-| ------ | ------ | ------ | -------- |
-| devId  | String | 设备id | 是       |
+| 参数名 | 类型   | 说明    | 是否必须 |
+| ------ | ------ | ------- | -------- |
+| devId  | String | 设备 id | 是       |
 
-需要使用`TuyaSmartRequest`类来调用涂鸦云端的 API，参考文档[通用接口](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/CommonInterface.html)。
+需要使用`TuyaSmartRequest`类来调用涂鸦云端的 api，参考文档[通用接口](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/CommonInterface.html)。
 
 ### 摄像机实例
 
@@ -152,13 +152,13 @@ SDK 提供创建摄像机配置对象和摄像机控制对象的工厂方法。
 
 涂鸦智能摄像机支持三种 p2p 通道实现方案，SDK 会根据 p2p 类型来初始化不同的摄像机具体实现的对象，通过下面的方式获取设备的 p2p 类型。
 
-__ObjC__
+ObjC
 
 ```objc
 id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let p2pType = deviceModel.skills["p2pType"]
@@ -166,7 +166,7 @@ let p2pType = deviceModel.skills["p2pType"]
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 // deviceModel 为设备列表中的摄像机设备的数据模型
@@ -179,7 +179,7 @@ id p2pType = [deviceModel.skills objectForKey:@"p2pType"];
 }];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let p2pType = deviceModel.skills["p2pType"]
@@ -191,4 +191,4 @@ TuyaSmartRequest().request(withApiName: "tuya.m.ipc.config.get", postData: ["dev
 }
 ```
 
-> 注意，上面代码中，delegate 参数传入的 `self` 需要实现 TuyaSmartCameraDelegate 协议。
+> 注意，上面代码中，`delegate` 参数传入的 `self` 需要实现 `TuyaSmartCameraDelegate` 协议。

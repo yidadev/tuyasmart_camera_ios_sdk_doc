@@ -58,7 +58,7 @@
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)startRecord {
@@ -96,7 +96,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startRecord() {
@@ -149,9 +149,9 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 **返回值**
 
-| 类型    | 说明                                               |
-| ------- | -------------------------------------------------- |
-| UIImage | 视频截图的 UIImage 对象，返回 nil 表示图片保存失败 |
+| 类型    | 说明                                                 |
+| ------- | ---------------------------------------------------- |
+| UIImage | 视频截图的 `UIImage` 对象，返回 nil 表示图片保存失败 |
 
 **接口说明**
 
@@ -170,9 +170,9 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 **返回值**
 
-| 类型    | 说明                                               |
-| ------- | -------------------------------------------------- |
-| UIImage | 视频截图的 UIImage 对象，返回 nil 表示图片保存失败 |
+| 类型    | 说明                                                 |
+| ------- | ---------------------------------------------------- |
+| UIImage | 视频截图的 `UIImage` 对象，返回 nil 表示图片保存失败 |
 
 **接口说明**
 
@@ -184,15 +184,15 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 **返回值**
 
-| 类型    | 说明                                               |
-| ------- | -------------------------------------------------- |
-| UIImage | 视频截图的 UIImage 对象，返回 nil 表示图片保存失败 |
+| 类型    | 说明                                                 |
+| ------- | ---------------------------------------------------- |
+| UIImage | 视频截图的 `UIImage` 对象，返回 nil 表示图片保存失败 |
 
 
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)snapShoot {
@@ -205,7 +205,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func snapShoot() {
@@ -311,7 +311,7 @@ App 到摄像机的声音通道成功关闭的代理回调
 
 下面以单向对讲为例来展示声音开关与实时对讲接口的用法。
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)startTalk {
@@ -356,7 +356,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 // 当前在实时视频播放状态
@@ -450,7 +450,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 **接口说明**
 
- 切换视频清晰度，YES 是高清，NO 是标清
+ 切换视频清晰度，`YES` 是高清，`NO` 是标清
 
 ```objc
 - (void)enableHD:(BOOL)hd;
@@ -481,7 +481,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)changeHD {
@@ -507,7 +507,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func changeHD() {
@@ -533,7 +533,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 ### 裸流数据
 
-涂鸦 IPC SDK 提供访问视频裸流数据的代理回调方法，此方法返回视频帧的 YUV 数据，颜色编码格式为 YUV 420sp，iOS 中，对应于 `kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange` 格式。
+Tuya smart camera SDK 提供访问视频裸流数据的代理回调方法，此方法返回视频帧的 YUV 数据，颜色编码格式为 YUV 420sp，iOS 中，对应于 `kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange` 格式。
 
 **接口说明**
 
@@ -566,13 +566,13 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 
 
 
-如果你想要自己渲染视频图像，或者需要对视频图像做特殊处理，可以将`TuyaSmartCameraType`对象的`autoRender`属性设置为 NO，然后实现此代理方法，此时 SDK 将不会自动渲染视频图像。
+如果你想要自己渲染视频图像，或者需要对视频图像做特殊处理，可以将`TuyaSmartCameraType`对象的`autoRender`属性设置为 `NO`，然后实现此代理方法，此时 SDK 将不会自动渲染视频图像。
 
 可以将`sampleBuffer`直接强转为`CVPixelBufferRef`，如果你想要异步处理视频帧数据，请记得先 retain，否则此代理方法执行完成后，视频帧数据将会被释放，异步处理时会发生野指针异常。
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo {
@@ -588,7 +588,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer: CMSampleBuffer!, frameInfo: TuyaSmartVideoFrameInfo) {

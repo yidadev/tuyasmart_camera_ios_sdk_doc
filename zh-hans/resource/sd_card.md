@@ -37,7 +37,7 @@
 
 ### 示例代码
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -150,7 +150,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 override func viewDidLoad() {

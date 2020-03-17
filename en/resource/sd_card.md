@@ -35,7 +35,7 @@ After the Tuya camera is inserted into the memory card, the captured image recor
 
 ### Example
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)viewDidLoad {
@@ -134,7 +134,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 override func viewDidLoad() {

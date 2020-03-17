@@ -192,7 +192,7 @@ The meaning of `errorCode` can refer to the [Error Code](./resource/errors.html)
 
 ### Example
 
-__ObjC__
+ObjC
 
 ``` objc
 #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
@@ -248,7 +248,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startStream() {

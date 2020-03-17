@@ -1,6 +1,6 @@
 # 摄像机功能
 
-Tuya Smart Camera SDK 提供智能摄像机的实时视频播放，设备存储卡录像播放，对当前正在播放的视频截图、录制视频， 与摄像机实时通话等基础能力，并提供视频帧解码后的 YUV 数据，开发者可以对视频数据进行二次处理。
+Tuya smart camera SDK 提供智能摄像机的实时视频播放，设备存储卡录像播放，对当前正在播放的视频截图、录制视频， 与摄像机实时通话等基础能力，并提供视频帧解码后的 YUV 数据，开发者可以对视频数据进行二次处理。
 
 ## 视频直播
 
@@ -98,7 +98,7 @@ p2p 通道连接成功以后，就可以开始播放实时视频了。
 
 **接口说明**
 
-图像缩放属性。默认是 ``NO``，如果视图的宽高比和视频图像的宽高比不一样，则会在图像的上下或者左右两侧留有黑边。设置为`YES`，图像会拉伸铺满整个视图，可能会造成图像变形。
+图像缩放属性。默认是 `NO`，如果视图的宽高比和视频图像的宽高比不一样，则会在图像的上下或者左右两侧留有黑边。设置为`YES`，图像会拉伸铺满整个视图，可能会造成图像变形。
 
 ```objc
 @property (nonatomic, assign) BOOL scaleToFill;
@@ -128,11 +128,11 @@ p2p 通道连接成功以后，就可以开始播放实时视频了。
 - (UIImage *)screenshot;
 ```
 
-> TuyaSmartCameraType 对象还提供了一个 autoRender 属性，默认是 YES，SDK 会自动渲染视频图像。如果开发者不希望 SDK 自动渲染视频，可将此属性设置为 NO，然后可以从代理方法中获取到每一帧视频的 YUV 数据，并自主开发视频渲染，详细的接口在[裸流数据](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/av_function.html#%E8%A3%B8%E6%B5%81%E6%95%B0%E6%8D%AE)章节中介绍。
+> `TuyaSmartCameraType` 对象还提供了一个 `autoRender` 属性，默认是 `YES`，SDK 会自动渲染视频图像。如果开发者不希望 SDK 自动渲染视频，可将此属性设置为 `NO`，然后可以从代理方法中获取到每一帧视频的 YUV 数据，并自主开发视频渲染，详细的接口在[裸流数据](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/av_function.html#%E8%A3%B8%E6%B5%81%E6%95%B0%E6%8D%AE)章节中介绍。
 
 #### 全屏播放
 
-SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染视图的布局即可，若需要视频图像铺满视图，可以将`scaleToFill`属性设置为 YES，但是此时图像可能会被拉伸变形。全屏模式时，横竖屏的旋转，布局的变化都需要开发者自行维护。
+SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染视图的布局即可，若需要视频图像铺满视图，可以将`scaleToFill`属性设置为 `YES`，但是此时图像可能会被拉伸变形。全屏模式时，横竖屏的旋转，布局的变化都需要开发者自行维护。
 
 ### 流程图
 
@@ -186,7 +186,7 @@ SDK 并不提供全屏播放的能力，全屏播放只需要修改视频渲染�
 
 ### 示例代码
 
-__ObjC__
+ObjC
 
 ```objc
 #define kTuyaSmartIPCConfigAPI @"tuya.m.ipc.config.get"
@@ -248,7 +248,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startStream() {

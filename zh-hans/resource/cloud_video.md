@@ -43,7 +43,7 @@ end
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -53,7 +53,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ``` swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -79,7 +79,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)login {
@@ -91,7 +91,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ``` swift
 func login() {
@@ -105,7 +105,7 @@ func login() {
 
 ### 获取云存储购买页面
 
-云存储购买页面是 H5 页面，由于需要从云端请求对应的页面地址，所以获取云存储页面的接口是异步的，并需要传入对应设备的 ```TuyaSmartDeviceModel```对象。
+云存储购买页面是 H5 页面，由于需要从云端请求对应的页面地址，所以获取云存储页面的接口是异步的，并需要传入对应设备的 `TuyaSmartDeviceModel`对象。
 
 **接口说明**
 
@@ -129,7 +129,7 @@ func login() {
 
 **示例代码**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)gotoCloudServicePanelWithDevice:(TuyaSmartDeviceModel *)deviceModel {
@@ -142,7 +142,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ``` swift
 TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success: { (vc) in
@@ -165,7 +165,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 ### 初始化
 
-`TuyaSmartCloudManager`初始化时，需要传入设备 id 。云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 NO。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
+`TuyaSmartCloudManager`初始化时，需要传入设备 id 。云存储默认是静音开始播放的，如果需要播放时开启声音，可在初始化时，设置静音状态为 `NO`。云存储播放时，视频帧数据和帧头信息都将用过代理方法回调。
 
 **接口说明**
 
@@ -238,7 +238,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 
 
-云存储服务过期后，已上传的云存储视频还会预留一段时间（通常是7天，具体看云存储服务协议），如果在此期间没有续费，到期后，云存储视频将会删除。
+云存储服务过期后，已上传的云存储视频还会预留一段时间（通常是 7 天，具体看云存储服务协议），如果在此期间没有续费，到期后，云存储视频将会删除。
 
 ### 云存储录像日期
 
@@ -417,7 +417,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 
 
-如果是直接播放某个视频片段（`TuyaSmartCloudTimePieceModel`），开始时间传入 `TuyaSmartCloudTimePieceModel` 中介于 `startTime` 和 `endTime` 之间的一个时间戳， isEvent 传入 NO。如果是想要播放某个事件（`TuyaSmartCloudTimeEventModel`），开始时间传入 `TuyaSmartCloudTimeEventModel` 中的`startTime` ，`isEvent` 传入 `YES`，结束时间可以传入当天的结束时间，也就是 `TuyaSmartCloudDayModel` 的 `endTime`。
+如果是直接播放某个视频片段（`TuyaSmartCloudTimePieceModel`），开始时间传入介于 `TuyaSmartCloudTimePieceModel` 中 `startTime` 和 `endTime` 之间的一个时间戳， `isEvent` 传入 `NO`。如果是想要播放某个事件（`TuyaSmartCloudTimeEventModel`），开始时间传入 `TuyaSmartCloudTimeEventModel` 的`startTime` ，`isEvent` 传入 `YES`，结束时间可以传入当天的结束时间，也就是 `TuyaSmartCloudDayModel` 的 `endTime`。
 
 `TuyaSmartCloudManager`会自动渲染视频，通过`videoView`方法获取视频渲染视图，并添加到屏幕上。
 
@@ -501,9 +501,9 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 **返回值**
 
-| 类型    | 说明                                    |
-| ------- | --------------------------------------- |
-| UIImage | 视频截图的 UIImage 对象，失败时返回 nil |
+| 类型    | 说明                                      |
+| ------- | ----------------------------------------- |
+| UIImage | 视频截图的 `UIImage` 对象，失败时返回 nil |
 
 **接口说明**
 
@@ -526,7 +526,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 ### 示例代码
 
-__ObjC__
+ObjC
 
 ```objc
 // self.devId = @"xxxxx";
@@ -632,7 +632,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func viewDidLoad() {

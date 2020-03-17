@@ -3,7 +3,7 @@
 涂鸦智能摄像机硬件 Wi-Fi 主要支持以下配网模式：
 
 * 快连模式（Smart Config 模式）
-* 热点模式（AP模式）
+* 热点模式（AP 模式）
 * 二维码模式
 
 > 二维码模式较为简单，建议使用二维码配网，如果设备扫描不了二维码，再尝试快连模式。
@@ -30,18 +30,18 @@ participant Device
 participant Service
 
 Note over APP: 连上路由器
-Note over Device: Wifi灯快闪
+Note over Device: Wifi 灯快闪
 
-APP->SDK: 获取token
-SDK->Service: 获取token
-Service-->SDK: 返回token
-SDK-->APP: 返回token
+APP->SDK: 获取 Token
+SDK->Service: 获取 Token
+Service-->SDK: 返回 Token
+SDK-->APP: 返回 Token
 
-APP-->APP: 将 ssid/pwd/token 拼接字符串生成二维码
+APP-->APP: 将 ssid/pwd/Token 拼接字符串生成二维码
 Device-->APP: 摄像机扫描二维码获取 WI-FI 信息和 Token
 Device->Service: 去激活设备
 
-APP->SDK: 开始配网 ssid/pwd/token
+APP->SDK: 开始配网 ssid/pwd/Token
 
 Service-->Device: 激活成功
 Device-->SDK: 激活成功
@@ -114,17 +114,17 @@ SDK-->APP: 激活成功
 
 | 参数        | 说明                                               |
 | ----------- | -------------------------------------------------- |
-| activator   | 此次配网使用的 TuyaSmartActivator 对象             |
+| activator   | 此次配网使用的 `TuyaSmartActivator `对象           |
 | deviceModel | 配网成功时，返回此次配网的设备模型，失败时返回 nil |
 | error       | 配网失败时，标示错误信息，成功时为 nil             |
 
 
 
-### 获取token
+### 获取 Token
 
-开始配网之前，SDK 需要在联网状态下从涂鸦云获取配网 Token，然后将 Wi-Fi 的 ssid 与密码一起生成二维码。Token的有效期为10分钟，且配置成功后就会失效（再次配网需要重新获取）。设备配网需要依赖于家庭，设备必须绑定在某个家庭下，所以获取配网 Token 时，需要传入一个家庭的 id 作为参数，设备使用这个 Token 激活成功后，就会绑定在这个家庭的设备列表中。
+开始配网之前，SDK 需要在联网状态下从涂鸦云获取配网 Token，然后将 Wi-Fi 的 ssid 与密码一起生成二维码。Token 的有效期为 10 分钟，且配置成功后就会失效（再次配网需要重新获取）。设备配网需要依赖于家庭，设备必须绑定在某个家庭下，所以获取配网 Token 时，需要传入一个家庭的 id 作为参数，设备使用这个 Token 激活成功后，就会绑定在这个家庭的设备列表中。
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)getToken {
@@ -137,7 +137,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func getToken() {
@@ -156,7 +156,7 @@ func getToken() {
 
 获取到配网 Token 后，还需要有期望设备连接的 Wi-Fi 的 ssid 和密码，通过下面的方式拼接成字符串，然后根据这个字符串生成一个二维码图片。
 
-__ObjC__
+ObjC
 
 ```objc
 NSDictionary *dictionary = @{
@@ -168,7 +168,7 @@ NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 
 self.wifiJsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 ```
 
-__Swift__
+Swift
 
 ```swift
 let dictionary = [
@@ -182,15 +182,15 @@ self.wifiJsonStr = String(data: jsonData, encoding: String.Encoding.utf8)
 
 ### 开始配网
 
-使用上面生成的 wifiJsonStr 生成二维码，确定设备处于配网状态，将二维码对准摄像头，设备捕捉到二维码信息后会发出提示音。此时通过以下接口开始监听配网结果。
+使用上面生成的 `wifiJsonStr` 生成二维码，确定设备处于配网状态，将二维码对准摄像头，设备捕捉到二维码信息后会发出提示音。此时通过以下接口开始监听配网结果。
 
-__ObjC__
+ObjC
 
 ```objc
 [[TuyaSmartActivator sharedInstance] startConfigWiFi:TYActivatorModeQRCode ssid:self.ssid password:self.pwd token:self.token timeout:100];
 ```
 
-__Swift__
+Swift
 
 ```swift
 TuyaSmartActivator.sharedInstance()?.startConfigWiFi(TYActivatorModeQRCode, ssid: self.ssid, password: self.pwd, token: self.token, timeout: 100)
@@ -200,13 +200,13 @@ TuyaSmartActivator.sharedInstance()?.startConfigWiFi(TYActivatorModeQRCode, ssid
 
 配网过程中，可使用下面的方法停止配网。
 
-__ObjC__
+ObjC
 
 ```objc
 [[TuyaSmartActivator sharedInstance] stopConfigWiFi];
 ```
 
-__Swift__
+Swift
 
 ```swift
 TuyaSmartActivator.sharedInstance()?.stopConfigWiFi()
@@ -214,16 +214,16 @@ TuyaSmartActivator.sharedInstance()?.stopConfigWiFi()
 
 ### 设备激活回调
 
-配网结果通过代理 ```TuyaSmartActivatorDelegate```回调，代理方法如下：
+配网结果通过代理 `TuyaSmartActivatorDelegate`回调，代理方法如下：
 
-__ObjC__
+ObjC
 
 ```objc
 // deviceModel 则为配网成功的设备的信息
 - (void)activator:(TuyaSmartActivator *)activator didReceiveDevice:(TuyaSmartDeviceModel *)deviceModel error:(NSError *)error;
 ```
 
-__Swift__
+Swift
 
 ```swift
 func activator(_ activator: TuyaSmartActivator!, didReceiveDevice deviceModel: TuyaSmartDeviceModel!, error: Error!)
@@ -231,7 +231,7 @@ func activator(_ activator: TuyaSmartActivator!, didReceiveDevice deviceModel: T
 
 ### 云云对接方案 Token
 
-云云对接方案集成的 mini 配网 SDK，没有直接获取配网 Token 的接口，需要接入方从自己的云端获取配网 Token。接入方的云端会从涂鸦云端获取配网 Token，具体可以参考[云云对接文档-配网管理](https://docs.tuya.com/zh/iot/open-api/api-list/api/paring-management)。
+云云对接方案集成裁剪版的配网 SDK，没有直接获取配网 Token 的接口，需要接入方从自己的云端获取配网 Token。接入方的云端会从涂鸦云端获取配网 Token，具体可以参考[云云对接文档-配网管理](https://docs.tuya.com/zh/iot/open-api/api-list/api/paring-management)。
 
 ### 绑定模式
 

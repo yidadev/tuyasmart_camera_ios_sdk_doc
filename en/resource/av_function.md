@@ -58,7 +58,7 @@ The delegate callback for the video to stop recording and successfully save the 
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)startRecord {
@@ -96,7 +96,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startRecord() {
@@ -195,7 +195,7 @@ Another way is to use the screenshot interface of the video rendering view `Tuya
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)snapShoot {
@@ -208,7 +208,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func snapShoot() {
@@ -312,7 +312,7 @@ The one-way talk function needs the developer to implement control. When the tal
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)startTalk {
@@ -357,7 +357,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func startTalk() {
@@ -481,7 +481,7 @@ Video definition state changed.
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)changeHD {
@@ -504,7 +504,7 @@ __ObjC__
 
 ```
 
-__Swift__
+Swift
 
 ```swift
 func changeHD() {
@@ -567,7 +567,7 @@ If you want to asynchronous processing video frame data, please remember to reta
 
 **Example**
 
-__ObjC__
+ObjC
 
 ```objc
 - (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo {
@@ -582,7 +582,7 @@ __ObjC__
 }
 ```
 
-__Swift__
+Swift
 
 ```swift
 func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer: CMSampleBuffer!, frameInfo: TuyaSmartVideoFrameInfo) {
