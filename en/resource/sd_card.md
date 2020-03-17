@@ -1,6 +1,6 @@
 ## Memory card management
 
-Mmemory card management use data point, for related data point refer to [Data point id](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/en/resource/device_points.html#memory-card-management).
+Mmemory card management use data point, for related data point refer to [Data point id](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/en/resource/device_points.html#data-point-id).
 
 ### Status
 

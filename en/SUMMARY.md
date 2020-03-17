@@ -18,7 +18,7 @@
 * [Camera functions](resource/live.md)
   * [Live video](resource/live.md#live-video)
   * [Playback](resource/playback.md)
-  * [AV functions](resource/av-function.md)
+  * [AV functions](resource/av_function.md)
 * [Cloud storage](resource/cloud_video.md)
   * [Cloud service](resource/cloud_video.md#cloud-service)
   * [Cloud video](resource/cloud_video.md#cloud-video)
