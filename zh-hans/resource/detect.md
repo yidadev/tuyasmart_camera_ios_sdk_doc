@@ -30,10 +30,10 @@
 
 **参数说明**
 
-| 参数     | 说明                                                    |
-| -------- | ------------------------------------------------------- |
-| devId    | 设备 id                                                 |
-| timeZone | 时区，默认使用手机系统时区：[NSTimeZone systemTimeZone] |
+| 参数     | 说明                                                      |
+| -------- | --------------------------------------------------------- |
+| devId    | 设备 id                                                   |
+| timeZone | 时区，默认使用手机系统时区：`[NSTimeZone systemTimeZone]` |
 
 
 
@@ -61,7 +61,7 @@
 | success | 成功回调，返回当月有消息记录的日期数组 |
 | failure | 失败回调，error 标示错误信息           |
 
->  ```result``` 为字符串数组，元素为日期字符串，如：“01”、“11”、“30”。
+>  `result` 为字符串数组，元素为日期字符串，如：“01”、“11”、“30”。
 
 
 
@@ -158,7 +158,7 @@
 | success   | 成功回调，返回报警消息数据模型数组                           |
 | failure   | 失败回调，error 标示错误信息                                 |
 
-
+**参数说明**
 
 批量删除报警消息
 
@@ -178,9 +178,7 @@
 
 
 
-### 报警消息模型
-
-**TuyaSmartCameraMessageModel 数据模型**
+**TuyaSmartCameraMessageModel**
 
 | 字段           | 类型      | 说明                           |
 | -------------- | --------- | ------------------------------ |
@@ -197,11 +195,11 @@
 
 
 
-根据消息类型不同，可能会有不同的附件。通过 ```attachPic``` 属性获取图片附件的地址，```attachVideos``` 属性获取视频附件的地址，通常情况下，这个属性只有一个元素。
+根据消息类型不同，可能会有不同的附件。通过 `attachPic` 属性获取图片附件的地址，`attachVideos` 属性获取视频附件的地址，通常情况下，这个属性只有一个元素。
 
 ### 视频消息
 
-视频消息中的视频附件，是加密后的视频，需要通过 ```TuyaSmartCloudManager``` 提供的接口播放。 ```attachVideos``` 中的元素格式为："视频地址@密钥"，播放视频时，需要同时传入视频地址和密钥。
+视频消息中的视频附件，是加密后的视频，需要通过 `TuyaSmartCloudManager` 提供的接口播放。 `attachVideos` 中的元素格式为："视频地址@密钥"，播放视频时，需要同时传入视频地址和密钥。
 
 **接口说明**
 
@@ -225,7 +223,7 @@
 | callback         | 视频播放结果回调，errCode 标示错误码，0 表示播放成功     |
 | finishedCallBack | 视频播放结束回调，errCode 标示错误码，0 表示正常播放结束 |
 
-
+**接口说明**
 
 暂停播放
 
@@ -233,7 +231,7 @@
 - (int)pausePlayVideoMessage;
 ```
 
-
+**接口说明**
 
 恢复播放
 
@@ -241,7 +239,7 @@
 - (int)resumePlayVideoMessage;
 ```
 
-
+**接口说明**
 
 停止播放
 
@@ -267,7 +265,7 @@
       videoFrameInfo:(TuyaSmartVideoFrameInfo)frameInfo;
 ```
 
-结构体```TuyaSmartVideoFrameInfo```中的下面两个属性描述视频的总时长和进度，单位是`毫秒`。
+结构体`TuyaSmartVideoFrameInfo`中的下面两个属性描述视频的总时长和进度，单位是`毫秒`。
 
 * **nDuration** : 视频总时长
 * **nProgress** : 当前视频帧的进度
@@ -284,7 +282,7 @@
 
 报警消息保存在涂鸦云端，存储卡视频录像保存在摄像机的存储卡中，且存储卡中的视频在容量不足时，可能会被覆盖。存储卡录制的开关和侦测报警的开关也没有关联，所以即使在存储卡事件录制的模式下，报警消息和存储卡中的视频录像也不是一一对应的。
 
-但是存在报警消息发生的时间点有视频录像的情况，IPC SDK 并不提供这种关联查找的接口，开发者可以通过报警消息的触发时间，在当天的存储卡录像视频片段中查找是否有对应的视频录像来建立这种关联。
+但是存在报警消息发生的时间点有视频录像的情况，SDK 并不提供这种关联查找的接口，开发者可以通过报警消息的触发时间，在当天的存储卡录像视频片段中查找是否有对应的视频录像来建立这种关联。
 
 ### 示例代码
 
@@ -322,7 +320,7 @@ __ObjC__
 				// 获取第一个分类的消息
         [self reloadMessageListWithScheme:result.firstObject];
     } failure:^(NSError *error) {
-        // 请求失败
+        // 网络错误
     }];
 }
 
@@ -334,7 +332,7 @@ __ObjC__
     [self.cameraMessage messagesWithMessageCodes:schemeModel.msgCodes Offset:0 limit:20 startTime:[date timeIntervalSince1970] endTime:[[NSDate new] timeIntervalSince1970] success:^(NSArray<TuyaSmartCameraMessageModel *> *result) {
         self.messageModelList = result;
     } failure:^(NSError *error) {
-        NSLog(@"error: %@", error);
+        // 网络错误
     }];
 }
 
@@ -371,7 +369,7 @@ override func viewDidLoad() {
             reloadMessage(schemeModel: schemeModel)
         }
     }) { _ in
-        // 请求失败
+        // 网络错误
     }
 }
     
@@ -383,7 +381,7 @@ func reloadMessage(schemeModel: TuyaSmartCameraMessageSchemeModel) {
     self.cameraMessage.messages(withMessageCodes: schemeModel.msgCodes, offset: 0, limit: 20, startTime: Int(date!.timeIntervalSince1970), endTime: Int(Date().timeIntervalSince1970), success: { result in
         self.messageModelList = result;
     }) { _ in
-        // 请求失败
+        // 网络错误
     }
 }
 ```

@@ -1,20 +1,22 @@
-## 低功耗门铃
+## Low power doorbell
 
-### 休眠唤醒
+### Sleep and wake
 
-低功耗门铃由电池供电，为了节省电量，在一定时间内没有 p2p 连接会休眠，休眠后无法直接连接 p2p，需要先唤醒设备，再连接 p2p 通道。
+Low power doorbell is powered by battery. In order to save power, camera will sleep when no p2p connection for a certain period of time. After sleeping, it cannot be directly connected to p2p. You need to wake up the device, and then connect to the p2p channel after waking up.
 
-**接口说明**
+Use `TuyaSmartDevice` to wake up doorbell.
 
-唤醒休眠中的低功耗设备。
+**Declaration**
+
+Awake low power device.
 
 ```objc
 - (void)awakeDeviceWithSuccess:(nullable TYSuccessHandler)success failure:(nullable TYFailureError)failure;
 ```
 
-当 `success`调用时，只是表示唤醒命令已经成功下发给门铃设备，并不代表门铃设备已启动。当门铃设备启动时，会通过设备功能点`TuyaSmartCameraWirelessAwakeDPName`上报 `YES`。
+When success callback, it is means wake up cammand has publish succeed, but doorbell is not waking up. When doorbell waking up, doorbell wiil report `YES` of data point `TuyaSmartCameraWirelessAwakeDPName`.
 
-**示例代码**
+**Example**
 
 __ObjC__
 
@@ -23,13 +25,12 @@ __ObjC__
 		[super viewDidLoad];
 	  self.dpManager = [[TuyaSmartCameraDPManager alloc] initWithDeviceId:self.devId];
 		self.device = [TuyaSmartDevice deviceWithDeviceId:self.devId];
-		// 添加 DP 监听
 		[self.dpManager addObserver:self];
   
   	[self start];
 }
 
-// 判断是否是低功耗门铃
+// Determine if it is a low power doorbell
 - (BOOL)isDoorbell {
     return [self.dpManager isSupportDP:TuyaSmartCameraWirelessAwakeDPName];
 }
@@ -37,9 +38,8 @@ __ObjC__
 - (void)start {
     if ([self isDoorbell]) {
         __weak typeof(self) weakSelf = self;
-        // 获取设备的状态
 				BOOL isAwaking = [[self.dpManager valueForDP:TuyaSmartCameraWirelessAwakeDPName] boolValue];
-        if (isAwaking) { // 唤醒状态下，直接连接p2p 或者 开始预览
+        if (isAwaking) { 
             if (self.isConnected) {
                 [self.videoContainer addSubview:self.camera.videoView];
                 self.camera.videoView.frame = self.videoContainer.bounds;
@@ -47,14 +47,14 @@ __ObjC__
             }else {
                 [self.camera connect];
             }
-        }else { // 休眠状态下，发送唤醒命令
+        }else { 
             [self.device awakeDeviceWithSuccess:nil failure:nil];
         }
     }
 }
-// TuyaSmartCameraDPObserver 当设备 DP 有更新的时候，会触发这个监听回调
+// TuyaSmartCameraDPObserver. When the device DP is updated, this listening callback will be triggered
 - (void)cameraDPDidUpdate:(TuyaSmartCameraDPManager *)manager dps:(NSDictionary *)dpsData {
-    // 如果收到 TuyaSmartCameraWirelessAwakeDPName 的更新，并且值为 YES，表示设备已唤醒
+    // If receive an update to TuyaSmartCameraWirelessAwakeDPName and the value is YES, the device has woken up
     if ([[dpsData objectForKey:TuyaSmartCameraWirelessAwakeDPName] boolValue]) {
         [self start];
     }
@@ -69,39 +69,34 @@ func viewDidLoad() {
   	super.viewDidLoad()
 	  self.dpManager = TuyaSmartCameraDPManager(deviceId: self.devId)
 		self.device = TuyaSmartDevice(deviceId: self.devId)
-		// 添加 DP 监听
 		self.dpManager?.addObserver(self)
   
   	self.start()
 }
 
-// 判断是否是低功耗门铃
+// Determine if it is a low power doorbell
 func isDoorbell() -> Bool {
     return self.dpManager?.isSupportDP(TuyaSmartCameraWirelessAwakeDPName)
 }
 
 func start() {
     if isDoorbell() {
-      	// 获取设备的状态
         let isAwaking = self.dpManager.valueForDP(TuyaSmartCameraWirelessAwakeDPName)
         guard isAwaking else {
-          	// 唤醒设备
             self.device?.awake(success: nil, failure: nil)
         }
         guard self.isConnected else {
-          	// 连接 p2p 通道
             self.camera.connect()
         }
         self.videoContainer.addSubView(self.camera.videoView)
         self.camera.videoView.frame = self.videoContainer.bounds
-      	// 开始预览
         self.camera.startPreview()        
     }
 }
 
-// TuyaSmartCameraDPObserver 当设备 DP 有更新的时候，会触发这个监听回调
+// TuyaSmartCameraDPObserver. When the device DP is updated, this listening callback will be triggered
 func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHashable : Any]!) {
-     // 如果收到 TuyaSmartCameraWirelessAwakeDPName 的更新，并且值为 YES，表示设备已唤醒
+    // If receive an update to TuyaSmartCameraWirelessAwakeDPName and the value is YES, the device has woken up
     if let awake = dpsData[TuyaSmartCameraWirelessAwakeDPName] as? Bool, aweak == true {
         self.start()
     }
@@ -109,16 +104,16 @@ func cameraDPDidUpdate(_ manager: TuyaSmartCameraDPManager!, dps dpsData: [AnyHa
     
 ```
 
-### 门铃呼叫
+### Doorbell call
 
-设备成功绑定到家庭并且在线状态下，有人按门铃，SDK 将收到门铃呼叫的事件。事件以通知的形式广播。
+When the device is successfully bound to the home and online, when someone rings the doorbell, the SDK will receive the event of the doorbell call. Events are broadcast as notifications.
 
-* 通知名：**kNotificationMQTTMessageNotification**
-* 参数：
-  * **devId**：触发门铃呼叫的设备 id
-  * **etype**：事件标识，```doorbell```表示门铃呼叫
+* Notification name: **kNotificationMQTTMessageNotification**
+* Parameters：
+  * **devId**: Device id of doorbell.
+  * **etype**：Event type, ```doorbell``` means doorbell call.
 
-**示例代码**
+**Example**
 
 __ObjC__
 
@@ -129,7 +124,7 @@ __ObjC__
     if (!callback) {
         return;
     }
-  	// 监听门铃呼叫的通知
+		// Add observer for doorbell call
     [[NSNotificationCenter defaultCenter] addObserverForName:kTuyaDoorbellNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         NSDictionary *eventInfo = note.object;
         NSString *devId = eventInfo[@"devId"];
@@ -145,7 +140,7 @@ __Swift__
 
 ```swift
 func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
-	  // 监听门铃呼叫的通知
+		// Add observer for doorbell call
     NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "kNotificationMQTTMessageNotification"), object: nil, queue: nil) { (noti) in
         if let eventInfo = noti.object as? [String: Any?] {
             let devId = eventInfo["devId"] as! String
@@ -158,11 +153,11 @@ func obserDoorbellCall(_ callBack: @escaping (String, String) -> Void) {
 }
 ```
 
-### 电池管理
+### Battery management
 
-低功耗门铃有两种供电方式，插电和电池供电。通过 SDK 可以查询到设备当前的供电模式以及当前的电量。还可以设置一个低电量报警阈值，当电量过低时，会触发一个报警通知。
+There are two ways to power low-power doorbells, plug-in and battery-powered. The SDK can query the current power supply mode and current power of the device. You can also set a low battery alarm threshold. When the battery is too low, an alarm notification will be triggered.
 
-**示例代码**
+**Example**
 
 __ObjC__
 
@@ -171,33 +166,32 @@ __ObjC__
 		if ([self.dpManager isSupportDP:TuyaSmartCameraWirelessPowerModeDPName]) {
         TuyaSmartCameraPowerMode powerMode = [[self.dpManager valueForDP:TuyaSmartCameraWirelessPowerModeDPName] tysdk_toString];
         if ([powerMode isEqualToString:TuyaSmartCameraPowerModePlug]) {
-						// 插电供电
+						// plug-in power
         }else if ([powerMode isEqualToString:TuyaSmartCameraPowerModeBattery]) {
-            // 电池供电
+            // battery-power
         }
-        
     }
     
     if ([self.dpManager isSupportDP:TuyaSmartCameraWirelessElectricityDPName]) {
         NSInteger electricity = [[self.dpManager valueForDP:TuyaSmartCameraWirelessElectricityDPName] tysdk_toInt];
-        NSLog(@"设备当前的电量为：%@%%", @(electricity));
+        NSLog(@"current power: %@%%", @(electricity));
     }
     
     if ([self.dpManager isSupportDP:TuyaSmartCameraWirelessLowpowerDPName]) {
-        // 设置电量低于 20% 时，触发低电量警告
+        // When the battery level is lower than 20%, low battery warning will be triggered
         [self.dpManager setValue:@(20) forDP:TuyaSmartCameraWirelessLowpowerDPName success:^(id result) {
             
         } failure:^(NSError *error) {
-            // 网络错误
+            // Network error
         }];
     }
     
     if ([self.dpManager isSupportDP:TuyaSmartCameraWirelessBatteryLockDPName]) {
-        // 解除电池锁，以拆卸电池
+        // Unlock the battery to remove the battery
         [self.dpManager setValue:@(NO) forDP:TuyaSmartCameraWirelessBatteryLockDPName success:^(id result) {
             
         } failure:^(NSError *error) {
-            // 网络错误
+            // Network error
         }];
     }
 }
@@ -212,33 +206,33 @@ override func viewDidLoad() {
         let powerMode = self.dpManager.value(forDP: .wirelessPowerModeDPName) as! String
         switch TuyaSmartCameraPowerMode(rawValue: powerMode) {
         case .plug: break
-            // 插电供电
+            // plug-in power
         case .battery: break
-            // 电池供电
+            // battery-power
         default: break
         }
     }
 
     if self.dpManager.isSupportDP(.wirelessElectricityDPName) {
         let electricity = self.dpManager.value(forDP: .wirelessElectricityDPName) as! Int
-        print("设备当前的电量为：", electricity)
+        print("current power: ", electricity)
     }
 
     if self.dpManager.isSupportDP(.wirelessLowpowerDPName) {
-        // 设置电量低于 20% 时，触发低电量警告
+        // When the battery level is lower than 20%, low battery warning will be triggered
         self.dpManager.setValue(20, forDP: .wirelessLowpowerDPName, success: { _ in
 
         }) { _ in
-            // 网络错误
+            // Network error
         }
     }
 
     if self.dpManager.isSupportDP(.wirelessBatteryLockDPName) {
-        // 解除电池锁，以拆卸电池
+        // Unlock the battery to remove the battery
         self.dpManager.setValue(false, forDP: .wirelessBatteryLockDPName, success: { _ in
 
         }) { _ in
-            // 网络错误
+            // Network error
         }
     }
 }

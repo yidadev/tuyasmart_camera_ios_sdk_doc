@@ -1,130 +1,130 @@
-## 存储卡视频回放
+## Memory card video playback
 
-涂鸦智能摄像机支持存储卡录制功能。智能摄像机插入存储卡后，可以查看存储卡的信息和状态，并设置录像开关和模式，详情可以参考[存储卡管理](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/sd_card.html)章节。
+Tuya smart camera support memory card recording. After the smart camera is inserted into the memory card, you can view the information and status of the memory card, and set the recording switch and mode. For details, please refer to [Memory card management](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/en/resource/sd_card.html).
 
-设备在存储卡中保存视频录像后，可以通过 SDK 在 App 端播放视频录像，同实时视频直播一样，在开始回放前，需要先连接上 p2p 通道。p2p 通道连接成功后，可以获取到设备端存储卡中录制的视频片段时间信息，然后播放视频片段。
+After the device saves the video recording in the memory card, it can play the video recording on the App side through the Tuya Smart Camera SDK. Like the live video, it needs to connect to the p2p channel before starting playback. After the p2p channel is successfully connected, you can obtain the time information of the video clip recorded in the memory card on the device, and then play the video clip.
 
-### 视频片段
+### Video clip
 
-设备端保存在存储卡中的视频片段，最长为 10 分钟一段，最短为 10 秒钟一段。SDK 支持以天为单位查看和播放视频录像，并且提供查询某年某月中，哪几天保存有视频录像，以便于用户查看，查询结果通过`TuyaSmartCameraDelegate`中的代理方法返回。
+The video clips saved in the memory card on the device can be as long as 10 minutes and as short as 10 seconds. The SDK supports viewing and playing video recordings on a day-by-day basis, and provides query on which days are saved with video recordings in a month, so that users can view them, and the query results are returned through the delegate method in `TuyaSmartCameraDelegate`.
 
-**接口说明**
+**Description**
 
-查询某年某月中保存有视频录像的日子
+Query the days when video recordings are saved in a certain year and month.
 
 ```objc
 - (void)queryRecordDaysWithYear:(NSUInteger)year month:(NSUInteger)month;
 ```
 
-**参数说明**
+**Parameters**
 
-| 参数  | 说明         |
-| ----- | ------------ |
-| year  | 年，如：2020 |
-| month | 月，如：2    |
+| Parameter | Description         |
+| --------- | ------------------- |
+| year      | Year, such as: 2020 |
+| month     | Month, such as: 2   |
 
-**接口说明**
+**Description**
 
-查询某年某月某日的所有视频录像片段
+Query all video clips in a certain month and day.
 
 ```objc
 - (void)queryRecordTimeSliceWithYear:(NSUInteger)year month:(NSUInteger)month day:(NSUInteger)day;
 ```
 
-**参数说明**
+**Parameters**
 
-| 参数  | 说明         |
-| ----- | ------------ |
-| year  | 年，如：2020 |
-| month | 月，如：2    |
-| day   | 日，如：22   |
+| Parameter | Description         |
+| --------- | ------------------- |
+| year      | Year, such as: 2020 |
+| month     | Month, such as: 2   |
+| day       | Day, such as: 22    |
 
-**接口说明**
 
-**代理回调**
 
-查询有视频录像的日期结果回调
+**Delegate Description**
+
+Callback for querying the date of video recording.
 
 ```objc
 - (void)camera:(id<TuyaSmartCameraType>)camera didReceiveRecordDayQueryData:(NSArray<NSNumber *> *)days;
 ```
 
-**参数说明**
+**Parameters**
 
-| 参数   | 说明                                                         |
-| ------ | ------------------------------------------------------------ |
-| camera | 执行查询操作的摄像机对象                                     |
-| days   | 有视频录像的日期数组，如`@[@(1), @(2)] `表示查询的当月，1、2 号有视频录像，失败返回空数组 |
+| Parameter | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| camera    | Camera object                                                |
+| days      | An array of days with video recordings, such as `@[@(1), @(2)] ` indicates the current month of the query, there are video recordings on the 1st，2nd |
 
-**接口说明**
+**Delegate Description**
 
-当查询某天中的所有视频录像片段结果回调
+Callback when querying all video clips in a day.
 
 ```objc
 - (void)camera:(id<TuyaSmartCameraType>)camera didReceiveTimeSliceQueryData:(NSArray<NSDictionary *> *)timeSlices;
 ```
 
-**参数说明**
+**Parameters**
 
-| 参数       | 说明                                       |
-| ---------- | ------------------------------------------ |
-| camera     | 执行查询操作的摄像机对象                   |
-| timeSlices | 当天的视频片段时间信息数组，失败返回空数组 |
-
-
-
-**视频片段时间数据**
-
-`timeSlices`中的元素类型是`NSDictionary`
-
-| 字段（定义在 SDK 中的常量名）     | 类型     | 说明                           |
-| --------------------------------- | -------- | ------------------------------ |
-| kTuyaSmartPlaybackPeriodStartDate | NSDate   | 视频片段开始时间               |
-| kTuyaSmartPlaybackPeriodStopDate  | NSDate   | 视频片段结束时间               |
-| kTuyaSmartPlaybackPeriodStartTime | NSNumber | 视频片段开始时间的 Unix 时间戳 |
-| kTuyaSmartPlaybackPeriodStopTime  | NSNumber | 视频片段结束时间的 Unix 时间戳 |
+| Parameter  | Description                                                  |
+| ---------- | ------------------------------------------------------------ |
+| camera     | Camera object                                                |
+| timeSlices | Array of time information of video clips for the day, failure returns empty array |
 
 
 
-### 视频播放
+**Video clip time data**
 
-在成功获取到某天中的视频录像片段后，就可以开始播放录像视频了。值得注意的是，如果停止播放视频录像后，再进行实时视频播放，或者 p2p 连接断开，重新连接上 p2p 通道后，再次播放视频录像，需要重新获取一下当天的视频录像片段，否则可能会出现播放异常。
+The element type in `timeSlices` is` NSDictionary`.
 
-**接口说明**
+| Field (Constant defined in SDK)   | Type     | Description                             |
+| --------------------------------- | -------- | --------------------------------------- |
+| kTuyaSmartPlaybackPeriodStartDate | NSDate   | Video clip start date                   |
+| kTuyaSmartPlaybackPeriodStopDate  | NSDate   | Video clip end date                     |
+| kTuyaSmartPlaybackPeriodStartTime | NSNumber | Unix timestamp of video clip start time |
+| kTuyaSmartPlaybackPeriodStopTime  | NSNumber | Unix timestamp of video clip end time   |
 
-开始播放某段视频录像，`playTime`的取值范围是：`[startTime, stopTime)`
+
+
+### Video playback
+
+After successfully obtaining the video clips of a certain day, you can start playing the video. It is worth noting that if you stop playing the video recording and then play live video, or the p2p connection is disconnected, reconnect to the p2p channel, and then play the video recording again, you need to re-acquire the video clip of the day, otherwise it may appear exception.
+
+**Description**
+
+To start playing a certain video recording, the range of `playTime` is:` [startTime, stopTime) `.
 
 ```objc
 - (void)startPlayback:(NSInteger)playTime startTime:(NSInteger)startTime stopTime:(NSInteger)stopTime;
 ```
 
-**参数说明**
+**Parameters**
 
-| 参数      | 说明                                           |
-| --------- | ---------------------------------------------- |
-| playTime  | 此段视频中，开始播放的时间点，使用 Unix 时间戳 |
-| startTime | 此段视频的开始时间，使用 Unix 时间戳           |
-| stopTime  | 此段视频的结束时间，使用 Unix 时间戳           |
+| Parameter | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| playTime  | In this video, the time point to start playing, using Unix timestamp |
+| startTime | Start time of this video, using Unix timestamp               |
+| stopTime  | End time of this video, using Unix timestamp                 |
 
-**接口说明**
+**Description**
 
-暂停播放
+Pause playback.
 
 ```objc
 - (void)pausePlayback;
 ```
 
-**接口说明**
+**Description**
 
-恢复播放
+Resume playback.
 
 ```objc
 - (void)resumePlayback;
 ```
 
-**接口说明**
+**Description**
 
-停止播放
+Stop play.
 
 ```objc
 - (void)stopPlayback;
@@ -132,41 +132,41 @@
 
 
 
-**代理接口**
+**Delegate Description**
 
-视频录像成功开始播放
+Video playback started successfully.
 
 ```objc
 - (void)cameraDidBeginPlayback:(id<TuyaSmartCameraType>)camera;
 ```
 
-**代理接口**
+**Delegate Description**
 
-视频录像已暂停播放
+Video playback paused.
 
 ```objc
 - (void)cameraDidPausePlayback:(id<TuyaSmartCameraType>)camera;
 ```
 
-**代理接口**
+**Delegate Description**
 
-视频录像已恢复播放
+Video playback resumed.
 
 ```objc
 - (void)cameraDidResumePlayback:(id<TuyaSmartCameraType>)camera;
 ```
 
-**代理接口**
+**Delegate Description**
 
-视频录像已停止播放
+Video has stopped playing.
 
 ```objc
 - (void)cameraDidStopPlayback:(id<TuyaSmartCameraType>)camera;
 ```
 
-**代理接口**
+**Delegate Description**
 
-视频录像播放结束
+Video playback finished,.
 
 ```objc
 - (void)cameraPlaybackDidFinished:(id<TuyaSmartCameraType>)camera;
@@ -174,27 +174,27 @@
 
 
 
-#### 连续播放
+#### Continuous Play
 
-涂鸦 IPC 的视频录像分两种录像模式，连续录像和事件录像。连续录像时，视频录像会是10分钟一个片段，且所有视频片段是连续的，但是如果中间有停止过视频录像，那么连续录像模式下的视频片段间也可能会有间隔。事件录像时，每个录像片段长度不等，且片段间的间隔时间也长短不一。
+Tuya smart camera has two recording modes, continuous recording and event recording. During continuous recording, the video recording will be a clip of 10 minutes, and all video clips are continuous, but if there is a video recording stop in the middle, there may be a gap between the video clips in the continuous recording mode. When recording events, the length of each video clip varies, and the interval between clips varies.
 
-如果某天的视频录像片段是连续的，那么播放录像时，会自动播放下一段。也就是说，即使调用开始播放接口，传入的是当天第一个视频片段的时间点，视频也会一直播放到当天最后一个视频片段的最后一帧视频，才会回调视频播放结束的代理方法。
+If the video recording segment of a certain day is continuous, then the next segment will be played automatically when the video is played. In other words, even if the start playback interface is called, the time of the first video clip of the day is passed in, and the video will be played until the last frame of the last video clip of the day, and the delegate method of the video playback finished will be called back.
 
-如果某天的视频录像片段是不连续的（即视频录像片段 A 结束后，隔了一段时间才有视频录像片段B），在播放到断开的地方（即播放到视频片段 A 的最后一帧），视频流会自动停止，SDK 也不会收到视频录像播放结束的回调。这在最新涂鸦 IPC 嵌入式 SDK 中已经修改为，视频片段不连续时，每一个片段播放结束都会回调视频录像播放结束，故开发者可以在收到视频播放结束的代理方法后，播放下一段视频录像，以达到连续播放的目的。但如果设备的固件版本不是最新的，则需要开发者通过[视频帧数据回调](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/av_function.html#%E8%A3%B8%E6%B5%81%E6%95%B0%E6%8D%AE)方法，帧信息中的时间戳来判断当前帧是否是当前视频录像片段的最后一帧，手动判断当前视频录像片段是否播放结束。
+If the video clip on a certain day is discontinuous (that is, there is a video clip B after a certain period of time after video clip A ends), the video is played to the disconnected position (that is, the last frame of video clip A is played), the video stream will automatically stop, and the SDK will not receive a callback when the video recording is over. In the latest Tuya smart camera firmware, when video clips are not continuous, each clip playback will call back the finished of video recording playback, so developers can play the next video after receiving the delegate method of the video playback finished. But if the device's firmware version is not the latest, the developer needs to use the time stamp in the frame information to determine whether the current frame is the last frame of the current video recording clip, determine whether the current video recording clip is playing finished, refer to [Original video data](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/en/resource/av_function.html#original-video-data).
 
-#### 停止与暂停
+#### Stop and Pause
 
-`pausePlayback`和 `stopPlayback`都能达到停止播放视频的目的，它们之间的区别是，调用`stopPlayback`后，无法调用`resumePlayback`来恢复播放。停止播放后，如果想要继续之前的进度开始播放，那么必须保存停止播放时，最后一帧视频的时间戳，以及播放的视频录像的时间片段，以重新调用`startPlayback`方法来继续播放。
+Both `pausePlayback` and `stopPlayback` can achieve the purpose of stopping video playback. The difference between them is that after calling  `stopPlayback`, `resumePlayback` cannot be called to resume playback. After you stop playing, if you want to continue the previous progress and start playing, you must save the time stamp of the last frame of video when you stop playing, and the time segment of the video recorded to play, and call the `startPlayback` method to resume playback.
 
-另外，在成功获取到视频录像片段时间数据后，无论是正在播放录像视频，还是暂停播放，都可以直接调用`startPlayback`重新播放另一个视频录像片段，而不必先调用`stopPlayback`停止播放。
+In addition, after successfully obtaining the time data of the video recording segment, whether it is playing the recording video or pausing playback, you can directly call  `startPlayback`  to replay another video recording segment without first calling `stopPlayback` to stop playback.
 
-### 流程图
+### Flow chart
 
 <img src="./images/playback.jpg" alt="视频直播流程图" style="zoom:70%;" />
 
 
 
-### 示例代码
+### Example
 
 __ObjC__
 
@@ -215,7 +215,7 @@ __ObjC__
             [self.camera connect];
         });
     } failure:^(NSError *error) {
-        // 获取配置信息失败
+				// Failed to get configuration information
     }];
 }
 
@@ -235,41 +235,37 @@ __ObjC__
 
 - (void)cameraDidConnected:(id<TuyaSmartCameraType>)camera {
     self.connected = YES;
-  	// 需要 p2p 连接成功后查询某天的视频录像片段
 		[camera queryRecordTimeSliceWithYear:2020 month:2 day:12];
 }
 
 - (void)cameraDisconnected:(id<TuyaSmartCameraType>)camera {
-  	// p2p 连接被动断开，一般为网络波动导致
     self.connected = NO;
     self.playbacking = NO;
 }
 
 - (void)camera:(id<TuyaSmartCameraType>)camera didReceiveTimeSliceQueryData:(NSArray<NSDictionary *> *)timeSlices {
-  	// 如果当天没有视频录像，则不播放
 		if (timeSlices.count == 0) {
         return;
     }
-  	// 保存视频录像列表，从第一个开始播放
+  	// start playback with first video clip
     self.timeSlicesInCurrentDay = [timeSlices copy];
   	self.timeSlicesIndex = 0;
     NSDictionary *timeSlice = timeSlices.firstObject;
     NSInteger startTime = [timeSlice[kTuyaSmartTimeSliceStartTime] integerValue];
     NSInteger stopTime = [timeSlice[kTuyaSmartTimeSliceStopTime] integerValue];
-	  // 从第一个视频片段的第一秒开始播放
+
     NSInteger playTime = startTime;
     [camera startPlayback:playTime startTime:startTime stopTime:stopTime];
 }
 
 - (void)camera:(id<TuyaSmartCameraType>)camera ty_didReceiveVideoFrame:(CMSampleBufferRef)sampleBuffer frameInfo:(TuyaSmartVideoFrameInfo)frameInfo {
     NSInteger index = self.timeSlicesIndex + 1;
-  	// 如果没有下一个视频录像，则返回
     if (index >= self.timeSlicesInCurrentDay.count) {
         return;
     }
     NSDictionary *currentTimeSlice = [self.timeSlicesInCurrentDay objectAtIndex:self.timeSlicesIndex];
     NSInteger stopTime = [currentTimeSlice[kTuyaSmartTimeSliceStopTime] integerValue];
-  	// 如果当前视频帧的时间戳大于等于当前视频片段的结束时间，则播放下一个视频片段
+  	// if timestamp of current frame is equal or greater than the end time of current video clip, play next video
     if (frameInfo.nTimeStamp >= stopTime) {
         NSDictionary *nextTimeSlice = [self.timeSlicesInCurrentDay objectAtIndex:index];
         NSInteger startTime = [nextTimeSlice[kTuyaSmartTimeSliceStartTime] integerValue];
@@ -280,51 +276,44 @@ __ObjC__
 }
 
 - (void)cameraDidBeginPlayback:(id<TuyaSmartCameraType>)camera {
-  	// 视频录像开始播放
   	self.playbacking = YES;
     self.playbackPaused = NO;
-    // 将视频渲染视图添加到屏幕上
 		[self.view addSubview:camera.videoView];
 }
 
 - (void)cameraDidPausePlayback:(id<TuyaSmartCameraType>)camera {
-  	// 视频录像播放已暂停
     self.playbackPaused = YES;
 }
 
 - (void)cameraDidResumePlayback:(id<TuyaSmartCameraType>)camera {
-   	// 视频录像已恢复播放
     self.playbackPaused = NO;
 }
 
 - (void)cameraDidStopPlayback:(id<TuyaSmartCameraType>)camera {
-  	// 视频录像已停止播放
    	self.playbacking = NO;
     self.playbackPaused = NO;
 }
 
 - (void)cameraPlaybackDidFinished:(id<TuyaSmartCameraType>)camera {
-  	// 视频录像已结束播放
     self.playbacking = NO;
     self.playbackPaused = NO;
 }
 
-// 错误回调
 - (void)camera:(id<TuyaSmartCameraType>)camera didOccurredErrorAtStep:(TYCameraErrorCode)errStepCode specificErrorCode:(NSInteger)errorCode {
 		if (errStepCode == TY_ERROR_CONNECT_FAILED) {
-      	// p2p 连接失败
+      	// p2p connect failed
         self.connected = NO;
     }
     else if (errStepCode == TY_ERROR_START_PLAYBACK_FAILED) {
-      	// 存储卡录像播放失败
+      	// start playback failed
         self.playbacking = NO;
 		    self.playbackPaused = NO;
     }
   	else if (errStepCode == TY_ERROR_PAUSE_PLAYBACK_FAILED) {
-				// 暂停播放失败
+				// pause playback failed
     }
     else if (errStepCode == TY_ERROR_RESUME_PLAYBACK_FAILED) {
-				// 恢复播放失败
+				// resume playback failed
     }
 }
 ```
@@ -348,7 +337,7 @@ func startPlayback() {
             self.camera.connect()
         }
     }) { _ in
-        // 获取配置信息失败
+				// Failed to get configuration information
     }
 }
 
@@ -366,35 +355,32 @@ func stopPlayback() {
 
 func cameraDidConnected(_ camera: TuyaSmartCameraType!) {
     self.isConnected = true
-    // 需要 p2p 连接成功后查询某天的视频录像片段
+  	// start playback with first video clip
     camera.queryRecordTimeSlice(withYear: 2020, month: 2, day: 12)
 }
 
 func cameraDisconnected(_ camera: TuyaSmartCameraType!) {
-    // p2p 连接被动断开，一般为网络波动导致
     self.isConnected = false
     self.isPlaybacking = false
 }
 
 func camera(_ camera: TuyaSmartCameraType!, didReceiveTimeSliceQueryData timeSlices: [[AnyHashable : Any]]!) {
-    // 如果当天没有视频录像，则不播放
     guard timeSlices.count > 0 else {
         return;
     }
-    // 保存视频录像列表，从第一个开始播放
+  	// start playback with first video clip
     self.timeSlices = timeSlices
     self.timesliceIndex = 0
     let video = timeSlices.first!
     let startTime = video[kTuyaSmartTimeSliceStartTime] as! Int
     let stopTime = video[kTuyaSmartTimeSliceStopTime] as! Int
-    // 从第一个视频片段的第一秒开始播放
+  
     let playTime = startTime
     camera.startPlayback(playTime, startTime: startTime, stopTime: stopTime)
 }
 
 func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer: CMSampleBuffer!, frameInfo: TuyaSmartVideoFrameInfo) {
     let index = self.timesliceIndex + 1
-    // 如果没有下一个视频录像，则返回
     guard index < self.timeSlices.count else {
         return
     }
@@ -403,8 +389,7 @@ func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer
     guard frameInfo.nTimeStamp >= endTime else {
         return
     }
-    // 如果当前视频帧的时间戳大于等于当前视频片段的结束时间，则播放下一个视频片段
-
+  	// if timestamp of current frame is equal or greater than the end time of current video clip, play next video
     let nextTimeSlice = timeSlices.first!
     let startTime = nextTimeSlice[kTuyaSmartTimeSliceStartTime] as! Int
     let stopTime = nextTimeSlice[kTuyaSmartTimeSliceStopTime] as! Int
@@ -413,51 +398,44 @@ func camera(_ camera: TuyaSmartCameraType!, ty_didReceiveVideoFrame sampleBuffer
 }
 
 func cameraDidBeginPlayback(_ camera: TuyaSmartCameraType!) {
-    // 视频录像开始播放
     self.isPlaybacking = true
     self.isPlaybackPaused = false
-    // 将视频渲染视图添加到屏幕上
     self.view.addSubview(camera.videoView())
 }
 
 func cameraDidPausePlayback(_ camera: TuyaSmartCameraType!) {
-    // 视频录像播放已暂停
     self.isPlaybackPaused = true
 }
 
 func cameraDidResumePlayback(_ camera: TuyaSmartCameraType!) {
-    // 视频录像已恢复播放
     self.isPlaybackPaused = false
 }
 
 func cameraDidStopPlayback(_ camera: TuyaSmartCameraType!) {
-    // 视频录像已停止播放
     self.isPlaybacking = false
     self.isPlaybackPaused = false
 }
 
 func cameraPlaybackDidFinished(_ camera: TuyaSmartCameraType!) {
-    // 视频录像已结束播放
     self.isPlaybacking = false
     self.isPlaybackPaused = false
 }
 
 func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: TYCameraErrorCode, specificErrorCode errorCode: Int) {
     if errStepCode == TY_ERROR_CONNECT_FAILED  {
-        // p2p 连接失败
+      	// p2p connect failed
         self.isConnected = false
     }else if errStepCode == TY_ERROR_START_PLAYBACK_FAILED {
-        // 存储卡录像播放失败
+      	// start playback failed
         self.isPlaybacking = false
         self.isPlaybackPaused = false
     }else if errStepCode == TY_ERROR_PAUSE_PLAYBACK_FAILED {
-        // 暂停播放失败
+				// pause playback failed
     }else if errStepCode == TY_ERROR_RESUME_PLAYBACK_FAILED {
-        // 恢复播放失败
+				// resume playback failed
     }
 }
 ```
 
-> 在实时视频播放时，如果想要切换到录像播放模式，不需要断开 p2p 连接再重新连接 p2p 通道，但是需要先停止实时视频播放，再去获取当天的视频录像开始播放，否则会出现实时视频画面和视频录像画面串流闪烁的情况。视频录像回放切换实时视频播放的时候同理。
-> 另外，不要对同一个设备，同时创建两个 TuyaSmartCameraType 对象，会导致资源错误释放出现异常情况。
+> During live video, if you want to switch to video playback mode, you do not need to disconnect the p2p connection and then reconnect to the p2p channel, but you need to stop the live video playback before you get the video recording of the day to start playing.
 

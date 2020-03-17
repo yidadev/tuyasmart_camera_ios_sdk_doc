@@ -1,12 +1,12 @@
-## 云台控制
+## PTZ control
 
-云台摄像机可以通过 SDK 远程控制其向指定方向转动。
+The PTZ camera can be remotely controlled in the specified direction through the SDK.
 
-> SDK 控制云台机转动时，并不是单位角度转动。SDK 下发开始转动的命令后，设备会朝着指定方向持续转动，直到无法转动，或者收到停止转动的命令。
+> When the SDK controls the camera to rotate, it is not a unit angle rotation. After the SDK publish a rotation start command, the device will continue to rotate in the specified direction until it fails to rotate or receives a command to stop rotation.
 
-在开始控制云台摄像机转动前，需要先判断当前设备是否支持云台控制。
+Before starting to control the PTZ camera rotation, you need to determine whether the current device supports PTZ control.
 
-**示例代码**
+**Example**
 
 __ObjC__
 
@@ -14,9 +14,9 @@ __ObjC__
 - (void)startPtz {
     if ([self.dpManager isSupportDP:TuyaSmartCameraPTZControlDPName]) {
         [self.dpManager setValue:TuyaSmartCameraPTZDirectionRight forDP:TuyaSmartCameraPTZControlDPName success:^(id result) {
-            // 设备开始向右转动
+            // Camera start rotate to right
         } failure:^(NSError *error) {
-            // 网络错误
+            // Network error
         }];
     }
 }
@@ -24,9 +24,9 @@ __ObjC__
 - (void)stopPtz {
     if ([self.dpManager isSupportDP:TuyaSmartCameraPTZStopDPName]) {
         [self.dpManager setValue:@(YES) forDP:TuyaSmartCameraPTZStopDPName success:^(id result) {
-            // 设备停止转动
+            // Camera Stop rotate
         } failure:^(NSError *error) {
-            // 网络错误
+            // Network error
         }];
     }
 }
@@ -41,9 +41,9 @@ func startPtz() {
     }
 
     self.dpManager.setValue(TuyaSmartCameraPTZDirection.right, forDP: .ptzControlDPName, success: { _ in
-        // 设备开始向右转动
+        // Camera start rotate to right
     }) { _ in
-        // 网络错误
+        // Network error
     }
 }
 
@@ -53,12 +53,9 @@ func stopPtz() {
     }
 
     self.dpManager.setValue(true, forDP: .ptzStopDPName, success: { _ in
-        // 设备停止转动
+        // Camera Stop rotate
     }) { _ in
-        // 网络错误
+        // Network error
     }
 }
 ```
-
-> 在前面设备功能点的章节中，有介绍云台控制的取值范围，在下发控制命令时，建议使用 SDK 中定义的常量。如果使用字面量下发，请确保下发的是字符串字面量，比如向右旋转是 @"2"。如果使用 @(2)，下发命令的操作将出现类型错误。
-

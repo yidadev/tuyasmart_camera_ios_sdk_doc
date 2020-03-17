@@ -1,65 +1,64 @@
 # Change Log
 
-## TuyaCameraSDK-3.14.1、TuyaSmartCameraBase-4.3.2、TuyaSmartCameraM-4.2.8、TuyaSmartCameraKit-4.3.7
+## Document change log
 
-* TuyaCamera is renamed TuyaCameraSDK. If you have specified the TuyaCamera version number in the podfile, you need to change the library name and version number.
+| Version | Description | Author | Date       |
+| ------- | ----------- | ------ | ---------- |
+| v1.0.0  | Create      | FuLang | 2020-03-01 |
+
+
+
+## SDK change log
+
+### 3.15.0 (2020-02-21)
+
+| Module              | Version |
+| ------------------- | ------- |
+| TuyaCameraSDK       | 3.15.3  |
+| TuyaSmartCameraBase | 4.4.2   |
+| TuyaSmartCameraM    | 4.3.4   |
+| TuyaSmartCameraKit  | 4.4.4   |
+
+**New Features**
+
+* TuyaCamera is renamed TuyaCameraSDK. If you have specified the TuyaCamera version number in the podfile, you need to change the library name and version.
 * Removed some classes and interfaces that have not been standardized (not described in the documentation).
-* Pictures in alarm messages and  cloud storage events are changed to unencrypted.
+* Alarm messages and pictures in cloud storage events are changed to unencrypted.
 * Fixed some stability issues.
 
-## TuyaSmartCameraBase 4.2.6、TuyaSmartCameraM 4.2.6、TuyaCamera 3.13.4
+### 3.13.3 (2019-12-20)
+
+| Module              | Version |
+| ------------------- | ------- |
+| TuyaSmartCameraBase | 4.2.6   |
+| TuyaSmartCameraM    | 4.2.6   |
+| TuyaCamera          | 3.13.4  |
+
+**New Features**
 
 * Add interface to get audio data of talk, provide to development process the audio.
 
-## TuyaSmartCameraBase 4.2.5、TuyaSmartCameraM 4.2.5、TuyaSmartCameraKit 4.3.2、TuyaCamera 3.13.3
+### 3.13.0 (2019-12-05)
+
+| Module              | Version |
+| ------------------- | ------- |
+| TuyaSmartCameraBase | 4.2.5   |
+| TuyaSmartCameraM    | 4.2.5   |
+| TuyaSmartCameraKit  | 4.3.2   |
+| TuyaCamera          | 3.13.3  |
+
+**New Features**
 
 * The P2P and audio and video codec libraries are independent TuyaCamera components, and they are changed to dynamic library  to resolve the conflict of different library versions.
 * Add interfaces for recording, screenshots, and saving to a specified file path.
 
-## 4.0.2
+### 3.10.0 (2019-10-25)
 
-* Fix occasional recording crash.
-* [Debug Log File](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/log_file.html)
-
-## 4.0.1
-
-* Add echo cancellation.
-* Add cloud video play ability.
-
-## 3.2.0
-
-* Split SDK to TuyaSmartCameraKit，TuyaSmartCameraBase, TuyaSmartCameraM，TuyaSmartCameraT components. If you not support p2p 1.0, just use ```pod "TuyaSmartCameraKit"```.
-* TuyaSmartCameraDPManager add interface ```-(id)valueForDP:(TuyaSmartCameraDPKey)dpName```. It will get the value from app caches, most of dp could get the latest value, because device will report automatically. but TuyaSmartCameraSDCardStorageDPName, TuyaSmartCameraSDCardFormatStateDPName need publish the query command.
-* Delete TuyaSmartCameraDefault from sdk, but you can get it form Example in the repo.
-* "tuya.m.ipc.config.get" need upgrade to 2.0.
-* TuyaSmartCameraFactory add some property, and interface: 
-
-     __Objective-C__
-     
-    ``` objectivec
-    + (TuyaSmartCameraConfig *)ipcConfigWithUid:(NSString *)uid localKey:(NSString *)localKey configData:(NSDictionary *)data; 
-    ```
-
-    __Swift__
-    
-    ```swift
-    func ipcConfig(withUid: String!, localKey: String!, configData: [AnyHashable : Any]!)
-    ```
-
- uid could pass nill. configData pass the responder of `"tuya.m.ipc.config.get"` with 2.0 version, you can get the config object.
-* TuyaSmartVideoViewType add property scaleToFill. set it YES, the video will scaled to fill the view.
-* add cloud video feature.
-
-## 3.1.1
-
-* Provide more simple method for camera basic bussiness.
-* Camera device DP interface.
-* P2P 2.0 provide interface to get the decoded YUV data of video frame.
-* Split the SDK for p2p 1.0 and p2p 2.0.
-
-## 3.1.0
-
-* Create different version camera object according to the p2ptype.
-* Screen shot and video record saved in custom album which named as app bundle name.
-* Support receive the original video frame data.
+| Module                       | Version |
+| ---------------------------- | ------- |
+| TuyaSmartCameraBase          | 4.0.2   |
+| TuyaSmartCameraM             | 4.0.2   |
+| TuyaSmartCameraKit           | 4.0.1   |
+| TYCameraCloudServicePanelSDK | 0.2.1   |
+| TuyaSmartLogger              | 0.1.0   |
 

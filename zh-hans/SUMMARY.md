@@ -1,6 +1,7 @@
 # Summary
 
 * [前言](README.md)
+* [功能预览](resource/overview.md)
 * [快速集成](resource/rapid_integration.md)
   * [对接方式](resource/rapid_integration.md#对接方式)
   * [准备工作](resource/rapid_integration.md#准备工作)
@@ -22,7 +23,6 @@
   * [服务购买](resource/cloud_video.md#云存储服务购买)
   * [云视频](resource/cloud_video.md#云视频)
 * [设备功能点](resource/device_points.md)
-  * [接口介绍](resource/device_points.md#接口介绍)
   * [功能点常量](resource/device_points.md#功能点常量)
   * [低功耗门铃](resource/lowpower.md)
   * [存储卡管理](resource/sd_card.md)
@@ -35,5 +35,5 @@
 * [调试日志文件](resource/log_file.md)
 * [接口文档](resource/api_doc.md)
 * [版本记录](resource/version_record.md)
-* [FAQ](resource/FAQ_zh.md)
+* [FAQ](resource/FAQ.md)
 

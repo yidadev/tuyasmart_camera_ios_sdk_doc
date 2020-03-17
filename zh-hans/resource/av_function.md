@@ -14,7 +14,7 @@
 - (void)startRecord;
 ```
 
-
+**接口说明**
 
 录制视频保存到指定路径
 
@@ -28,7 +28,7 @@
 | -------- | ------------------ |
 | filePath | 保存视频的文件路径 |
 
-
+**接口说明**
 
 停止录制，并保存文件
 
@@ -36,7 +36,7 @@
 - (void)stopRecord;
 ```
 
-
+**接口说明**
 
 视频开始录制的代理回调
 
@@ -44,7 +44,7 @@
 - (void)cameraDidStartRecord:(id<TuyaSmartCameraType>)camera;
 ```
 
-
+**接口说明**
 
 视频停止录制并成功保存视频文件的代理回调
 
@@ -153,7 +153,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 | ------- | -------------------------------------------------- |
 | UIImage | 视频截图的 UIImage 对象，返回 nil 表示图片保存失败 |
 
-
+**接口说明**
 
 视频截图，图片保存在指定文件路径
 
@@ -174,7 +174,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 | ------- | -------------------------------------------------- |
 | UIImage | 视频截图的 UIImage 对象，返回 nil 表示图片保存失败 |
 
-
+**接口说明**
 
 还有一种方式，是使用视频渲染视图`TuyaSmartVideoType`的截图接口，此方法只返回一个 `UIImage`对象，并不会自动保存图片。
 
@@ -239,7 +239,7 @@ func snapShoot() {
 | mute     | 是否静音，`YES`：关闭声音；`NO`：打开声音 |
 | playMode | 当前的播放模式                            |
 
-
+**接口说明**
 
 视频声音开关结果代理回调
 
@@ -271,7 +271,7 @@ func snapShoot() {
 - (void)startTalk;
 ```
 
-
+**接口说明**
 
 关闭 App 到摄像机的声音通道
 
@@ -279,7 +279,7 @@ func snapShoot() {
 - (void)stopTalk;
 ```
 
-
+**接口说明**
 
 App 到摄像机的声音通道成功开启代理回调
 
@@ -287,7 +287,7 @@ App 到摄像机的声音通道成功开启代理回调
 - (void)cameraDidBeginTalk:(id<TuyaSmartCameraType>)camera;
 ```
 
-
+**接口说明**
 
 App 到摄像机的声音通道成功关闭的代理回调
 
@@ -410,7 +410,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 - (CGFloat)getCurViewWidth;
 ```
 
-
+**接口说明**
 
 获取当前视频图像高度
 
@@ -418,7 +418,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 - (CGFloat)getCurViewHeight;
 ```
 
-
+**接口说明**
 
  视频分辨率改变代理回调，在实时视频直播或视频录像刚开始播放时，也会调用
 
@@ -448,7 +448,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 - (void)getHD;
 ```
 
-
+**接口说明**
 
  切换视频清晰度，YES 是高清，NO 是标清
 
@@ -462,7 +462,7 @@ func camera(_ camera: TuyaSmartCameraType!, didOccurredErrorAtStep errStepCode: 
 | ---- | --------------------------------- |
 | hd   | 是否高清，`YES`：高清；`NO`：标清 |
 
-
+**接口说明**
 
 视频清晰度状态变化代理回调
 

@@ -6,7 +6,7 @@
 
 ## 设备管理
 
-设备管理相关的所有功能对应`TuyaSmartDevice`类，需要使用设备Id进行初始化。错误的设备Id可能会导致初始化失败，返回`nil`。参考文档[设备管理](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86)。
+设备管理相关的所有功能对应`TuyaSmartDevice`类，需要使用设备 id 进行初始化。错误的设备 id 可能会导致初始化失败，返回`nil`。参考文档[设备管理](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/resource/Device.html#%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86)。
 
 > 请始终通过家庭来获取设备列表，并从家庭的设备列表里获取设备 id 来初始化 TuyaSmartDevice 类，以避免未同步家庭数据，TuyaSmartDevice 初始化失败的情况。
 
@@ -67,7 +67,7 @@ homeManager.getHomeList(success: { homeList in
 
 ### 摄像机配置信息
 
-筛选出智能摄像机设备后，就可以根据设备ID，即`TuyaSmartDeviceModel`的`devId`属性来获取摄像机的配置信息。
+筛选出智能摄像机设备后，就可以根据设备 id，即`TuyaSmartDeviceModel`的`devId`属性来获取摄像机的配置信息。
 
 配置信息需要通过涂鸦云端 API 来获取。
 
@@ -129,16 +129,6 @@ SDK 提供创建摄像机配置对象和摄像机控制对象的工厂方法。
 创建摄像机实例对象
 
 ```objc
-
-/**
- 创建一个camera实例
-
- @param type p2p 类型，"TuyaSmartDeviceModel" 对象的 "skills" 属性中的 "p2pType" 字段
- 
- @param ipcConfig "TuyaSmartCameraConfig" 对象
- @param delegate delgate
- @return Camera 对象
- */
 + (id<TuyaSmartCameraType>)cameraWithP2PType:(id)type config:(TuyaSmartCameraConfig *)ipcConfig delegate:(id<TuyaSmartCameraDelegate>)delegate;
 ```
 
@@ -160,7 +150,7 @@ SDK 提供创建摄像机配置对象和摄像机控制对象的工厂方法。
 
 ### P2P 类型
 
-涂鸦 IPC SDK 支持三种 p2p 通道实现方案，SDK 会根据 p2p 类型来初始化不同的摄像机具体实现的对象，通过下面的方式获取设备的 p2p 类型。
+涂鸦智能摄像机支持三种 p2p 通道实现方案，SDK 会根据 p2p 类型来初始化不同的摄像机具体实现的对象，通过下面的方式获取设备的 p2p 类型。
 
 __ObjC__
 
@@ -174,7 +164,7 @@ __Swift__
 let p2pType = deviceModel.skills["p2pType"]
 ```
 
-### 示例代码
+**示例代码**
 
 __ObjC__
 

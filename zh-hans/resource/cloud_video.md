@@ -19,13 +19,13 @@ target 'Your_Target' do
 end
 ```
 
-然后在工程主目录下执行```pod update```。
+然后在工程主目录下执行`pod update`。
 
 ### 初始化
 
 云存储购买服务 SDK 的初始化需要传入涂鸦平台上注册 App 的渠道标识符。
 
-**接口介绍**
+**接口说明**
 
 初始化 SDK，需要在 `TuyaSmartSDK`激活后调用
 
@@ -259,9 +259,9 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 
 
 
-### 时间片段数据
+### 视频片段数据
 
-在播放云存储时间前，需要获取到当天的视频片段数据。
+在播放云存储视频前，需要获取到当天的视频片段数据。
 
 **接口说明**
 
@@ -359,7 +359,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | responseCallback | 结果回调，errCode 标示错误码，0 表示成功开始播放           |
 | finishedCallback | 播放结束回调，errCode 标示结束原因，0 表示视频正常播放结束 |
 
-
+**接口说明**
 
 暂停播放
 
@@ -373,7 +373,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | ---- | ------------------ |
 | int  | 错误码，0 表示成功 |
 
-
+**接口说明**
 
 恢复播放
 
@@ -387,7 +387,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | ---- | ------------------ |
 | int  | 错误码，0 表示成功 |
 
-
+**接口说明**
 
 停止播放
 
@@ -401,7 +401,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | ---- | ------------------ |
 | int  | 错误码，0 表示成功 |
 
-
+**接口说明**
 
 获取视频渲染视图
 
@@ -441,7 +441,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | success | 成功回调                     |
 | failure | 失败回调，error 标示错误信息 |
 
-
+**接口说明**
 
 获取静音状态
 
@@ -455,7 +455,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | ---- | ---------- |
 | BOOL | 是否是静音 |
 
-
+**接口说明**
 
 开始录制视频，视频自动保存到系统相册中
 
@@ -463,7 +463,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 - (void)startRecord;
 ```
 
-
+**接口说明**
 
 开始录制视频，视频保存到指定文件路径
 
@@ -477,7 +477,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | -------- | ---------------------- |
 | filePath | 视频录像文件保存的路径 |
 
-
+**接口说明**
 
 停止录制，并保存视频文件
 
@@ -491,7 +491,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | ---- | -------------------------- |
 | int  | 错误码，0 表示视频保存成功 |
 
-
+**接口说明**
 
 视频截图，图片保存在手机系统相册中
 
@@ -505,7 +505,7 @@ TYCameraCloudServicePanelSDK.cloudServicePanel(withDevice: deviceModel, success:
 | ------- | --------------------------------------- |
 | UIImage | 视频截图的 UIImage 对象，失败时返回 nil |
 
-
+**接口说明**
 
 视频截图，图片保存到指定文件路径
 

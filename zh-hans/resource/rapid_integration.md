@@ -2,19 +2,19 @@
 
 ## 对接方式
 
-在接入涂鸦 IPC SDK 之前，您可以先了解一下[涂鸦全屋智能 APP SDK](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)，涂鸦 IPC SDK 需要依赖涂鸦全屋智能 APP SDK 其中的一部分，下面的文档也会介绍到依赖的这一部分。
+在接入Tuya Smart Camera SDK 之前，您可以先了解一下[涂鸦全屋智能 APP SDK](https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/zh-hans/)，Tuya Smart Camera SDK 需要依赖涂鸦全屋智能 APP SDK 其中的一部分，下面的文档也会介绍到依赖的这一部分。
 
-涂鸦平台的对接方式分云云对接和涂鸦全屋智能 SDK 对接两种，由于目前涂鸦 IPC 不支持完全的云云对接，在使用云云对接方案时，也需要接入涂鸦 IPC SDK，但基于这两种对接方式，接入涂鸦 IPC 时的 SDK 也略有不同。
+涂鸦平台提供多种对接方案，开发者可以根据自己的需求选择不同的对接方式，可以参考[方案介绍](https://docs.tuya.com/zh/iot/open-api/quick-start/solution-overview)。
 
-涂鸦 IPC SDK 使用 CocoaPods 集成。
+不同的对接方案需要集成的 SDK 不同。
 
 ### 云云对接
 
 云云对接方案是指，开发者可以通过涂鸦云端提供的 open api 完成用户对接，以及设备管理、控制等功能，App 端只需要集成删减版的涂鸦智能设备配网 SDK 完成设备的绑定即可。这种方式的优点是 SDK 依赖最小，App 侵入性低，缺点是 App 开发工作量大，并需要开发者拥有较强的云端服务支持，控制链路过长。此方案适合已经有成型的账号体系和较完善的 App 产品。
 
-由于 IPC 设备的特殊性，云云对接无法实现摄像机的基础功能，所以除了删减版的设备配网 SDK  外，仍然需要依赖涂鸦 IPC SDK。
+由于无法通过 open api 实现摄像机的视频播放功能，所以云云对接仍然需要集成 Tuya Smart Camera SDK。
 
-可通过涂鸦云端提供的 open api 完成用户对接，云存储，侦测报警，以及基于设备功能点实现的功能。使用涂鸦 IPC SDK 完成视频直播，存储卡回放，实时对讲等摄像机基础功能。
+可通过涂鸦云端提供的 open api 完成用户对接，云存储，侦测报警，以及基于设备功能点实现的功能。使用 Tuya Smart Camera SDK 完成视频直播，存储卡回放，实时对讲等摄像机基础功能。
 
 **模块说明**
 
@@ -39,7 +39,7 @@ end
 
 ### SDK 对接
 
-如果是从零开发的 App，则建议使用涂鸦全屋智能 SDK 对接的方式。涂鸦智能 SDK 提供全面的与硬件设备、涂鸦云通讯的接口，可以快速的搭建起一个产品级应用，并且不需要开发者拥有云端服务的支持，但是同样支持涂鸦云端 open api 的正常使用。
+完整的涂鸦全屋智能 App SDK 提供更加全面的与硬件设备、涂鸦云通讯的接口，可以更加快速高效的搭建起一个产品级应用，并且不需要开发者拥有云端服务的支持，但是同样支持涂鸦云端 open api 的正常使用。
 
 **模块说明**
 
@@ -50,7 +50,7 @@ end
 
 > 需要注意的是，云云对接使用的设备配网 SDK 是 `TuyaSmartActivator`，而涂鸦智能 SDK 对接使用的设备配网 SDK 对接使用的是`TuyaSmartActivatorKit`，这两个模块不可以同时依赖，会导致编译冲突。
 >
-> `TuyaSmartCameraKit `不只是一个单独的库，还会依赖到其他基础功能支撑的库，可以参考[SDK 架构说明](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/architecture.html)。
+> `TuyaSmartCameraKit `不只是一个单独的库，还会依赖到其他基础功能支撑的库，可以参考 [SDK 架构说明](https://tuyainc.github.io/tuyasmart_camera_ios_sdk_doc/zh-hans/resource/architecture.html)。
 
 在```Podfile```文件中添加以下内容：
 
@@ -66,7 +66,7 @@ target 'your_target_name' do
 end
 ```
 
-如果您需要支持 p2p 1.0 的设备，需要增加 ```pod "TuyaSmartCameraT"```, 然后在项目根目录下执行```pod update```命令。
+如果您需要支持 p2p 1.0 的设备，需要增加 `pod "TuyaSmartCameraT"`, 然后在项目根目录下执行```pod update```命令。
 
 CocoaPods的使用请参考：[CocoaPods Guides](https://guides.cocoapods.org/)
 
