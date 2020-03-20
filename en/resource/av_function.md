@@ -556,7 +556,7 @@ Video frame data delegate.
 | nHeight    | int                | Height of video image                                        |
 | nFrameRate | int                | Video frame rate                                             |
 | nTimeStamp | unsigned long long | Video frame time stamp, is second                            |
-| nTimeStamp | unsigned long long | When play video message, indicate the total millisecond of video |
+| nDuration  | unsigned long long | When play video message, indicate the total millisecond of video |
 | nProgress  | unsigned long long | When play video message, indicate the millisecond of current frame |
 
 

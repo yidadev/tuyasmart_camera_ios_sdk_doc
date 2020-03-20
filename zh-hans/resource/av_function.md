@@ -561,7 +561,7 @@ Tuya smart camera SDK 提供访问视频裸流数据的代理回调方法，此�
 | nHeight    | int                | 视频图像高度                                           |
 | nFrameRate | int                | 视频帧率                                               |
 | nTimeStamp | unsigned long long | 视频帧时间戳                                           |
-| nTimeStamp | unsigned long long | 播放报警消息中视频附件时，视频的总长度，单位是`毫秒`   |
+| nDuration  | unsigned long long | 播放报警消息中视频附件时，视频的总长度，单位是`毫秒`   |
 | nProgress  | unsigned long long | 播放报警消息中视频附件时，视频帧的时间点，单位是`毫秒` |
 
 
