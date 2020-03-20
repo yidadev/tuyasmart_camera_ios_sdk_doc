@@ -1,0 +1,1293 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Detection alarm · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism-okaidia.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="detect.html" />
+    
+    
+    <link rel="prev" href="ptz.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="overview.html">
+            
+                <a href="overview.html">
+            
+                    
+                    Function overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="rapid_integration.html">
+            
+                <a href="rapid_integration.html">
+            
+                    
+                    Integrated SDK
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="rapid_integration.html">
+            
+                <a href="rapid_integration.html#solutions-introduction">
+            
+                    
+                    Solutions introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="rapid_integration.html">
+            
+                <a href="rapid_integration.html#preparation-work">
+            
+                    
+                    Preparation work
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="rapid_integration.html">
+            
+                <a href="rapid_integration.html#initialize-sdk">
+            
+                    
+                    Initiate SDK
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="architecture.html">
+            
+                <a href="architecture.html">
+            
+                    
+                    SDK architecture
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="user.html">
+            
+                <a href="user.html">
+            
+                    
+                    User management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="home_device.html">
+            
+                <a href="home_device.html">
+            
+                    
+                    Home and Device
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="home_device.html">
+            
+                <a href="home_device.html#home-management">
+            
+                    
+                    Home management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="home_device.html">
+            
+                <a href="home_device.html#device-management">
+            
+                    
+                    Device management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="home_device.html">
+            
+                <a href="home_device.html#camera">
+            
+                    
+                    Initiate camera
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="activitor.html">
+            
+                <a href="activitor.html">
+            
+                    
+                    Network configuration
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="activitor.html">
+            
+                <a href="activitor.html#qr-code-mode">
+            
+                    
+                    Qr code mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="activitor.html">
+            
+                <a href="activitor.html#binding-mode">
+            
+                    
+                    Binding mode
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="live.html">
+            
+                <a href="live.html">
+            
+                    
+                    Camera functions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="live.html">
+            
+                <a href="live.html#live-video">
+            
+                    
+                    Live video
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="playback.html">
+            
+                <a href="playback.html">
+            
+                    
+                    Playback
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="av_function.html">
+            
+                <a href="av_function.html">
+            
+                    
+                    AV functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="cloud_video.html">
+            
+                <a href="cloud_video.html">
+            
+                    
+                    Cloud storage
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="cloud_video.html">
+            
+                <a href="cloud_video.html#cloud-service">
+            
+                    
+                    Cloud service
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="cloud_video.html">
+            
+                <a href="cloud_video.html#cloud-video">
+            
+                    
+                    Cloud video
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="device_points.html">
+            
+                <a href="device_points.html">
+            
+                    
+                    Extension functions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="device_points.html">
+            
+                <a href="device_points.html#data-point-id">
+            
+                    
+                    Data point id
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="lowpower.html">
+            
+                <a href="lowpower.html">
+            
+                    
+                    Doorbell
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="sd_card.html">
+            
+                <a href="sd_card.html">
+            
+                    
+                    Memory Card
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.4" data-path="ptz.html">
+            
+                <a href="ptz.html">
+            
+                    
+                    PTZ
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.11" data-path="detect.html">
+            
+                <a href="detect.html">
+            
+                    
+                    Detection alarm
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="detect.html">
+            
+                <a href="detect.html#message-list">
+            
+                    
+                    Message list
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="detect.html">
+            
+                <a href="detect.html#video-message">
+            
+                    
+                    Video message
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="errors.html">
+            
+                <a href="errors.html">
+            
+                    
+                    Error codes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="required_permission.html">
+            
+                <a href="required_permission.html">
+            
+                    
+                    Permissions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="log_file.html">
+            
+                <a href="log_file.html">
+            
+                    
+                    Debug logs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="api_doc.html">
+            
+                <a href="api_doc.html">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="version_record.html">
+            
+                <a href="version_record.html">
+            
+                    
+                    Version record
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="FAQ.html">
+            
+                <a href="FAQ.html">
+            
+                    
+                    FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Detection alarm</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="detection-alarm"><a name="detection-alarm" class="plugin-anchor" href="#detection-alarm"><i class="fa fa-link" aria-hidden="true"></i></a>Detection alarm</h1>
+<p>Tuya smart camera usually has the ability of detecting alarm. There are two main types of alarm detection, sound detection and motion detection. When the device detects a sound or object moving, it sends a warning message, and if your App is integrated with push, it will also receive a push notification.  Integrate push refer to<a href="https://tuyainc.github.io/tuyasmart_home_ios_sdk_doc/en/resource/Push.html" target="_blank"> Integrate push</a>.</p>
+<p>The alarm message usually comes with a screenshot of the current video.</p>
+<p>Direct-powered doorbell equipment, has ability to provide video messages. When someone rings the doorbell, the device can upload a video message, which is also picked up by an alarm message with a six-second encrypted video.</p>
+<h2 id="message-list"><a name="message-list" class="plugin-anchor" href="#message-list"><i class="fa fa-link" aria-hidden="true"></i></a>Message list</h2>
+<p><strong>Class</strong></p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TuyaSmartCameraMessage</td>
+<td>Camera detection alarm event message management</td>
+</tr>
+</tbody>
+</table>
+<h3 id="initialize"><a name="initialize" class="plugin-anchor" href="#initialize"><i class="fa fa-link" aria-hidden="true"></i></a>Initialize</h3>
+<p>Before getting the list of messages, you need to initialize the message manager with the device id and time zone.</p>
+<p><strong>Declaration</strong></p>
+<p>Initilize message manager.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>initWithDeviceId<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>devId timeZone<span class="token punctuation">:</span><span class="token punctuation">(</span>NSTimeZone <span class="token operator">*</span><span class="token punctuation">)</span>timeZone<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>devId</td>
+<td>Deivce id of camera</td>
+</tr>
+<tr>
+<td>timeZone</td>
+<td>Time zone, default is <code>[NSTimeZone systemTimeZone]</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-calendar"><a name="message-calendar" class="plugin-anchor" href="#message-calendar"><i class="fa fa-link" aria-hidden="true"></i></a>Message calendar</h3>
+<p>You can use the SDK to look up the date of the alarm message in a certain year and a certain month, so that it can be displayed visually on the calendar.</p>
+<p><strong>Declaration</strong></p>
+<p>Gets the date on which the message was logged.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>messageDaysForYear<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>year
+                     month<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>month
+                   success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSArray<span class="token operator">&lt;</span>NSString <span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token operator">*</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>success
+                   failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>failure<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>year</td>
+<td>Year&#xFF0C;ex: 2020</td>
+</tr>
+<tr>
+<td>month</td>
+<td>Month, ex: 2</td>
+</tr>
+<tr>
+<td>success</td>
+<td>Success callback, return the days of the month which has messages</td>
+</tr>
+<tr>
+<td>failure</td>
+<td>Failure callback, error indicates an error message</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p> The <code>result</code> is an array, elements is string. ex: [&quot;01&quot;, &quot;11&quot;, &quot;30&quot;].</p>
+</blockquote>
+<h3 id="message-category"><a name="message-category" class="plugin-anchor" href="#message-category"><i class="fa fa-link" aria-hidden="true"></i></a>Message category</h3>
+<p>There are many types of detection alarm messages according to the trigger mode, some of which can be divided into a large category. The SDK provides a list to get the default categories for sorting the query alarm messages.</p>
+<p><strong>Declaration</strong></p>
+<p>Get the list of message categories.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>getMessageSchemes<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSArray<span class="token operator">&lt;</span>TuyaSmartCameraMessageSchemeModel <span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token operator">*</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>success
+                  failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>failure<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>success</td>
+<td>Success callback, return message category models</td>
+</tr>
+<tr>
+<td>failure</td>
+<td>Failure callback, error indicates an error message</td>
+</tr>
+</tbody>
+</table>
+<p><strong>TuyaSmartCameraMessageSchemeModel</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>describe</td>
+<td>NSString</td>
+<td>Message category description</td>
+</tr>
+<tr>
+<td>msgCodes</td>
+<td>NSArray</td>
+<td>Message types that the message category contains</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>When getting a list of messages, the value of the <code>msgCodes</code> attribute of the message category can be passed in to get all types of alarm messages that this category contains.</p>
+</blockquote>
+<h3 id="message-type"><a name="message-type" class="plugin-anchor" href="#message-type"><i class="fa fa-link" aria-hidden="true"></i></a>Message type</h3>
+<p>The message type represents the trigger form of the alarm message, which is reflected in the code as the <code>msgCode</code> attribute of the alarm message data model.</p>
+<p><strong>Message Type</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ipc_motion</td>
+<td>Motion detecting</td>
+</tr>
+<tr>
+<td>ipc_doorbell</td>
+<td>Doorbell ring</td>
+</tr>
+<tr>
+<td>ipc_dev_link</td>
+<td>Devices linkage</td>
+</tr>
+<tr>
+<td>ipc_passby</td>
+<td>Someone passby</td>
+</tr>
+<tr>
+<td>ipc_linger</td>
+<td>Someone linger</td>
+</tr>
+<tr>
+<td>ipc_leave_msg</td>
+<td>Doorbell message</td>
+</tr>
+<tr>
+<td>ipc_connected</td>
+<td>Doorbell ring has answered</td>
+</tr>
+<tr>
+<td>ipc_unconnected</td>
+<td>Doorbell not answered</td>
+</tr>
+<tr>
+<td>ipc_refuse</td>
+<td>Doorbell resisted</td>
+</tr>
+<tr>
+<td>ipc_human</td>
+<td>Human detection</td>
+</tr>
+<tr>
+<td>ipc_cat</td>
+<td>Pet detection</td>
+</tr>
+<tr>
+<td>ipc_car</td>
+<td>Car detection</td>
+</tr>
+<tr>
+<td>ipc_baby_cry</td>
+<td>Baby cry</td>
+</tr>
+<tr>
+<td>ipc_bang</td>
+<td>Abnormal sound</td>
+</tr>
+<tr>
+<td>ipc_face</td>
+<td>Face detection</td>
+</tr>
+<tr>
+<td>ipc_antibreak</td>
+<td>Forced demolition alarm</td>
+</tr>
+<tr>
+<td>ipc_low_battery</td>
+<td>Low power alarm</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Depending on the device&apos;s capabilities, the types of messages that can be triggered can vary. </p>
+</blockquote>
+<h3 id="message-list"><a name="message-list" class="plugin-anchor" href="#message-list"><i class="fa fa-link" aria-hidden="true"></i></a>Message list</h3>
+<p><strong>Declaration</strong></p>
+<p>Get message list.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>messagesWithMessageCodes<span class="token punctuation">:</span><span class="token punctuation">(</span>NSArray <span class="token operator">*</span><span class="token punctuation">)</span>msgCodes
+                          Offset<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>offset
+                           limit<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>limit
+                       startTime<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>startTime
+                         endTime<span class="token punctuation">:</span><span class="token punctuation">(</span>NSInteger<span class="token punctuation">)</span>endTime
+                         success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSArray<span class="token operator">&lt;</span>TuyaSmartCameraMessageModel <span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token operator">*</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>success
+                         failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>failure<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msgCodes</td>
+<td>Array of message types, pass nil to get all types of messages</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Offset, 0 means starting with the first alarm message</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Page size with a maximum of 200</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>Gets messages that is reported no earlier than startTime</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>Gets messages that is reported no later than endTime</td>
+</tr>
+<tr>
+<td>success</td>
+<td>Success callback, return message data models array</td>
+</tr>
+<tr>
+<td>failure</td>
+<td>Failure callback, error indicates an error message</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Declaration</strong></p>
+<p>Batch delete alarm message.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>removeMessagesWithMessageIds<span class="token punctuation">:</span><span class="token punctuation">(</span>NSArray <span class="token operator">*</span><span class="token punctuation">)</span>msgIds
+                             success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">)</span>success
+                             failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span>failure<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msgIds</td>
+<td>Message ids to be deleted</td>
+</tr>
+<tr>
+<td>success</td>
+<td>Success callback</td>
+</tr>
+<tr>
+<td>failure</td>
+<td>Failure callback, error indicates an error message</td>
+</tr>
+</tbody>
+</table>
+<p><strong>TuyaSmartCameraMessageModel</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dateTime</td>
+<td>NSString</td>
+<td>Formatted string of date</td>
+</tr>
+<tr>
+<td>msgTypeContent</td>
+<td>NSString</td>
+<td>Message type description</td>
+</tr>
+<tr>
+<td>attachPic</td>
+<td>NSString</td>
+<td>Url of picture attachment</td>
+</tr>
+<tr>
+<td>attachVideos</td>
+<td>NSArray</td>
+<td>Urls of video attachments</td>
+</tr>
+<tr>
+<td>msgSrcId</td>
+<td>NSString</td>
+<td>Deivice id of which report the message</td>
+</tr>
+<tr>
+<td>msgContent</td>
+<td>NSString</td>
+<td>Message content</td>
+</tr>
+<tr>
+<td>msgTitle</td>
+<td>NSString</td>
+<td>Message title</td>
+</tr>
+<tr>
+<td>msgId</td>
+<td>NSString</td>
+<td>Message id</td>
+</tr>
+<tr>
+<td>msgCode</td>
+<td>NSString</td>
+<td>Message type</td>
+</tr>
+<tr>
+<td>time</td>
+<td>NSInteger</td>
+<td>Unix timestamp of message report time</td>
+</tr>
+</tbody>
+</table>
+<p>Depending on the message type, there may be different attachments. The <code>attachPic</code> property gets the url of the image attachment, and the <code>attachVideos</code> property gets the urls of the video attachments. Normally, this property has only one element.</p>
+<h3 id="video-message"><a name="video-message" class="plugin-anchor" href="#video-message"><i class="fa fa-link" aria-hidden="true"></i></a>Video message</h3>
+<p>The video attachment in the video message is the encrypted video, which needs to be played through the interface provided by <code>TuyaSmartCloudManager</code>. the string element in <code>attachVideos</code> is component by url + &quot;@&quot; + encrypt key, like &quot;url@key&quot;, When playing a video, need to pass in both the video url and the encrypt key.</p>
+<p><strong>Declaration</strong></p>
+<p>Play video of message.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>playVideoMessageWithUrl<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>url 
+                                       startTime<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>nStartTime 
+                    encryptKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>encryptKey 
+                    onResponse<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">int</span> errCode<span class="token punctuation">)</span><span class="token punctuation">)</span>callback 
+                      onFinish<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">int</span> errCode<span class="token punctuation">)</span><span class="token punctuation">)</span>finihedCallBack<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>Video url</td>
+</tr>
+<tr>
+<td>nStartTime</td>
+<td>Second to start play</td>
+</tr>
+<tr>
+<td>encryptKey</td>
+<td>Encrypt key</td>
+</tr>
+<tr>
+<td>callback</td>
+<td>Result callback, errCode is 0 indicates success</td>
+</tr>
+<tr>
+<td>finishedCallBack</td>
+<td>Finished callback</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Declaration</strong></p>
+<p>Pause playing.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>pausePlayVideoMessage<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Declaration</strong></p>
+<p>Resume playing.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>resumePlayVideoMessage<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Declaration</strong></p>
+<p>Stop playing.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>stopPlayVideoMessage<span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Return</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>Error code, indicating the reason for the failure, 0 indicates succeed</td>
+</tr>
+</tbody>
+</table>
+<p>The playback of the video message is similar to the playback of the cloud video. When the video frame is received, there will be a video frame data delegate callback.</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>cloudManager<span class="token punctuation">:</span><span class="token punctuation">(</span>TuyaSmartCloudManager <span class="token operator">*</span><span class="token punctuation">)</span>cloudManager 
+      didReceivedFrame<span class="token punctuation">:</span><span class="token punctuation">(</span>CMSampleBufferRef<span class="token punctuation">)</span>frameBuffer 
+      videoFrameInfo<span class="token punctuation">:</span><span class="token punctuation">(</span>TuyaSmartVideoFrameInfo<span class="token punctuation">)</span>frameInfo<span class="token punctuation">;</span>
+</code></pre>
+<p>The following two attributes in the structure <code>TuyaSmartVideoFrameInfo</code> describe the total length and progress of the video in milliseconds.</p>
+<ul>
+<li><strong>nDuration</strong> : video length</li>
+<li><strong>nProgress</strong> : progress of current video</li>
+</ul>
+<p>The video sound switch, like cloud video, use the following interface:</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>enableMute<span class="token punctuation">:</span><span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>mute success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span> error<span class="token punctuation">)</span><span class="token punctuation">)</span>failure<span class="token punctuation">;</span>
+</code></pre>
+<h3 id="alarm-message-and-playback"><a name="alarm-message-and-playback" class="plugin-anchor" href="#alarm-message-and-playback"><i class="fa fa-link" aria-hidden="true"></i></a>Alarm message and playback</h3>
+<p>There is no direct correlation between the alarm message and the record videos in memory card, the only correlation is that in the memory card event recording mode, the trigger reason and time point of the alarm message and record video are the same.</p>
+<p>The alarm message is saved in the Tuya cloud, and the video recording of the memory card is saved in the camera&apos;s memory card, and the video in the memory card may be overwritten when the capacity is insufficient. The switch recorded by the memory card is not related to the switch that detects the alarm, so even in the mode of recording the memory card event, the alarm message and the video recording in the memory card are not one-to-one.</p>
+<p>However, if there is a video recording at the time when the alarm message occurs, the SDK does not provide an interface for such correlation search. The developer can establish the correlation by searching whether there is a corresponding video recording in the video clip of the memory card on the same day by the trigger time of the alarm message.</p>
+<h3 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h3>
+<p>ObjC</p>
+<pre class="language-"><code class="lang-objc"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>enableDetect <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>dpManager isSupportDP<span class="token punctuation">:</span>TuyaSmartCameraMotionDetectDPName<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        bool motionDetectOn <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>dpManager valueForDP<span class="token punctuation">:</span>TuyaSmartCameraMotionDetectDPName<span class="token punctuation">]</span> tysdk_toBool<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>motionDetectOn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>dpManager setValue<span class="token punctuation">:</span><span class="token operator">@</span><span class="token punctuation">(</span>YES<span class="token punctuation">)</span> 
+                                                  forDP<span class="token punctuation">:</span>TuyaSmartCameraMotionDetectDPName 
+                                              success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>id result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// Enable motion detection successfully</span>
+            <span class="token punctuation">}</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                <span class="token comment">// Network error</span>
+            <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+          <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>dpManager setValue<span class="token punctuation">:</span>TuyaSmartCameraMotionHigh
+                              forDP<span class="token punctuation">:</span>TuyaSmartCameraMotionSensitivityDPName
+                         success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>id result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Successfully set the motion detection sensitivity to high sensitivity</span>
+        <span class="token punctuation">}</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Network error</span>
+        <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>viewDidLoad <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span><span class="token keyword">super</span> viewDidLoad<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>cameraMessage <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>TuyaSmartCameraMessage alloc<span class="token punctuation">]</span> initWithDeviceId<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>devId timeZone<span class="token punctuation">:</span><span class="token punctuation">[</span>NSTimeZone defaultTimeZone<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>cameraMessage getMessageSchemes<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSArray<span class="token operator">&lt;</span>TuyaSmartCameraMessageSchemeModel <span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token operator">*</span>result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// Message category models</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>schemeModels <span class="token operator">=</span> result<span class="token punctuation">;</span>
+                <span class="token comment">// Get messages of the first category</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> reloadMessageListWithScheme<span class="token punctuation">:</span>result<span class="token punctuation">.</span>firstObject<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Network error</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>reloadMessageListWithScheme<span class="token punctuation">:</span><span class="token punctuation">(</span>TuyaSmartCameraMessageSchemeModel <span class="token operator">*</span><span class="token punctuation">)</span>schemeModel <span class="token punctuation">{</span>
+    NSDateFormatter <span class="token operator">*</span>formatter <span class="token operator">=</span> <span class="token punctuation">[</span>NSDateFormatter new<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    formatter<span class="token punctuation">.</span>dateFormat <span class="token operator">=</span> <span class="token string">@&quot;yyyy-MM-dd&quot;</span><span class="token punctuation">;</span>
+    NSDate <span class="token operator">*</span>date <span class="token operator">=</span> <span class="token punctuation">[</span>formatter dateFromString<span class="token punctuation">:</span><span class="token string">@&quot;2020-02-17&quot;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token comment">// Get the top 20 alarm messages from zero on February 17, 2020 to the present</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>cameraMessage messagesWithMessageCodes<span class="token punctuation">:</span>schemeModel<span class="token punctuation">.</span>msgCodes Offset<span class="token punctuation">:</span><span class="token number">0</span> limit<span class="token punctuation">:</span><span class="token number">20</span> startTime<span class="token punctuation">:</span><span class="token punctuation">[</span>date timeIntervalSince1970<span class="token punctuation">]</span> endTime<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">[</span>NSDate new<span class="token punctuation">]</span> timeIntervalSince1970<span class="token punctuation">]</span> success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSArray<span class="token operator">&lt;</span>TuyaSmartCameraMessageModel <span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token operator">*</span>result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>messageModelList <span class="token operator">=</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Network error</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Swift</p>
+<pre class="language-"><code class="lang-swift"><span class="token keyword">func</span> <span class="token function">enableDectect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">guard</span> <span class="token keyword">self</span><span class="token punctuation">.</span>dpManager<span class="token punctuation">.</span><span class="token function">isSupportDP</span><span class="token punctuation">(</span><span class="token punctuation">.</span>motionDetectDPName<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token keyword">let</span> isMontionDetectOn <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>dpManager<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span>forDP<span class="token punctuation">:</span> <span class="token punctuation">.</span>motionDetectDPName<span class="token punctuation">)</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">Bool</span><span class="token punctuation">,</span> <span class="token operator">!</span>isMontionDetectOn <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>dpManager<span class="token punctuation">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> forDP<span class="token punctuation">:</span> <span class="token punctuation">.</span>motionDetectDPName<span class="token punctuation">,</span> success<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token number">_</span> <span class="token keyword">in</span>
+            <span class="token comment">// Enable motion detection successfully</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token number">_</span> <span class="token keyword">in</span>
+            <span class="token comment">// Network error</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>dpManager<span class="token punctuation">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token builtin">TuyaSmartCameraMotion</span><span class="token punctuation">.</span>high<span class="token punctuation">,</span> forDP<span class="token punctuation">:</span> <span class="token punctuation">.</span>motionSensitivityDPName<span class="token punctuation">,</span> success<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token number">_</span> <span class="token keyword">in</span>
+        <span class="token comment">// Successfully set the motion detection sensitivity to high sensitivity</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token number">_</span> <span class="token keyword">in</span>
+        <span class="token comment">// Network error</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">override</span> <span class="token keyword">func</span> <span class="token function">viewDidLoad</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">viewDidLoad</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>cameraMessage <span class="token operator">=</span> <span class="token function">TuyaSmartCameraMessage</span><span class="token punctuation">(</span>deviceId<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>devId<span class="token punctuation">,</span> timeZone<span class="token punctuation">:</span> <span class="token builtin">NSTimeZone</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">)</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>cameraMessage<span class="token punctuation">.</span><span class="token function">getSchemes</span><span class="token punctuation">(</span><span class="token punctuation">{</span> result <span class="token keyword">in</span>
+                <span class="token comment">// Get messages of the first category</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>schemeModels <span class="token operator">=</span> result
+        <span class="token keyword">if</span> <span class="token keyword">let</span> schemeModel <span class="token operator">=</span> result<span class="token operator">?</span><span class="token punctuation">.</span><span class="token builtin">first</span> <span class="token punctuation">{</span>
+            <span class="token function">reloadMessage</span><span class="token punctuation">(</span>schemeModel<span class="token punctuation">:</span> schemeModel<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token number">_</span> <span class="token keyword">in</span>
+        <span class="token comment">// Network error</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">reloadMessage</span><span class="token punctuation">(</span>schemeModel<span class="token punctuation">:</span> <span class="token builtin">TuyaSmartCameraMessageSchemeModel</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> formatter <span class="token operator">=</span> <span class="token function">DateFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    formatter<span class="token punctuation">.</span>dateFormat <span class="token operator">=</span> <span class="token string">&quot;yyyy-MM-dd&quot;</span>
+    <span class="token keyword">let</span> date <span class="token operator">=</span> formatter<span class="token punctuation">.</span><span class="token function">date</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token string">&quot;2020-02-17&quot;</span><span class="token punctuation">)</span>
+      <span class="token comment">// Get the top 20 alarm messages from zero on February 17, 2020 to the present</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>cameraMessage<span class="token punctuation">.</span><span class="token function">messages</span><span class="token punctuation">(</span>withMessageCodes<span class="token punctuation">:</span> schemeModel<span class="token punctuation">.</span>msgCodes<span class="token punctuation">,</span> offset<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> limit<span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">,</span> startTime<span class="token punctuation">:</span> <span class="token function">Int</span><span class="token punctuation">(</span>date<span class="token operator">!</span><span class="token punctuation">.</span>timeIntervalSince1970<span class="token punctuation">)</span><span class="token punctuation">,</span> endTime<span class="token punctuation">:</span> <span class="token function">Int</span><span class="token punctuation">(</span><span class="token function">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>timeIntervalSince1970<span class="token punctuation">)</span><span class="token punctuation">,</span> success<span class="token punctuation">:</span> <span class="token punctuation">{</span> result <span class="token keyword">in</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>messageModelList <span class="token operator">=</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token number">_</span> <span class="token keyword">in</span>
+        <span class="token comment">// Network error</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ptz.html" class="navigation navigation-prev " aria-label="Previous page: PTZ">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="detect.html#message-list" class="navigation navigation-next " aria-label="Next page: Message list">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Detection alarm","level":"1.11","depth":1,"next":{"title":"Message list","level":"1.11.1","depth":2,"anchor":"#message-list","path":"resource/detect.md","ref":"resource/detect.md#message-list","articles":[]},"previous":{"title":"PTZ","level":"1.10.4","depth":2,"path":"resource/ptz.md","ref":"resource/ptz.md","articles":[]},"dir":"ltr"},"config":{"plugins":["js-sequence-diagram-full@>=0.3.1","prism","-highlight","anchors","mermaid-gb3"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"css":["prismjs/themes/prism-okaidia.css"],"lang":{"oc":"objectivec","objc":"objectivec","objective-c":"objectivec","Objective-C":"objectivec","obejctivec":"objectivec","Swift":"swift"},"ignore":["sequence","mermaid"]},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"js-sequence-diagram-full":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"resource/detect.md","mtime":"2020-03-20T07:20:11.979Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-03-20T07:21:00.269Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-js-sequence-diagram-full/sequence-diagram-min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-js-sequence-diagram-full/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+
